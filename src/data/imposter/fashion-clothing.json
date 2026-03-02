@@ -1,0 +1,21 @@
+{
+  "category": "Fashion & Clothing",
+  "emoji": "👗",
+  "words": {
+    "easy": [
+      "jeans", "sneakers", "hat", "dress", "sunglasses",
+      "jacket", "scarf", "boots", "T-shirt", "hoodie",
+      "shorts", "sandals", "socks"
+    ],
+    "medium": [
+      "cardigan", "blazer", "turtleneck", "dungarees", "stilettos",
+      "corset", "parka", "poncho", "beret", "cufflinks",
+      "kimono", "loafers", "leggings"
+    ],
+    "hard": [
+      "fascinator", "jodhpurs", "espadrilles", "cheongsam", "dirndl",
+      "dashiki", "sari", "kaftan", "lederhosen", "mantilla",
+      "sherwani", "dhoti", "balmoral"
+    ]
+  }
+}

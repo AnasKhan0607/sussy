@@ -1,0 +1,21 @@
+{
+  "category": "Food & Drinks",
+  "emoji": "🍕",
+  "words": {
+    "easy": [
+      "pizza", "burger", "pasta", "rice", "chocolate",
+      "coffee", "ice cream", "bread", "salad", "soup",
+      "orange juice", "sandwich", "pancake"
+    ],
+    "medium": [
+      "sushi", "hummus", "croissant", "tiramisu", "kombucha",
+      "paella", "ramen", "falafel", "guacamole", "dim sum",
+      "gnocchi", "churros", "pho"
+    ],
+    "hard": [
+      "borscht", "ceviche", "gochujang", "shakshuka", "tempeh",
+      "haggis", "kimchi jjigae", "bibimbap", "rendang", "pierogi",
+      "injera", "miso", "tzatziki"
+    ]
+  }
+}

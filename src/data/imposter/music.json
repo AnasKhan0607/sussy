@@ -1,0 +1,21 @@
+{
+  "category": "Music",
+  "emoji": "🎵",
+  "words": {
+    "easy": [
+      "guitar", "piano", "drums", "hip hop", "rock",
+      "violin", "microphone", "karaoke", "concert", "jazz",
+      "pop music", "DJ", "flute"
+    ],
+    "medium": [
+      "synthesizer", "acoustic", "reggae", "orchestra", "tempo",
+      "bass guitar", "harmonica", "blues", "gospel", "ukulele",
+      "metronome", "vinyl record", "saxophone"
+    ],
+    "hard": [
+      "theremin", "sitar", "didgeridoo", "gamelan", "hurdy-gurdy",
+      "zither", "balalaika", "mbira", "oud", "shamisen",
+      "erhu", "tabla", "bandoneón"
+    ]
+  }
+}

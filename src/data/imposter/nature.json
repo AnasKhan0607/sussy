@@ -1,0 +1,21 @@
+{
+  "category": "Nature",
+  "emoji": "🌿",
+  "words": {
+    "easy": [
+      "mountain", "ocean", "river", "rainbow", "volcano",
+      "desert", "forest", "waterfall", "beach", "thunder",
+      "snow", "sunset", "island"
+    ],
+    "medium": [
+      "glacier", "geyser", "stalactite", "tundra", "mangrove",
+      "coral reef", "aurora", "monsoon", "canyon", "plateau",
+      "lagoon", "fjord", "delta"
+    ],
+    "hard": [
+      "fumarole", "scree", "moraine", "cenote", "sargasso",
+      "esker", "drumlin", "cirque", "breccia", "karst",
+      "travertine", "tufa", "caldera"
+    ]
+  }
+}

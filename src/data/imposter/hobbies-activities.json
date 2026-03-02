@@ -1,0 +1,21 @@
+{
+  "category": "Hobbies & Activities",
+  "emoji": "🎨",
+  "words": {
+    "easy": [
+      "painting", "cooking", "reading", "dancing", "gardening",
+      "fishing", "camping", "singing", "hiking", "photography",
+      "yoga", "skateboarding", "bowling"
+    ],
+    "medium": [
+      "pottery", "origami", "scuba diving", "rock climbing", "calligraphy",
+      "birdwatching", "woodworking", "geocaching", "beekeeping", "juggling",
+      "parkour", "quilting", "whittling"
+    ],
+    "hard": [
+      "falconry", "topiary", "spelunking", "taxidermy", "orienteering",
+      "pyrography", "bookbinding", "fermenting", "mudlarking", "panning",
+      "canyoneering", "kintsugi", "tufting"
+    ]
+  }
+}

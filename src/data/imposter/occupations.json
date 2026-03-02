@@ -1,0 +1,21 @@
+{
+  "category": "Occupations",
+  "emoji": "💼",
+  "words": {
+    "easy": [
+      "doctor", "teacher", "police officer", "firefighter", "chef",
+      "pilot", "nurse", "dentist", "farmer", "mechanic",
+      "lawyer", "actor", "singer"
+    ],
+    "medium": [
+      "architect", "accountant", "paramedic", "translator", "veterinarian",
+      "geologist", "pharmacist", "journalist", "therapist", "electrician",
+      "marine biologist", "archaeologist", "stockbroker"
+    ],
+    "hard": [
+      "actuary", "sommelier", "epidemiologist", "cartographer", "entomologist",
+      "etymologist", "lapidary", "audiologist", "toxicologist", "arborist",
+      "oenologist", "farrier", "dramaturge"
+    ]
+  }
+}
