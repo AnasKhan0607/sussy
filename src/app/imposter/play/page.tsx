@@ -12,8 +12,11 @@ import { Modal } from "@/components/ui/Modal";
 import { VotingScreen } from "@/components/game/VotingScreen";
 import { useGameStore } from "@/lib/store";
 import { useWakeLock } from "@/hooks/useWakeLock";
-import { vibratePattern } from "@/lib/haptics";
+import { ResultsScreen } from "@/components/game/ResultsScreen";
+import { vibratePattern, vibrateSuccess, vibrateDanger } from "@/lib/haptics";
 import { tallyVotes, checkImposterWin } from "@/lib/gameEngine";
+import { categories } from "@/data/imposter";
+import { assignImposterRoles, pickWord } from "@/lib/gameEngine";
 
 const ACCENT = "#8B5CF6";
 
@@ -112,16 +115,48 @@ export default function ImposterPlay() {
     );
   }
 
-  // Results phase — placeholder for next issue
-  return (
-    <GameShell title="The Imposter" accentColor={ACCENT}>
-      <div className="text-center py-12">
-        <p className="text-text-secondary text-lg">
-          Results phase coming next...
-        </p>
-      </div>
-    </GameShell>
-  );
+  // Results phase
+  if (phase === "results") {
+    return (
+      <ResultsPhase
+        players={players}
+        imposterIndices={imposterIndices}
+        votes={imposterState.votes}
+        secretWord={secretWord}
+        category={category}
+        difficulty={imposterState.difficulty}
+        imposterCount={imposterState.imposterCount}
+        timerDuration={imposterState.timerDuration}
+        onPlayAgain={() => {
+          // Same settings, new word and roles
+          const categoryData = categories.find((c) => c.category === category);
+          if (!categoryData) return;
+          const newWord = pickWord(categoryData, imposterState.difficulty);
+          const newIndices = assignImposterRoles(
+            players.length,
+            imposterState.imposterCount
+          );
+          updateImposterState({
+            secretWord: newWord,
+            imposterIndices: newIndices,
+            currentPlayerIndex: 0,
+            phase: "assigning",
+            votes: {},
+          });
+        }}
+        onNewGame={() => {
+          updateImposterState({ phase: "setup" });
+          router.push("/imposter");
+        }}
+        onHome={() => {
+          updateImposterState({ phase: "setup" });
+          router.push("/");
+        }}
+      />
+    );
+  }
+
+  return null;
 }
 
 function AssigningPhase({
@@ -418,5 +453,188 @@ function VotingPhase({
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function ResultsPhase({
+  players,
+  imposterIndices,
+  votes,
+  secretWord,
+  category,
+  difficulty,
+  imposterCount,
+  timerDuration,
+  onPlayAgain,
+  onNewGame,
+  onHome,
+}: {
+  players: { id: number; name: string; score: number }[];
+  imposterIndices: number[];
+  votes: Record<number, number>;
+  secretWord: string;
+  category: string;
+  difficulty: string;
+  imposterCount: number;
+  timerDuration: number | null;
+  onPlayAgain: () => void;
+  onNewGame: () => void;
+  onHome: () => void;
+}) {
+  const result = tallyVotes(votes, players);
+  const imposterWins = checkImposterWin(
+    result.votedOutId,
+    imposterIndices,
+    players
+  );
+
+  const votedOutPlayer = players.find((p) => p.id === result.votedOutId);
+  const imposterNames = imposterIndices.map((i) => players[i]?.name).filter(Boolean);
+
+  // Check if voted-out player was an imposter
+  const votedOutIndex = players.findIndex((p) => p.id === result.votedOutId);
+  const votedOutWasImposter = imposterIndices.includes(votedOutIndex);
+
+  // Haptic on mount
+  useEffect(() => {
+    if (imposterWins) {
+      vibrateDanger();
+    } else {
+      vibrateSuccess();
+    }
+  }, [imposterWins]);
+
+  return (
+    <GameShell title="The Imposter" accentColor={ACCENT}>
+      <ResultsScreen
+        title={imposterWins ? "The Imposter Wins!" : "The Group Wins!"}
+        accentColor={ACCENT}
+        onPlayAgain={onPlayAgain}
+        onNewGame={onNewGame}
+        onHome={onHome}
+      >
+        <div className="space-y-5 w-full">
+          {/* Voted out reveal */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
+          >
+            <p className="text-text-muted text-sm mb-2">Voted Out</p>
+            <p className="text-2xl font-bold text-text-primary mb-1">
+              {votedOutPlayer?.name}
+            </p>
+            <p
+              className={`text-lg font-semibold ${
+                votedOutWasImposter ? "text-success" : "text-danger"
+              }`}
+            >
+              {votedOutWasImposter
+                ? "They were the Imposter!"
+                : "They were innocent!"}
+            </p>
+            {result.isTie && (
+              <p className="text-text-muted text-xs mt-1">
+                (Tie — first player with most votes was eliminated)
+              </p>
+            )}
+          </motion.div>
+
+          {/* Imposter reveal */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
+          >
+            <p className="text-text-muted text-sm mb-2">
+              {imposterNames.length === 1 ? "The Imposter" : "The Imposters"}
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {imposterNames.map((name) => (
+                <span
+                  key={name}
+                  className="text-xl font-bold text-danger"
+                >
+                  {name}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Secret word */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
+          >
+            <p className="text-text-muted text-sm mb-1">The Secret Word</p>
+            <p className="text-3xl font-black" style={{ color: ACCENT }}>
+              {secretWord}
+            </p>
+            <p className="text-text-muted text-sm mt-1">{category}</p>
+          </motion.div>
+
+          {/* Vote breakdown */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
+          >
+            <p className="text-text-muted text-sm mb-3">Vote Breakdown</p>
+            <div className="space-y-2">
+              {players
+                .map((p) => ({
+                  player: p,
+                  count: result.voteCounts[p.id] || 0,
+                }))
+                .sort((a, b) => b.count - a.count)
+                .map(({ player, count }) => (
+                  <div
+                    key={player.id}
+                    className="flex items-center justify-between"
+                  >
+                    <span
+                      className={`text-sm font-medium ${
+                        imposterIndices.includes(
+                          players.findIndex((p) => p.id === player.id)
+                        )
+                          ? "text-danger"
+                          : "text-text-secondary"
+                      }`}
+                    >
+                      {player.name}
+                      {imposterIndices.includes(
+                        players.findIndex((p) => p.id === player.id)
+                      ) && " 🕵️"}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="h-2 rounded-full"
+                        style={{
+                          width: `${Math.max(
+                            8,
+                            (count / players.length) * 120
+                          )}px`,
+                          backgroundColor:
+                            player.id === result.votedOutId
+                              ? "#EF4444"
+                              : ACCENT,
+                        }}
+                      />
+                      <span className="text-text-muted text-xs w-4">
+                        {count}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </motion.div>
+        </div>
+      </ResultsScreen>
+    </GameShell>
   );
 }
