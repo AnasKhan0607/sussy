@@ -31,35 +31,62 @@ export interface HotTakesState {
   phase: "setup" | "prompt" | "voting" | "result" | "end";
 }
 
-export interface TruthOrDareState {
-  intensity: string;
-  currentPlayerIndex: number;
-  phase: "setup" | "choosing" | "prompt" | "end";
-  roundsPerPlayer: number;
-  history: Array<{
-    playerId: number;
-    type: "truth" | "dare";
-    prompt: string;
-    completed: boolean;
-  }>;
+export interface SpinAndGuessAssignment {
+  playerIndex: number;
+  categoryId: string;
+  scaleId: string;
+}
+
+export interface SpinAndGuessRound {
+  guesserIndex: number;
+  secretNumber: number;
+  guess: number;
+  clues: Record<number, string>;
+  score: number;
+}
+
+export interface SpinAndGuessState {
+  phase:
+    | "setup"
+    | "assign-categories"
+    | "spinning"
+    | "clues"
+    | "guessing"
+    | "reveal"
+    | "end";
+  guesserIndex: number;
+  totalRounds: number;
+  roundNumber: number;
+  secretNumber: number | null;
+  assignments: SpinAndGuessAssignment[];
+  customCategory: {
+    label: string;
+    scaleId: string;
+    playerIndex: number;
+  } | null;
+  clues: Record<number, string>;
+  guess: number | null;
+  currentClueIndex: number;
+  scores: Record<number, number>;
+  roundHistory: SpinAndGuessRound[];
 }
 
 interface GameStore {
   // Global
   players: Player[];
-  currentGame: "imposter" | "hot-takes" | "truth-or-dare" | null;
+  currentGame: "imposter" | "hot-takes" | "spin-and-guess" | null;
 
   // Game states
   imposterState: ImposterState;
   hotTakesState: HotTakesState;
-  truthOrDareState: TruthOrDareState;
+  spinAndGuessState: SpinAndGuessState;
 
   // Actions
   setPlayers: (players: Player[]) => void;
   setCurrentGame: (game: GameStore["currentGame"]) => void;
   updateImposterState: (state: Partial<ImposterState>) => void;
   updateHotTakesState: (state: Partial<HotTakesState>) => void;
-  updateTruthOrDareState: (state: Partial<TruthOrDareState>) => void;
+  updateSpinAndGuessState: (state: Partial<SpinAndGuessState>) => void;
   resetGame: () => void;
 }
 
@@ -85,12 +112,19 @@ const defaultHotTakesState: HotTakesState = {
   phase: "setup",
 };
 
-const defaultTruthOrDareState: TruthOrDareState = {
-  intensity: "standard",
-  currentPlayerIndex: 0,
+const defaultSpinAndGuessState: SpinAndGuessState = {
   phase: "setup",
-  roundsPerPlayer: 1,
-  history: [],
+  guesserIndex: 0,
+  totalRounds: 0,
+  roundNumber: 0,
+  secretNumber: null,
+  assignments: [],
+  customCategory: null,
+  clues: {},
+  guess: null,
+  currentClueIndex: 0,
+  scores: {},
+  roundHistory: [],
 };
 
 export const useGameStore = create<GameStore>()(
@@ -100,7 +134,7 @@ export const useGameStore = create<GameStore>()(
       currentGame: null,
       imposterState: { ...defaultImposterState },
       hotTakesState: { ...defaultHotTakesState },
-      truthOrDareState: { ...defaultTruthOrDareState },
+      spinAndGuessState: { ...defaultSpinAndGuessState },
 
       setPlayers: (players) => set({ players }),
       setCurrentGame: (currentGame) => set({ currentGame }),
@@ -115,9 +149,9 @@ export const useGameStore = create<GameStore>()(
           hotTakesState: { ...prev.hotTakesState, ...state },
         })),
 
-      updateTruthOrDareState: (state) =>
+      updateSpinAndGuessState: (state) =>
         set((prev) => ({
-          truthOrDareState: { ...prev.truthOrDareState, ...state },
+          spinAndGuessState: { ...prev.spinAndGuessState, ...state },
         })),
 
       resetGame: () =>
@@ -125,7 +159,7 @@ export const useGameStore = create<GameStore>()(
           currentGame: null,
           imposterState: { ...defaultImposterState },
           hotTakesState: { ...defaultHotTakesState },
-          truthOrDareState: { ...defaultTruthOrDareState },
+          spinAndGuessState: { ...defaultSpinAndGuessState },
         }),
     }),
     {
@@ -141,9 +175,8 @@ export const useGameStore = create<GameStore>()(
           pack: state.hotTakesState.pack,
           votingMode: state.hotTakesState.votingMode,
         },
-        truthOrDareState: {
-          intensity: state.truthOrDareState.intensity,
-          roundsPerPlayer: state.truthOrDareState.roundsPerPlayer,
+        spinAndGuessState: {
+          totalRounds: state.spinAndGuessState.totalRounds,
         },
       }),
     }

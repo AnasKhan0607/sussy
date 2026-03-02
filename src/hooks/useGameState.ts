@@ -21,10 +21,10 @@ export function useGameState() {
       store.updateImposterState({
         currentPlayerIndex: store.imposterState.currentPlayerIndex + 1,
       });
-    } else if (game === "truth-or-dare") {
+    } else if (game === "spin-and-guess") {
       const next =
-        (store.truthOrDareState.currentPlayerIndex + 1) % store.players.length;
-      store.updateTruthOrDareState({ currentPlayerIndex: next });
+        (store.spinAndGuessState.currentClueIndex + 1) % store.players.length;
+      store.updateSpinAndGuessState({ currentClueIndex: next });
     }
   };
 
