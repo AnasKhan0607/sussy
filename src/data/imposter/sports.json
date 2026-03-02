@@ -1,0 +1,21 @@
+{
+  "category": "Sports",
+  "emoji": "⚽",
+  "words": {
+    "easy": [
+      "soccer", "basketball", "tennis", "swimming", "baseball",
+      "volleyball", "golf", "boxing", "hockey", "rugby",
+      "cricket", "cycling", "running"
+    ],
+    "medium": [
+      "fencing", "archery", "badminton", "water polo", "rowing",
+      "handball", "lacrosse", "squash", "bobsled", "javelin",
+      "triathlon", "kayaking", "pole vault"
+    ],
+    "hard": [
+      "curling", "sepak takraw", "pelota", "kabaddi", "buzkashi",
+      "jai alai", "bossaball", "hurling", "korfball", "bandy",
+      "capoeira", "netball", "petanque"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "category": "Movies & TV",
+  "emoji": "🎬",
+  "words": {
+    "easy": [
+      "Titanic", "Harry Potter", "The Lion King", "Spider-Man", "Star Wars",
+      "Friends", "Batman", "Frozen", "Shrek", "The Simpsons",
+      "Finding Nemo", "Toy Story", "Stranger Things"
+    ],
+    "medium": [
+      "Inception", "The Godfather", "Breaking Bad", "Jurassic Park", "Gladiator",
+      "The Matrix", "Pulp Fiction", "Game of Thrones", "Fight Club", "Interstellar",
+      "The Shawshank Redemption", "Forrest Gump", "Black Mirror"
+    ],
+    "hard": [
+      "Memento", "Eternal Sunshine", "Mulholland Drive", "Oldboy", "Amelie",
+      "Spirited Away", "Parasite", "The Grand Budapest Hotel", "Blade Runner", "A Clockwork Orange",
+      "Twin Peaks", "Pan's Labyrinth", "Donnie Darko"
+    ]
+  }
+}

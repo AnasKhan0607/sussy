@@ -1,0 +1,21 @@
+{
+  "category": "Animals",
+  "emoji": "🐾",
+  "words": {
+    "easy": [
+      "dog", "cat", "horse", "chicken", "fish",
+      "rabbit", "elephant", "lion", "monkey", "bear",
+      "snake", "eagle", "dolphin"
+    ],
+    "medium": [
+      "platypus", "chameleon", "flamingo", "porcupine", "jaguar",
+      "pelican", "walrus", "iguana", "meerkat", "armadillo",
+      "bison", "raccoon", "seahorse"
+    ],
+    "hard": [
+      "axolotl", "pangolin", "quokka", "narwhal", "okapi",
+      "capybara", "tapir", "dugong", "binturong", "kinkajou",
+      "serval", "fossa", "gharial"
+    ]
+  }
+}

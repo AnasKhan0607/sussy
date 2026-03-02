@@ -1,0 +1,21 @@
+{
+  "category": "Countries & Cities",
+  "emoji": "🌍",
+  "words": {
+    "easy": [
+      "Paris", "New York", "London", "Japan", "Australia",
+      "Brazil", "Canada", "Italy", "Egypt", "India",
+      "Mexico", "China", "Germany"
+    ],
+    "medium": [
+      "Prague", "Morocco", "Buenos Aires", "Vietnam", "Istanbul",
+      "Singapore", "Cuba", "Dublin", "Budapest", "Peru",
+      "Bangkok", "Lisbon", "Kenya"
+    ],
+    "hard": [
+      "Reykjavik", "Bhutan", "Liechtenstein", "Montevideo", "Ljubljana",
+      "Suriname", "Tbilisi", "Valletta", "Tuvalu", "Bratislava",
+      "Ouagadougou", "Bishkek", "Andorra"
+    ]
+  }
+}

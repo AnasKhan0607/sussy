@@ -1,0 +1,21 @@
+{
+  "category": "Technology",
+  "emoji": "💻",
+  "words": {
+    "easy": [
+      "smartphone", "laptop", "WiFi", "headphones", "camera",
+      "television", "video game", "tablet", "USB", "Bluetooth",
+      "emoji", "selfie", "GPS"
+    ],
+    "medium": [
+      "algorithm", "cryptocurrency", "virtual reality", "drone", "podcast",
+      "cloud storage", "firewall", "ethernet", "motherboard", "server",
+      "machine learning", "augmented reality", "SSD"
+    ],
+    "hard": [
+      "FPGA", "quantum computing", "neural network", "blockchain node", "LIDAR",
+      "mesh network", "edge computing", "homomorphic encryption", "digital twin", "memristor",
+      "photonic chip", "RISC-V", "neuromorphic"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "category": "Household Items",
+  "emoji": "🏠",
+  "words": {
+    "easy": [
+      "chair", "table", "lamp", "mirror", "pillow",
+      "spoon", "towel", "clock", "blanket", "plate",
+      "cup", "broom", "soap"
+    ],
+    "medium": [
+      "colander", "whisk", "coaster", "corkscrew", "ladle",
+      "dustpan", "plunger", "thermostat", "curtain rod", "garlic press",
+      "ice tray", "doorstop", "trivet"
+    ],
+    "hard": [
+      "pestle", "zester", "awl", "antimacassar", "finial",
+      "escutcheon", "ferrule", "aglet", "wainscoting", "credenza",
+      "chafing dish", "bolster", "settee"
+    ]
+  }
+}
