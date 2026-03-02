@@ -9,9 +9,11 @@ import { PrivacyReveal } from "@/components/game/PrivacyReveal";
 import { CountdownTimer } from "@/components/game/CountdownTimer";
 import { Button } from "@/components/ui/Button";
 import { Modal } from "@/components/ui/Modal";
+import { VotingScreen } from "@/components/game/VotingScreen";
 import { useGameStore } from "@/lib/store";
 import { useWakeLock } from "@/hooks/useWakeLock";
 import { vibratePattern } from "@/lib/haptics";
+import { tallyVotes, checkImposterWin } from "@/lib/gameEngine";
 
 const ACCENT = "#8B5CF6";
 
@@ -80,13 +82,42 @@ export default function ImposterPlay() {
     );
   }
 
-  // Voting, results phases — placeholder for future issues
+  // Voting phase
+  if (phase === "voting") {
+    return (
+      <VotingPhase
+        players={players}
+        currentPlayerIndex={currentPlayerIndex}
+        imposterIndices={imposterIndices}
+        votes={imposterState.votes}
+        onVote={(voterId, votedForId) => {
+          const newVotes = { ...imposterState.votes, [voterId]: votedForId };
+          const nextIndex = currentPlayerIndex + 1;
+
+          if (nextIndex >= players.length) {
+            // All votes in — go to results
+            updateImposterState({
+              votes: newVotes,
+              phase: "results",
+              currentPlayerIndex: 0,
+            });
+          } else {
+            updateImposterState({
+              votes: newVotes,
+              currentPlayerIndex: nextIndex,
+            });
+          }
+        }}
+      />
+    );
+  }
+
+  // Results phase — placeholder for next issue
   return (
     <GameShell title="The Imposter" accentColor={ACCENT}>
       <div className="text-center py-12">
         <p className="text-text-secondary text-lg">
-          {phase === "voting" && "Voting phase coming next..."}
-          {phase === "results" && "Results phase coming next..."}
+          Results phase coming next...
         </p>
       </div>
     </GameShell>
@@ -332,3 +363,60 @@ function DiscussionPhase({
   );
 }
 
+function VotingPhase({
+  players,
+  currentPlayerIndex,
+  imposterIndices,
+  votes,
+  onVote,
+}: {
+  players: { id: number; name: string; score: number }[];
+  currentPlayerIndex: number;
+  imposterIndices: number[];
+  votes: Record<number, number>;
+  onVote: (voterId: number, votedForId: number) => void;
+}) {
+  const [subPhase, setSubPhase] = useState<"pass" | "vote">("pass");
+  const currentPlayer = players[currentPlayerIndex];
+
+  const handleReady = useCallback(() => {
+    setSubPhase("vote");
+  }, []);
+
+  const handleVote = useCallback(
+    (votedForId: number) => {
+      setSubPhase("pass");
+      onVote(currentPlayer.id, votedForId);
+    },
+    [onVote, currentPlayer.id]
+  );
+
+  return (
+    <AnimatePresence mode="wait">
+      {subPhase === "pass" ? (
+        <PassScreen
+          key={`vote-pass-${currentPlayerIndex}`}
+          playerName={currentPlayer.name}
+          onReady={handleReady}
+          accentColor={ACCENT}
+        />
+      ) : (
+        <motion.div
+          key={`vote-screen-${currentPlayerIndex}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <GameShell title="The Imposter" accentColor={ACCENT}>
+            <VotingScreen
+              voter={currentPlayer}
+              players={players}
+              accentColor={ACCENT}
+              onVote={handleVote}
+            />
+          </GameShell>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
