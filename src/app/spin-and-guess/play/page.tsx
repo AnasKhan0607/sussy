@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { PassScreen } from "@/components/game/PassScreen";
 import { ArchSpinner } from "@/components/game/ArchSpinner";
-import { useGameStore, SpinAndGuessAssignment } from "@/lib/store";
+import { ResultsScreen } from "@/components/game/ResultsScreen";
+import { useGameStore, SpinAndGuessAssignment, SpinAndGuessRound } from "@/lib/store";
+import { vibrateSuccess } from "@/lib/haptics";
 import { useWakeLock } from "@/hooks/useWakeLock";
 import {
   categories as allCategories,
@@ -191,16 +193,44 @@ export default function SpinAndGuessPlay() {
     );
   }
 
-  // End phase — placeholder for issue #25
-  return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
-      <div className="text-center py-12">
-        <p className="text-text-secondary text-lg">
-          End screen coming next...
-        </p>
-      </div>
-    </GameShell>
-  );
+  // End phase
+  if (state.phase === "end") {
+    return (
+      <EndScreen
+        players={players}
+        scores={state.scores}
+        roundHistory={state.roundHistory}
+        onPlayAgain={() => {
+          // Same players, reset game
+          const initialScores: Record<number, number> = {};
+          players.forEach((p) => (initialScores[p.id] = 0));
+          updateSpinAndGuessState({
+            phase: "assign-categories",
+            guesserIndex: 0,
+            roundNumber: 1,
+            secretNumber: null,
+            assignments: [],
+            customCategory: null,
+            clues: {},
+            guess: null,
+            currentClueIndex: 0,
+            scores: initialScores,
+            roundHistory: [],
+          });
+        }}
+        onNewGame={() => {
+          updateSpinAndGuessState({ phase: "setup" });
+          router.push("/spin-and-guess");
+        }}
+        onHome={() => {
+          updateSpinAndGuessState({ phase: "setup" });
+          router.push("/");
+        }}
+      />
+    );
+  }
+
+  return null;
 }
 
 // ── Assign Categories Phase ──────────────────────────────────────
@@ -796,6 +826,156 @@ function RevealPhase({
           {isLastRound ? "See Final Results" : "Next Round"}
         </Button>
       </div>
+    </GameShell>
+  );
+}
+
+// ── End Screen ───────────────────────────────────────────────────
+
+function EndScreen({
+  players,
+  scores,
+  roundHistory,
+  onPlayAgain,
+  onNewGame,
+  onHome,
+}: {
+  players: { id: number; name: string }[];
+  scores: Record<number, number>;
+  roundHistory: SpinAndGuessRound[];
+  onPlayAgain: () => void;
+  onNewGame: () => void;
+  onHome: () => void;
+}) {
+  // Sort players by score descending
+  const leaderboard = players
+    .map((p, i) => ({ player: p, index: i, score: scores[i] || 0 }))
+    .sort((a, b) => b.score - a.score);
+
+  const winner = leaderboard[0];
+
+  // Fun stats
+  const perfectRounds = roundHistory.filter((r) => r.score === 10).length;
+  const totalRounds = roundHistory.length;
+  const avgDiff =
+    totalRounds > 0
+      ? (
+          roundHistory.reduce(
+            (sum, r) => sum + Math.abs(r.guess - r.secretNumber),
+            0
+          ) / totalRounds
+        ).toFixed(1)
+      : "0";
+
+  // Best guesser: player with highest score
+  const bestGuesser = winner;
+
+  // Worst guess: round with biggest diff
+  const worstRound = roundHistory.reduce(
+    (worst, r) =>
+      Math.abs(r.guess - r.secretNumber) >
+      Math.abs((worst?.guess ?? 0) - (worst?.secretNumber ?? 0))
+        ? r
+        : worst,
+    roundHistory[0]
+  );
+
+  return (
+    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+      <ResultsScreen
+        title="Game Over!"
+        accentColor={ACCENT}
+        onPlayAgain={onPlayAgain}
+        onNewGame={onNewGame}
+        onHome={onHome}
+      >
+        <div className="space-y-5 w-full">
+          {/* Winner */}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", duration: 0.5 }}
+            className="text-center"
+          >
+            <p className="text-5xl mb-2">🏆</p>
+            <h2 className="text-2xl font-black" style={{ color: ACCENT }}>
+              {winner.player.name}
+            </h2>
+            <p className="text-text-secondary">wins with {winner.score} points!</p>
+          </motion.div>
+
+          {/* Leaderboard */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-4"
+          >
+            <p className="text-text-muted text-sm mb-3">Final Standings</p>
+            <div className="space-y-2">
+              {leaderboard.map((entry, rank) => (
+                <div
+                  key={entry.player.id}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg w-7">
+                      {rank === 0 ? "🥇" : rank === 1 ? "🥈" : rank === 2 ? "🥉" : `${rank + 1}.`}
+                    </span>
+                    <span className="font-medium text-text-primary text-sm">
+                      {entry.player.name}
+                    </span>
+                  </div>
+                  <span
+                    className="font-bold text-sm"
+                    style={{ color: ACCENT }}
+                  >
+                    {entry.score} pts
+                  </span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Fun stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-4"
+          >
+            <p className="text-text-muted text-sm mb-3">Game Stats</p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="text-center">
+                <p className="text-2xl font-bold" style={{ color: ACCENT }}>
+                  {perfectRounds}
+                </p>
+                <p className="text-text-muted text-xs">Perfect Guesses</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold" style={{ color: ACCENT }}>
+                  {avgDiff}
+                </p>
+                <p className="text-text-muted text-xs">Avg. Off By</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold" style={{ color: ACCENT }}>
+                  {totalRounds}
+                </p>
+                <p className="text-text-muted text-xs">Rounds Played</p>
+              </div>
+              {worstRound && (
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-danger">
+                    {Math.abs(worstRound.guess - worstRound.secretNumber)}
+                  </p>
+                  <p className="text-text-muted text-xs">Biggest Miss</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      </ResultsScreen>
     </GameShell>
   );
 }
