@@ -69,7 +69,7 @@ sussy/
 │   │   ├── hot-takes/          # Hot Takes game
 │   │   │   ├── page.tsx        # Setup screen
 │   │   │   └── play/page.tsx   # Gameplay loop
-│   │   └── truth-or-dare/      # Truth or Dare game
+│   │   └── spin-and-guess/     # Spin & Guess game
 │   │       ├── page.tsx        # Setup screen
 │   │       └── play/page.tsx   # Gameplay loop
 │   ├── components/
@@ -83,7 +83,7 @@ sussy/
 │   │   │   ├── ResultsScreen.tsx
 │   │   │   └── Scoreboard.tsx
 │   │   └── layout/             # GameShell, HomeHeader
-│   ├── data/                   # Game content JSON (imposter/, hot-takes/, truth-or-dare/)
+│   ├── data/                   # Game content JSON (imposter/, hot-takes/, spin-and-guess/)
 │   ├── lib/
 │   │   ├── store.ts            # Zustand store (all game states)
 │   │   ├── gameEngine.ts       # Role assignment, vote tallying, word picking
@@ -115,7 +115,7 @@ Text muted:     #6B7280
 Game accents:
   Imposter:       #8B5CF6 (purple)
   Hot Takes:      #F59E0B (amber)
-  Truth or Dare:  #06B6D4 (cyan)
+  Spin & Guess:   #06B6D4 (cyan)
 
 Status:
   Success: #10B981  Danger: #EF4444  Warning: #F59E0B
@@ -131,7 +131,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 |------|---------|--------|--------|
 | The Imposter 🕵️ | 3-20 | Purple | Phase 1 scaffold done |
 | Hot Takes 🔥 | 3-15 | Amber | Phase 1 scaffold done |
-| Truth or Dare 😈 | 2-20 | Cyan | Phase 1 scaffold done |
+| Spin & Guess 🎯 | 3-10 | Cyan | Not started |
 
 ---
 
@@ -140,7 +140,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 1. **Foundation** — Project setup, design system, home screen, shared components ✅
 2. **The Imposter** — Full game: setup → role assignment → discussion → voting → results
 3. **Hot Takes** — Full game: setup → prompts → voting → recap
-4. **Truth or Dare** — Full game: setup → truth/dare selection → prompts → stats
+4. **Spin & Guess** — Full game: setup → assign categories → spin → clues → guess → results
 5. **Polish & PWA** — Animations, haptics, offline, meta tags, deploy
 
 ---
@@ -153,6 +153,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 4. **Large tap targets** — Min 48x48px, people are passing phones around
 5. **Use `dvh`** — Dynamic viewport height for mobile browser chrome
 6. **Edge cases** — Cap imposters at (players - 2), reshuffle when prompts exhausted
+7. **Spin & Guess arch spinner** — Use canvas or SVG for the arch (semicircle, numbers only), animate spin with easing
 
 ---
 

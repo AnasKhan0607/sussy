@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SUSSY
+
+**One phone. All the games.**
+
+Sussy is a mobile-first party game app where one phone gets passed around the group. No Wi-Fi, no second devices, no accounts needed. Just open the link and play.
+
+## Games
+
+### The Imposter
+The viral TikTok word game. Everyone gets shown the same secret word — except the imposter, who has to fake it. Take turns giving one-word clues, then vote on who you think is faking it.
+
+- 3–20 players
+- 12 categories with easy/medium/hard words
+- Configurable imposter count and discussion timer
+
+### Hot Takes (Most Likely To)
+"Most likely to..." prompts that get the group pointing fingers. Vote secretly or just shout it out.
+
+- 3–15 players
+- 3 prompt packs: Clean, Friend Group, Spicy
+- Open mode (shout) or secret voting mode
+
+### Spin & Guess
+The viral TikTok number guessing game. A spinner lands on a number (1–10). One player is the guesser and can't see it. Their friends each get a category and scale (like "Basketball players — best to worst") and give a one-word clue to help the guesser figure out the number.
+
+- 3–10 players
+- The guesser assigns categories to friends based on who they think would give the best clue
+- 1 free custom category the guesser makes up themselves
+- Multiple scale types: 1–10, most likely to least likely, best to worst, and more
+
+## Tech Stack
+
+- **Next.js** (App Router) + TypeScript
+- **Tailwind CSS** v4 for styling
+- **Framer Motion** for animations
+- **Zustand** for state management (localStorage persistence)
+- **PWA** — installable, works offline, no app store needed
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) on your phone or browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/                  # Pages (home, game setup, gameplay)
+│   ├── imposter/         # The Imposter game
+│   ├── hot-takes/        # Hot Takes game
+│   └── spin-and-guess/   # Spin & Guess game
+├── components/
+│   ├── ui/               # Button, Card, Modal, Slider, Badge
+│   ├── game/             # Shared game components
+│   └── layout/           # Game shell, header
+├── data/                 # Game content (words, prompts, categories)
+├── lib/                  # Store, game engine, utils, haptics
+└── hooks/                # Timer, wake lock, game state
+```
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT

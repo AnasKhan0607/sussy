@@ -28,7 +28,7 @@ src/
 ├── app/              # Next.js App Router pages
 │   ├── imposter/     # Imposter game (setup + play)
 │   ├── hot-takes/    # Hot Takes game (setup + play)
-│   └── truth-or-dare/# Truth or Dare game (setup + play)
+│   └── truth-or-dare/# Spin & Guess game (setup + play)
 ├── components/
 │   ├── ui/           # Primitives (Button, Card, Modal, etc.)
 │   ├── game/         # Shared game components
@@ -87,7 +87,7 @@ npm run lint                     # Run ESLint
 | `enhancement` | Improvements |
 | `game-imposter` | Imposter game work |
 | `game-hot-takes` | Hot Takes game work |
-| `game-truth-or-dare` | Truth or Dare game work |
+| `game-spin-and-guess` | Spin & Guess game work |
 | `ui` | UI/UX changes |
 | `data` | Game content/word data |
 | `pwa` | PWA/offline features |

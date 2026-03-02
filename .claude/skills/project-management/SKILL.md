@@ -91,7 +91,7 @@ gh pr merge --squash
 | `enhancement` | Improvements to existing features |
 | `game-imposter` | Imposter game work |
 | `game-hot-takes` | Hot Takes game work |
-| `game-truth-or-dare` | Truth or Dare game work |
+| `game-spin-and-guess` | Spin & Guess game work |
 | `ui` | UI/UX changes |
 | `data` | Game content / word data |
 | `pwa` | PWA / offline features |
