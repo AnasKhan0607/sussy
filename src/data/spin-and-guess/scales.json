@@ -1,0 +1,128 @@
+[
+  {
+    "id": "best-to-worst",
+    "label": "Best to Worst",
+    "low": "Worst",
+    "high": "Best"
+  },
+  {
+    "id": "most-famous",
+    "label": "Most Famous to Least",
+    "low": "Unknown",
+    "high": "Legendary"
+  },
+  {
+    "id": "scariest",
+    "label": "Scariest to Least Scary",
+    "low": "Harmless",
+    "high": "Terrifying"
+  },
+  {
+    "id": "most-popular",
+    "label": "Most Popular to Least",
+    "low": "Niche",
+    "high": "Mainstream"
+  },
+  {
+    "id": "biggest-to-smallest",
+    "label": "Biggest to Smallest",
+    "low": "Tiny",
+    "high": "Massive"
+  },
+  {
+    "id": "hardest-to-easiest",
+    "label": "Hardest to Easiest",
+    "low": "Easy",
+    "high": "Brutal"
+  },
+  {
+    "id": "healthiest",
+    "label": "Healthiest to Least Healthy",
+    "low": "Junk",
+    "high": "Superfood"
+  },
+  {
+    "id": "cutest",
+    "label": "Cutest to Least Cute",
+    "low": "Ugly",
+    "high": "Adorable"
+  },
+  {
+    "id": "most-exciting",
+    "label": "Most Exciting to Boring",
+    "low": "Boring",
+    "high": "Thrilling"
+  },
+  {
+    "id": "strongest-to-weakest",
+    "label": "Strongest to Weakest",
+    "low": "Weak",
+    "high": "Unstoppable"
+  },
+  {
+    "id": "most-addictive",
+    "label": "Most Addictive to Least",
+    "low": "Take it or leave it",
+    "high": "Can't stop"
+  },
+  {
+    "id": "most-boring",
+    "label": "Most Boring to Most Fun",
+    "low": "Fun",
+    "high": "Snoozefest"
+  },
+  {
+    "id": "most-useful",
+    "label": "Most Useful to Least",
+    "low": "Useless",
+    "high": "Essential"
+  },
+  {
+    "id": "most-expensive",
+    "label": "Most Expensive to Cheapest",
+    "low": "Bargain",
+    "high": "Luxury"
+  },
+  {
+    "id": "most-reliable",
+    "label": "Most Reliable to Least",
+    "low": "Unreliable",
+    "high": "Rock solid"
+  },
+  {
+    "id": "most-indulgent",
+    "label": "Most Indulgent to Lightest",
+    "low": "Light",
+    "high": "Decadent"
+  },
+  {
+    "id": "most-overrated",
+    "label": "Most Overrated to Underrated",
+    "low": "Hidden gem",
+    "high": "Overhyped"
+  },
+  {
+    "id": "most-controversial",
+    "label": "Most Controversial to Tame",
+    "low": "Tame",
+    "high": "Polarizing"
+  },
+  {
+    "id": "most-talented",
+    "label": "Most Talented to Least",
+    "low": "Amateur",
+    "high": "Genius"
+  },
+  {
+    "id": "most-bingeable",
+    "label": "Most Bingeable to Least",
+    "low": "One episode is enough",
+    "high": "Can't stop watching"
+  },
+  {
+    "id": "best-to-visit",
+    "label": "Best to Visit to Skip",
+    "low": "Skip it",
+    "high": "Bucket list"
+  }
+]

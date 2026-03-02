@@ -1,0 +1,110 @@
+[
+  {
+    "id": "basketball-players",
+    "label": "Basketball Players",
+    "emoji": "🏀",
+    "scales": ["best-to-worst", "most-famous"]
+  },
+  {
+    "id": "fast-food-chains",
+    "label": "Fast Food Chains",
+    "emoji": "🍔",
+    "scales": ["best-to-worst", "most-popular", "healthiest"]
+  },
+  {
+    "id": "movies",
+    "label": "Movies",
+    "emoji": "🎬",
+    "scales": ["best-to-worst", "scariest", "most-famous"]
+  },
+  {
+    "id": "animals",
+    "label": "Animals",
+    "emoji": "🐾",
+    "scales": ["scariest", "cutest", "biggest-to-smallest"]
+  },
+  {
+    "id": "music-artists",
+    "label": "Music Artists",
+    "emoji": "🎤",
+    "scales": ["best-to-worst", "most-famous", "most-controversial"]
+  },
+  {
+    "id": "countries",
+    "label": "Countries",
+    "emoji": "🌍",
+    "scales": ["best-to-visit", "biggest-to-smallest", "most-famous"]
+  },
+  {
+    "id": "tv-shows",
+    "label": "TV Shows",
+    "emoji": "📺",
+    "scales": ["best-to-worst", "most-bingeable", "most-famous"]
+  },
+  {
+    "id": "sports",
+    "label": "Sports",
+    "emoji": "⚽",
+    "scales": ["most-exciting", "hardest-to-easiest", "most-popular"]
+  },
+  {
+    "id": "snacks",
+    "label": "Snacks",
+    "emoji": "🍿",
+    "scales": ["best-to-worst", "healthiest", "most-addictive"]
+  },
+  {
+    "id": "superheroes",
+    "label": "Superheroes",
+    "emoji": "🦸",
+    "scales": ["strongest-to-weakest", "most-famous", "best-to-worst"]
+  },
+  {
+    "id": "video-games",
+    "label": "Video Games",
+    "emoji": "🎮",
+    "scales": ["best-to-worst", "most-addictive", "most-famous"]
+  },
+  {
+    "id": "social-media",
+    "label": "Social Media Apps",
+    "emoji": "📱",
+    "scales": ["most-addictive", "best-to-worst", "most-popular"]
+  },
+  {
+    "id": "school-subjects",
+    "label": "School Subjects",
+    "emoji": "📚",
+    "scales": ["hardest-to-easiest", "most-boring", "most-useful"]
+  },
+  {
+    "id": "cars",
+    "label": "Car Brands",
+    "emoji": "🚗",
+    "scales": ["best-to-worst", "most-expensive", "most-reliable"]
+  },
+  {
+    "id": "desserts",
+    "label": "Desserts",
+    "emoji": "🍰",
+    "scales": ["best-to-worst", "most-indulgent", "most-popular"]
+  },
+  {
+    "id": "holidays",
+    "label": "Holidays",
+    "emoji": "🎉",
+    "scales": ["best-to-worst", "most-exciting", "most-overrated"]
+  },
+  {
+    "id": "celebrities",
+    "label": "Celebrities",
+    "emoji": "⭐",
+    "scales": ["most-famous", "most-controversial", "most-talented"]
+  },
+  {
+    "id": "pizza-toppings",
+    "label": "Pizza Toppings",
+    "emoji": "🍕",
+    "scales": ["best-to-worst", "most-popular", "most-controversial"]
+  }
+]
