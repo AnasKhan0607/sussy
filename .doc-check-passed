@@ -1,13 +1,1 @@
-src/data/imposter/animals.json
-src/data/imposter/countries-cities.json
-src/data/imposter/fashion-clothing.json
-src/data/imposter/food-drinks.json
-src/data/imposter/hobbies-activities.json
-src/data/imposter/household-items.json
-src/data/imposter/index.ts
-src/data/imposter/movies-tv.json
-src/data/imposter/music.json
-src/data/imposter/nature.json
-src/data/imposter/occupations.json
-src/data/imposter/sports.json
-src/data/imposter/technology.json
+src/app/imposter/play/page.tsx
