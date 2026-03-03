@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { vibrateMedium, vibrateLong } from "@/lib/haptics";
 
@@ -65,10 +65,18 @@ export function ArchSpinner({
   disabled = false,
 }: ArchSpinnerProps) {
   const [spinning, setSpinning] = useState(false);
-  const [rotation, setRotation] = useState(0);
+  const [pointerAngle, setPointerAngle] = useState(270); // top center
   const [result, setResult] = useState<number | null>(null);
   const onResultRef = useRef(onResult);
   onResultRef.current = onResult;
+  const animRef = useRef<number>(0);
+  const pointerAngleRef = useRef(270);
+
+  useEffect(() => {
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
+  }, []);
 
   const spin = useCallback(() => {
     if (spinning || disabled) return;
@@ -79,94 +87,104 @@ export function ArchSpinner({
 
     // Pick a random target number 1-10
     const target = Math.floor(Math.random() * 10) + 1;
-
-    // Calculate rotation to land on target segment
-    // Segments go left to right: 1 at far-left of arch, 10 at far-right
-    // The pointer is at the top center (180° or index 0 position)
-    // We need to rotate the arch so the target segment aligns with the pointer
     const targetIndex = target - 1;
-    const segmentCenter = 180 + targetIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
+    // Segment centers: 1 at 189°, 2 at 207°, ..., 10 at 351°
+    const targetAngle = 180 + targetIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
 
-    // Add multiple full rotations for visual effect
-    const extraRotations = 3 + Math.floor(Math.random() * 3); // 3-5 full spins
-    const totalRotation = extraRotations * 360 + segmentCenter;
+    const currentAngle = pointerAngleRef.current;
+    const duration = 3500;
+    const startTime = performance.now();
 
-    setRotation((prev) => prev + totalRotation);
+    // Damped oscillation parameters
+    const amplitude = 140;
+    const damping = 3.5;
+    const frequency = 3.5;
 
-    // Result after animation completes
-    setTimeout(() => {
-      vibrateLong();
-      setSpinning(false);
-      setResult(target);
-      onResultRef.current(target);
-    }, 3200);
+    // Calculate initial phase so oscillation starts at currentAngle
+    const diff = Math.max(-amplitude, Math.min(amplitude, currentAngle - targetAngle));
+    const initialPhase = Math.asin(diff / amplitude);
+
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+
+      // Damped harmonic oscillation centered on target
+      const oscillation =
+        amplitude * Math.exp(-damping * t) * Math.sin(2 * Math.PI * frequency * t + initialPhase);
+      const angle = Math.max(180, Math.min(360, targetAngle + oscillation));
+
+      setPointerAngle(angle);
+      pointerAngleRef.current = angle;
+
+      if (t < 1) {
+        animRef.current = requestAnimationFrame(animate);
+      } else {
+        setPointerAngle(targetAngle);
+        pointerAngleRef.current = targetAngle;
+        vibrateLong();
+        setSpinning(false);
+        setResult(target);
+        onResultRef.current(target);
+      }
+    };
+
+    animRef.current = requestAnimationFrame(animate);
   }, [spinning, disabled]);
 
-  // The arch is drawn from 180° to 360° (bottom-left to bottom-right going over the top)
-  // With the rotation origin at center, we rotate the whole arch group
+  // Static arch starts at 180°
   const startAngle = 180;
+
+  // Pointer triangle: tip points inward, base sits outside the arch
+  const pointerTip = polarToCartesian(CX, CY, R_OUTER - 6, pointerAngle);
+  const pointerWing1 = polarToCartesian(CX, CY, R_OUTER + 16, pointerAngle - 3);
+  const pointerWing2 = polarToCartesian(CX, CY, R_OUTER + 16, pointerAngle + 3);
 
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="relative" style={{ width: SIZE, height: SIZE / 2 + 60 }}>
-        {/* Pointer at top center */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2 z-10"
-          style={{ top: CY - R_OUTER - 18 }}
-        >
-          <svg width="24" height="20" viewBox="0 0 24 20">
-            <path
-              d="M12 20L2 2h20L12 20z"
-              fill={accentColor}
-              stroke="#0A0A1A"
-              strokeWidth="2"
-            />
-          </svg>
-        </div>
-
         <svg
           width={SIZE}
           height={SIZE / 2 + 60}
           viewBox={`0 0 ${SIZE} ${SIZE / 2 + 60}`}
         >
-          <motion.g
-            animate={{ rotate: rotation }}
-            transition={{
-              duration: 3,
-              ease: [0.2, 0.8, 0.3, 1], // fast start, slow ease-out
-            }}
-            style={{ originX: `${CX}px`, originY: `${CY}px` }}
-          >
-            {NUMBERS.map((n, i) => {
-              const segStart = startAngle + i * SEGMENT_ANGLE;
-              const segEnd = segStart + SEGMENT_ANGLE;
-              const midAngle = segStart + SEGMENT_ANGLE / 2;
-              const labelR = (R_OUTER + R_INNER) / 2;
-              const labelPos = polarToCartesian(CX, CY, labelR, midAngle);
+          {/* Static arch segments */}
+          {NUMBERS.map((n, i) => {
+            const segStart = startAngle + i * SEGMENT_ANGLE;
+            const segEnd = segStart + SEGMENT_ANGLE;
+            const midAngle = segStart + SEGMENT_ANGLE / 2;
+            const labelR = (R_OUTER + R_INNER) / 2;
+            const labelPos = polarToCartesian(CX, CY, labelR, midAngle);
 
-              return (
-                <g key={n}>
-                  <path
-                    d={arcPath(CX, CY, R_OUTER, R_INNER, segStart, segEnd)}
-                    fill={getSegmentColor(i)}
-                    stroke="#0A0A1A"
-                    strokeWidth="2"
-                  />
-                  <text
-                    x={labelPos.x}
-                    y={labelPos.y}
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    fill="white"
-                    fontWeight="bold"
-                    fontSize="18"
-                  >
-                    {n}
-                  </text>
-                </g>
-              );
-            })}
-          </motion.g>
+            return (
+              <g key={n}>
+                <path
+                  d={arcPath(CX, CY, R_OUTER, R_INNER, segStart, segEnd)}
+                  fill={getSegmentColor(i)}
+                  stroke="#0A0A1A"
+                  strokeWidth="2"
+                />
+                <text
+                  x={labelPos.x}
+                  y={labelPos.y}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill="white"
+                  fontWeight="bold"
+                  fontSize="18"
+                >
+                  {n}
+                </text>
+              </g>
+            );
+          })}
+
+          {/* Animated pointer */}
+          <polygon
+            points={`${pointerTip.x},${pointerTip.y} ${pointerWing1.x},${pointerWing1.y} ${pointerWing2.x},${pointerWing2.y}`}
+            fill={accentColor}
+            stroke="#0A0A1A"
+            strokeWidth="2"
+          />
         </svg>
 
         {/* Result display */}
