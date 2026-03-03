@@ -59,9 +59,14 @@ export default function ImposterPlay() {
         category={category}
         onAdvance={(nextIndex) => {
           if (nextIndex >= players.length) {
-            // All players have seen their roles — move to discussion
+            // All players have seen their roles — move to next phase
+            const nextPhase = imposterState.enableTimer
+              ? "discussion"
+              : imposterState.enableVoting
+                ? "voting"
+                : "reveal";
             updateImposterState({
-              phase: "discussion",
+              phase: nextPhase,
               currentPlayerIndex: 0,
             });
           } else {
@@ -80,7 +85,12 @@ export default function ImposterPlay() {
         timerDuration={imposterState.timerDuration}
         playerCount={players.length}
         imposterCount={imposterState.imposterCount}
-        onEnd={() => updateImposterState({ phase: "voting" })}
+        enableVoting={imposterState.enableVoting}
+        onEnd={() =>
+          updateImposterState({
+            phase: imposterState.enableVoting ? "voting" : "reveal",
+          })
+        }
       />
     );
   }
@@ -110,6 +120,44 @@ export default function ImposterPlay() {
               currentPlayerIndex: nextIndex,
             });
           }
+        }}
+      />
+    );
+  }
+
+  // Reveal phase (no voting — just reveal imposter + word)
+  if (phase === "reveal") {
+    return (
+      <RevealPhase
+        players={players}
+        imposterIndices={imposterIndices}
+        secretWord={secretWord}
+        category={category}
+        imposterCount={imposterState.imposterCount}
+        playerCount={players.length}
+        onPlayAgain={() => {
+          const categoryData = categories.find((c) => c.category === category);
+          if (!categoryData) return;
+          const newWord = pickWord(categoryData, imposterState.difficulty);
+          const newIndices = assignImposterRoles(
+            players.length,
+            imposterState.imposterCount
+          );
+          updateImposterState({
+            secretWord: newWord,
+            imposterIndices: newIndices,
+            currentPlayerIndex: 0,
+            phase: "assigning",
+            votes: {},
+          });
+        }}
+        onNewGame={() => {
+          updateImposterState({ phase: "setup" });
+          router.push("/imposter");
+        }}
+        onHome={() => {
+          updateImposterState({ phase: "setup" });
+          router.push("/");
         }}
       />
     );
@@ -269,12 +317,14 @@ function DiscussionPhase({
   timerDuration,
   playerCount,
   imposterCount,
+  enableVoting,
   onEnd,
 }: {
   category: string;
   timerDuration: number | null;
   playerCount: number;
   imposterCount: number;
+  enableVoting: boolean;
   onEnd: () => void;
 }) {
   useWakeLock(true);
@@ -372,7 +422,9 @@ function DiscussionPhase({
             End discussion?
           </h3>
           <p className="text-text-secondary">
-            Move on to voting now?
+            {enableVoting
+              ? "Move on to voting now?"
+              : "End the discussion and reveal the imposter?"}
           </p>
           <div className="flex gap-3">
             <Button
@@ -389,7 +441,7 @@ function DiscussionPhase({
               fullWidth
               onClick={handleEndEarly}
             >
-              Vote now
+              {enableVoting ? "Vote now" : "Reveal"}
             </Button>
           </div>
         </div>
@@ -453,6 +505,140 @@ function VotingPhase({
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+function RevealPhase({
+  players,
+  imposterIndices,
+  secretWord,
+  category,
+  imposterCount,
+  playerCount,
+  onPlayAgain,
+  onNewGame,
+  onHome,
+}: {
+  players: { id: number; name: string; score: number }[];
+  imposterIndices: number[];
+  secretWord: string;
+  category: string;
+  imposterCount: number;
+  playerCount: number;
+  onPlayAgain: () => void;
+  onNewGame: () => void;
+  onHome: () => void;
+}) {
+  const [revealed, setRevealed] = useState(false);
+  useWakeLock(true);
+
+  const imposterNames = imposterIndices
+    .map((i) => players[i]?.name)
+    .filter(Boolean);
+
+  const handleReveal = () => {
+    vibrateDanger();
+    setRevealed(true);
+  };
+
+  if (!revealed) {
+    return (
+      <GameShell title="The Imposter" accentColor={ACCENT}>
+        <div className="flex flex-col items-center text-center gap-6 pt-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <h2 className="text-2xl font-bold text-text-primary mb-2">
+              Discuss amongst yourselves!
+            </h2>
+            <p className="text-text-secondary text-sm">
+              Talk it out, then reveal when ready.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full max-w-sm"
+          >
+            <p className="text-text-muted text-sm mb-1">Category</p>
+            <p className="text-2xl font-bold" style={{ color: ACCENT }}>
+              {category}
+            </p>
+          </motion.div>
+
+          <p className="text-text-muted text-sm">
+            {playerCount} players · {imposterCount}{" "}
+            {imposterCount === 1 ? "imposter" : "imposters"}
+          </p>
+
+          <Button
+            accentColor="#EF4444"
+            fullWidth
+            size="lg"
+            onClick={handleReveal}
+            className="max-w-sm"
+          >
+            Reveal Imposter
+          </Button>
+        </div>
+      </GameShell>
+    );
+  }
+
+  return (
+    <GameShell title="The Imposter" accentColor={ACCENT}>
+      <ResultsScreen
+        title="The Imposter Revealed!"
+        accentColor={ACCENT}
+        onPlayAgain={onPlayAgain}
+        onNewGame={onNewGame}
+        onHome={onHome}
+      >
+        <div className="space-y-5 w-full">
+          {/* Imposter reveal */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
+          >
+            <p className="text-text-muted text-sm mb-2">
+              {imposterNames.length === 1 ? "The Imposter" : "The Imposters"}
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {imposterNames.map((name, i) => (
+                <motion.span
+                  key={name}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.4 + i * 0.2 }}
+                  className="text-2xl font-bold text-danger"
+                >
+                  {name}
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Secret word */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
+          >
+            <p className="text-text-muted text-sm mb-1">The Secret Word</p>
+            <p className="text-3xl font-black" style={{ color: ACCENT }}>
+              {secretWord}
+            </p>
+            <p className="text-text-muted text-sm mt-1">{category}</p>
+          </motion.div>
+        </div>
+      </ResultsScreen>
+    </GameShell>
   );
 }
 

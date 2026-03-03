@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { GameShell } from "@/components/layout/GameShell";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -42,6 +42,11 @@ export default function ImposterSetup() {
   const [difficulty, setDifficulty] = useState(imposterState.difficulty);
   const [timerDuration, setTimerDuration] = useState<number | null>(
     imposterState.timerDuration
+  );
+  const [enableTimer, setEnableTimer] = useState(imposterState.enableTimer);
+  const [enableVoting, setEnableVoting] = useState(imposterState.enableVoting);
+  const [showAdvanced, setShowAdvanced] = useState(
+    imposterState.enableTimer || imposterState.enableVoting
   );
   const [showNames, setShowNames] = useState(false);
   const [names, setNames] = useState<string[]>([]);
@@ -88,6 +93,8 @@ export default function ImposterSetup() {
       imposterCount,
       difficulty,
       timerDuration,
+      enableTimer,
+      enableVoting,
       currentPlayerIndex: 0,
       phase: "assigning",
       votes: {},
@@ -262,29 +269,99 @@ export default function ImposterSetup() {
           </div>
         </section>
 
-        {/* Discussion timer */}
+        {/* Advanced Options */}
         <section>
-          <h2 className="text-lg font-bold mb-3">Discussion Timer</h2>
-          <div className="flex gap-2 flex-wrap">
-            {TIMER_OPTIONS.map((opt) => {
-              const isSelected = timerDuration === opt.value;
-              return (
-                <motion.button
-                  key={opt.label}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setTimerDuration(opt.value)}
-                  className={cn(
-                    "px-4 py-2.5 rounded-[var(--radius-button)] border text-sm font-semibold cursor-pointer transition-colors",
-                    isSelected
-                      ? "bg-[#8B5CF620] border-[#8B5CF6] text-white"
-                      : "bg-surface border-border text-text-secondary hover:bg-surface-hover"
-                  )}
-                >
-                  {opt.label}
-                </motion.button>
-              );
-            })}
-          </div>
+          <button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="flex items-center gap-2 text-text-secondary cursor-pointer w-full"
+          >
+            <motion.span
+              animate={{ rotate: showAdvanced ? 90 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-sm"
+            >
+              ▶
+            </motion.span>
+            <span className="text-sm font-semibold">Advanced Options</span>
+          </button>
+
+          <AnimatePresence initial={false}>
+            {showAdvanced && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <div className="space-y-4 pt-4">
+                  {/* Discussion Timer toggle */}
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-text-primary">
+                        Discussion Timer
+                      </span>
+                      <ToggleSwitch
+                        enabled={enableTimer}
+                        onToggle={() => setEnableTimer(!enableTimer)}
+                      />
+                    </div>
+                    <p className="text-xs text-text-muted mt-1">
+                      Adds a countdown timer for the discussion phase
+                    </p>
+                    <AnimatePresence initial={false}>
+                      {enableTimer && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="flex gap-2 flex-wrap mt-3">
+                            {TIMER_OPTIONS.map((opt) => {
+                              const isSelected = timerDuration === opt.value;
+                              return (
+                                <motion.button
+                                  key={opt.label}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => setTimerDuration(opt.value)}
+                                  className={cn(
+                                    "px-4 py-2.5 rounded-[var(--radius-button)] border text-sm font-semibold cursor-pointer transition-colors",
+                                    isSelected
+                                      ? "bg-[#8B5CF620] border-[#8B5CF6] text-white"
+                                      : "bg-surface border-border text-text-secondary hover:bg-surface-hover"
+                                  )}
+                                >
+                                  {opt.label}
+                                </motion.button>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Digital Voting toggle */}
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-text-primary">
+                        Digital Voting
+                      </span>
+                      <ToggleSwitch
+                        enabled={enableVoting}
+                        onToggle={() => setEnableVoting(!enableVoting)}
+                      />
+                    </div>
+                    <p className="text-xs text-text-muted mt-1">
+                      Vote through the phone instead of out loud
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
 
         {/* Start button */}
@@ -300,5 +377,29 @@ export default function ImposterSetup() {
         </Button>
       </div>
     </GameShell>
+  );
+}
+
+function ToggleSwitch({
+  enabled,
+  onToggle,
+}: {
+  enabled: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      onClick={onToggle}
+      className={cn(
+        "relative w-12 h-7 rounded-full cursor-pointer transition-colors duration-200 flex-shrink-0",
+        enabled ? "bg-[#8B5CF6]" : "bg-surface border border-border"
+      )}
+    >
+      <motion.div
+        className="absolute top-0.5 w-6 h-6 rounded-full bg-white shadow-md"
+        animate={{ left: enabled ? 22 : 2 }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+      />
+    </button>
   );
 }
