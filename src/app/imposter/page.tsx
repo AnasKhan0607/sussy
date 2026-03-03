@@ -128,7 +128,12 @@ export default function ImposterSetup() {
                 <motion.button
                   key={cat.category}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedCategory(cat.category)}
+                  onClick={() => {
+                    setSelectedCategory(cat.category);
+                    if (cat.category !== "Random") {
+                      setShowCategoryToImposter(true);
+                    }
+                  }}
                   className={cn(
                     "flex flex-col items-center gap-1.5 p-3 rounded-[var(--radius-card)] border cursor-pointer transition-colors",
                     isSelected
@@ -397,10 +402,13 @@ export default function ImposterSetup() {
                             onToggle={() =>
                               setShowCategoryToImposter(!showCategoryToImposter)
                             }
+                            disabled={selectedCategory !== "Random"}
                           />
                         </div>
                         <p className="text-xs text-text-muted mt-1">
-                          Imposter sees the category name
+                          {selectedCategory !== "Random"
+                            ? "Always shown for themed categories"
+                            : "Imposter sees the category name"}
                         </p>
                       </div>
                       <div>
@@ -446,15 +454,19 @@ export default function ImposterSetup() {
 function ToggleSwitch({
   enabled,
   onToggle,
+  disabled,
 }: {
   enabled: boolean;
   onToggle: () => void;
+  disabled?: boolean;
 }) {
   return (
     <button
-      onClick={onToggle}
+      onClick={disabled ? undefined : onToggle}
+      disabled={disabled}
       className={cn(
-        "relative w-12 h-7 rounded-full cursor-pointer transition-colors duration-200 flex-shrink-0",
+        "relative w-12 h-7 rounded-full transition-colors duration-200 flex-shrink-0",
+        disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
         enabled ? "bg-[#8B5CF6]" : "bg-surface border border-border"
       )}
     >
