@@ -138,7 +138,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 ## Build Phases
 
 1. **Foundation** — Project setup, design system, home screen, shared components ✅
-2. **The Imposter** — Full game: setup → role assignment → discussion → voting → results
+2. **The Imposter** — Full game: setup → role assignment → reveal (default); discussion timer and digital voting are opt-in toggles
 3. **Hot Takes** — Full game: setup → prompts → voting → recap
 4. **Spin & Guess** — Full game: setup → assign categories → spin → clues → guess → results
 5. **Polish & PWA** — Animations, haptics, offline, meta tags, deploy
