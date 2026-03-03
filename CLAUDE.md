@@ -138,7 +138,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 ## Build Phases
 
 1. **Foundation** — Project setup, design system, home screen, shared components ✅
-2. **The Imposter** — Full game: setup → role assignment → reveal (default); discussion timer and digital voting are opt-in toggles
+2. **The Imposter** — Full game: setup → role assignment → reveal (default); discussion timer, digital voting, and imposter help options (show category / show hint) are opt-in toggles
 3. **Hot Takes** — Full game: setup → prompts → voting → recap
 4. **Spin & Guess** — Full game: setup → assign categories → spin → clues → guess → results
 5. **Polish & PWA** — Animations, haptics, offline, meta tags, deploy
@@ -153,6 +153,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 4. **Large tap targets** — Min 48x48px, people are passing phones around
 5. **Use `dvh`** — Dynamic viewport height for mobile browser chrome
 6. **Edge cases** — Cap imposters at (players - 2), reshuffle when prompts exhausted
+8. **Imposter word data** — Words are `{ word: string, hint: string }` objects (`WordEntry`), not flat strings. All 12 category files use this format
 7. **Spin & Guess arch spinner** — Use canvas or SVG for the arch (semicircle, numbers only), animate spin with easing
 
 ---
