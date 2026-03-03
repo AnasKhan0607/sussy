@@ -3,19 +3,49 @@
   "emoji": "🍕",
   "words": {
     "easy": [
-      "pizza", "burger", "pasta", "rice", "chocolate",
-      "coffee", "ice cream", "bread", "salad", "soup",
-      "orange juice", "sandwich", "pancake"
+      { "word": "pizza", "hint": "Italian baked flatbread" },
+      { "word": "burger", "hint": "classic fast food" },
+      { "word": "pasta", "hint": "Italian noodle dish" },
+      { "word": "rice", "hint": "staple grain worldwide" },
+      { "word": "chocolate", "hint": "sweet cocoa treat" },
+      { "word": "coffee", "hint": "morning caffeine drink" },
+      { "word": "ice cream", "hint": "frozen dairy dessert" },
+      { "word": "bread", "hint": "baked dough staple" },
+      { "word": "salad", "hint": "mixed fresh greens" },
+      { "word": "soup", "hint": "hot liquid meal" },
+      { "word": "orange juice", "hint": "breakfast citrus drink" },
+      { "word": "sandwich", "hint": "filling between bread" },
+      { "word": "pancake", "hint": "flat breakfast cake" }
     ],
     "medium": [
-      "sushi", "hummus", "croissant", "tiramisu", "kombucha",
-      "paella", "ramen", "falafel", "guacamole", "dim sum",
-      "gnocchi", "churros", "pho"
+      { "word": "sushi", "hint": "Japanese rice and fish" },
+      { "word": "hummus", "hint": "blended chickpea spread" },
+      { "word": "croissant", "hint": "flaky French pastry" },
+      { "word": "tiramisu", "hint": "Italian coffee-flavored dessert" },
+      { "word": "kombucha", "hint": "fermented tea drink" },
+      { "word": "paella", "hint": "Spanish saffron rice dish" },
+      { "word": "ramen", "hint": "Japanese noodle soup" },
+      { "word": "falafel", "hint": "fried chickpea balls" },
+      { "word": "guacamole", "hint": "mashed avocado dip" },
+      { "word": "dim sum", "hint": "Chinese small shared plates" },
+      { "word": "gnocchi", "hint": "soft potato dumplings" },
+      { "word": "churros", "hint": "fried cinnamon dough sticks" },
+      { "word": "pho", "hint": "Vietnamese broth noodles" }
     ],
     "hard": [
-      "borscht", "ceviche", "gochujang", "shakshuka", "tempeh",
-      "haggis", "kimchi jjigae", "bibimbap", "rendang", "pierogi",
-      "injera", "miso", "tzatziki"
+      { "word": "borscht", "hint": "Eastern European beet soup" },
+      { "word": "ceviche", "hint": "citrus-cured raw seafood" },
+      { "word": "gochujang", "hint": "Korean fermented chili paste" },
+      { "word": "shakshuka", "hint": "eggs in spiced tomato" },
+      { "word": "tempeh", "hint": "fermented soybean block" },
+      { "word": "haggis", "hint": "Scottish savory pudding" },
+      { "word": "kimchi jjigae", "hint": "Korean fermented cabbage stew" },
+      { "word": "bibimbap", "hint": "Korean mixed rice bowl" },
+      { "word": "rendang", "hint": "slow-cooked spiced meat" },
+      { "word": "pierogi", "hint": "filled Eastern European dumplings" },
+      { "word": "injera", "hint": "Ethiopian spongy flatbread" },
+      { "word": "miso", "hint": "Japanese fermented soy paste" },
+      { "word": "tzatziki", "hint": "Greek yogurt cucumber sauce" }
     ]
   }
 }

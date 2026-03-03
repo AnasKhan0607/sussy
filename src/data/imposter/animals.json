@@ -3,19 +3,49 @@
   "emoji": "🐾",
   "words": {
     "easy": [
-      "dog", "cat", "horse", "chicken", "fish",
-      "rabbit", "elephant", "lion", "monkey", "bear",
-      "snake", "eagle", "dolphin"
+      { "word": "dog", "hint": "household pet" },
+      { "word": "cat", "hint": "independent house pet" },
+      { "word": "horse", "hint": "rideable farm animal" },
+      { "word": "chicken", "hint": "common farm bird" },
+      { "word": "fish", "hint": "lives underwater" },
+      { "word": "rabbit", "hint": "hops around fields" },
+      { "word": "elephant", "hint": "largest land animal" },
+      { "word": "lion", "hint": "king of the jungle" },
+      { "word": "monkey", "hint": "swings through trees" },
+      { "word": "bear", "hint": "hibernates in winter" },
+      { "word": "snake", "hint": "legless reptile" },
+      { "word": "eagle", "hint": "majestic bird of prey" },
+      { "word": "dolphin", "hint": "intelligent ocean mammal" }
     ],
     "medium": [
-      "platypus", "chameleon", "flamingo", "porcupine", "jaguar",
-      "pelican", "walrus", "iguana", "meerkat", "armadillo",
-      "bison", "raccoon", "seahorse"
+      { "word": "platypus", "hint": "egg-laying mammal" },
+      { "word": "chameleon", "hint": "color-changing lizard" },
+      { "word": "flamingo", "hint": "tall pink bird" },
+      { "word": "porcupine", "hint": "covered in quills" },
+      { "word": "jaguar", "hint": "spotted jungle cat" },
+      { "word": "pelican", "hint": "bird with throat pouch" },
+      { "word": "walrus", "hint": "tusked arctic marine mammal" },
+      { "word": "iguana", "hint": "large tropical lizard" },
+      { "word": "meerkat", "hint": "small desert lookout" },
+      { "word": "armadillo", "hint": "armored burrowing mammal" },
+      { "word": "bison", "hint": "massive North American grazer" },
+      { "word": "raccoon", "hint": "masked nocturnal scavenger" },
+      { "word": "seahorse", "hint": "tiny upright ocean creature" }
     ],
     "hard": [
-      "axolotl", "pangolin", "quokka", "narwhal", "okapi",
-      "capybara", "tapir", "dugong", "binturong", "kinkajou",
-      "serval", "fossa", "gharial"
+      { "word": "axolotl", "hint": "aquatic Mexican salamander" },
+      { "word": "pangolin", "hint": "scaly anteater-like mammal" },
+      { "word": "quokka", "hint": "small smiling marsupial" },
+      { "word": "narwhal", "hint": "tusked arctic whale" },
+      { "word": "okapi", "hint": "striped forest giraffe relative" },
+      { "word": "capybara", "hint": "world's largest rodent" },
+      { "word": "tapir", "hint": "trunk-nosed jungle browser" },
+      { "word": "dugong", "hint": "tropical sea cow" },
+      { "word": "binturong", "hint": "Southeast Asian bearcat" },
+      { "word": "kinkajou", "hint": "nocturnal rainforest climber" },
+      { "word": "serval", "hint": "long-eared African wildcat" },
+      { "word": "fossa", "hint": "Madagascar's top predator" },
+      { "word": "gharial", "hint": "thin-snouted river crocodilian" }
     ]
   }
 }

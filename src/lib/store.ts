@@ -12,6 +12,7 @@ export interface Player {
 export interface ImposterState {
   category: string;
   secretWord: string;
+  secretHint: string;
   imposterIndices: number[];
   currentPlayerIndex: number;
   phase: "setup" | "assigning" | "discussion" | "voting" | "reveal" | "results";
@@ -21,6 +22,8 @@ export interface ImposterState {
   imposterCount: number;
   enableTimer: boolean;
   enableVoting: boolean;
+  showCategoryToImposter: boolean;
+  showHintToImposter: boolean;
 }
 
 export interface HotTakesState {
@@ -95,6 +98,7 @@ interface GameStore {
 const defaultImposterState: ImposterState = {
   category: "",
   secretWord: "",
+  secretHint: "",
   imposterIndices: [],
   currentPlayerIndex: 0,
   phase: "setup",
@@ -104,6 +108,8 @@ const defaultImposterState: ImposterState = {
   imposterCount: 1,
   enableTimer: false,
   enableVoting: false,
+  showCategoryToImposter: true,
+  showHintToImposter: false,
 };
 
 const defaultHotTakesState: HotTakesState = {
@@ -176,6 +182,8 @@ export const useGameStore = create<GameStore>()(
           imposterCount: state.imposterState.imposterCount,
           enableTimer: state.imposterState.enableTimer,
           enableVoting: state.imposterState.enableVoting,
+          showCategoryToImposter: state.imposterState.showCategoryToImposter,
+          showHintToImposter: state.imposterState.showHintToImposter,
         },
         hotTakesState: {
           pack: state.hotTakesState.pack,

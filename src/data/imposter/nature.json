@@ -3,19 +3,49 @@
   "emoji": "🌿",
   "words": {
     "easy": [
-      "mountain", "ocean", "river", "rainbow", "volcano",
-      "desert", "forest", "waterfall", "beach", "thunder",
-      "snow", "sunset", "island"
+      { "word": "mountain", "hint": "tall rocky landform" },
+      { "word": "ocean", "hint": "vast saltwater body" },
+      { "word": "river", "hint": "flowing freshwater path" },
+      { "word": "rainbow", "hint": "colorful sky arc" },
+      { "word": "volcano", "hint": "erupting earth opening" },
+      { "word": "desert", "hint": "dry sandy terrain" },
+      { "word": "forest", "hint": "dense tree area" },
+      { "word": "waterfall", "hint": "cascading water drop" },
+      { "word": "beach", "hint": "sandy shore edge" },
+      { "word": "thunder", "hint": "loud storm sound" },
+      { "word": "snow", "hint": "frozen falling flakes" },
+      { "word": "sunset", "hint": "evening sky colors" },
+      { "word": "island", "hint": "land surrounded by water" }
     ],
     "medium": [
-      "glacier", "geyser", "stalactite", "tundra", "mangrove",
-      "coral reef", "aurora", "monsoon", "canyon", "plateau",
-      "lagoon", "fjord", "delta"
+      { "word": "glacier", "hint": "slow-moving ice mass" },
+      { "word": "geyser", "hint": "erupting hot spring" },
+      { "word": "stalactite", "hint": "hanging cave formation" },
+      { "word": "tundra", "hint": "frozen treeless plain" },
+      { "word": "mangrove", "hint": "coastal rooted trees" },
+      { "word": "coral reef", "hint": "underwater living structure" },
+      { "word": "aurora", "hint": "polar light display" },
+      { "word": "monsoon", "hint": "seasonal heavy rains" },
+      { "word": "canyon", "hint": "deep river-carved gorge" },
+      { "word": "plateau", "hint": "elevated flat landform" },
+      { "word": "lagoon", "hint": "shallow coastal water" },
+      { "word": "fjord", "hint": "narrow glacial inlet" },
+      { "word": "delta", "hint": "river mouth sediment" }
     ],
     "hard": [
-      "fumarole", "scree", "moraine", "cenote", "sargasso",
-      "esker", "drumlin", "cirque", "breccia", "karst",
-      "travertine", "tufa", "caldera"
+      { "word": "fumarole", "hint": "volcanic steam vent" },
+      { "word": "scree", "hint": "loose mountain rubble" },
+      { "word": "moraine", "hint": "glacial debris ridge" },
+      { "word": "cenote", "hint": "limestone sinkhole pool" },
+      { "word": "sargasso", "hint": "floating seaweed region" },
+      { "word": "esker", "hint": "glacial gravel ridge" },
+      { "word": "drumlin", "hint": "smooth glacial hill" },
+      { "word": "cirque", "hint": "bowl-shaped mountain hollow" },
+      { "word": "breccia", "hint": "angular fragment rock" },
+      { "word": "karst", "hint": "dissolved limestone landscape" },
+      { "word": "travertine", "hint": "mineral spring deposit" },
+      { "word": "tufa", "hint": "porous calcium buildup" },
+      { "word": "caldera", "hint": "collapsed volcanic crater" }
     ]
   }
 }

@@ -3,19 +3,49 @@
   "emoji": "💼",
   "words": {
     "easy": [
-      "doctor", "teacher", "police officer", "firefighter", "chef",
-      "pilot", "nurse", "dentist", "farmer", "mechanic",
-      "lawyer", "actor", "singer"
+      { "word": "doctor", "hint": "treats sick patients" },
+      { "word": "teacher", "hint": "educates in a classroom" },
+      { "word": "police officer", "hint": "enforces laws and order" },
+      { "word": "firefighter", "hint": "responds to emergencies" },
+      { "word": "chef", "hint": "cooks professionally" },
+      { "word": "pilot", "hint": "flies aircraft for work" },
+      { "word": "nurse", "hint": "hospital care provider" },
+      { "word": "dentist", "hint": "works on your teeth" },
+      { "word": "farmer", "hint": "grows crops or livestock" },
+      { "word": "mechanic", "hint": "fixes cars and engines" },
+      { "word": "lawyer", "hint": "argues cases in court" },
+      { "word": "actor", "hint": "performs roles on screen" },
+      { "word": "singer", "hint": "performs music vocally" }
     ],
     "medium": [
-      "architect", "accountant", "paramedic", "translator", "veterinarian",
-      "geologist", "pharmacist", "journalist", "therapist", "electrician",
-      "marine biologist", "archaeologist", "stockbroker"
+      { "word": "architect", "hint": "designs buildings and structures" },
+      { "word": "accountant", "hint": "manages financial records" },
+      { "word": "paramedic", "hint": "provides emergency medical care" },
+      { "word": "translator", "hint": "converts between languages" },
+      { "word": "veterinarian", "hint": "doctor for animals" },
+      { "word": "geologist", "hint": "studies rocks and earth" },
+      { "word": "pharmacist", "hint": "dispenses prescription medications" },
+      { "word": "journalist", "hint": "reports news stories" },
+      { "word": "therapist", "hint": "helps with mental health" },
+      { "word": "electrician", "hint": "works with wiring systems" },
+      { "word": "marine biologist", "hint": "studies ocean life" },
+      { "word": "archaeologist", "hint": "digs up ancient artifacts" },
+      { "word": "stockbroker", "hint": "trades financial securities" }
     ],
     "hard": [
-      "actuary", "sommelier", "epidemiologist", "cartographer", "entomologist",
-      "etymologist", "lapidary", "audiologist", "toxicologist", "arborist",
-      "oenologist", "farrier", "dramaturge"
+      { "word": "actuary", "hint": "calculates risk with statistics" },
+      { "word": "sommelier", "hint": "expert in fine wines" },
+      { "word": "epidemiologist", "hint": "tracks disease outbreaks" },
+      { "word": "cartographer", "hint": "creates detailed maps" },
+      { "word": "entomologist", "hint": "studies insects scientifically" },
+      { "word": "etymologist", "hint": "traces origins of words" },
+      { "word": "lapidary", "hint": "cuts and polishes gems" },
+      { "word": "audiologist", "hint": "specializes in hearing health" },
+      { "word": "toxicologist", "hint": "studies poisons and chemicals" },
+      { "word": "arborist", "hint": "cares for trees professionally" },
+      { "word": "oenologist", "hint": "science of winemaking" },
+      { "word": "farrier", "hint": "shoes horses for living" },
+      { "word": "dramaturge", "hint": "advises on theatrical productions" }
     ]
   }
 }

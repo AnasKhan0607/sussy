@@ -3,19 +3,49 @@
   "emoji": "🏠",
   "words": {
     "easy": [
-      "chair", "table", "lamp", "mirror", "pillow",
-      "spoon", "towel", "clock", "blanket", "plate",
-      "cup", "broom", "soap"
+      { "word": "chair", "hint": "you sit on it" },
+      { "word": "table", "hint": "flat surface for meals" },
+      { "word": "lamp", "hint": "lights up a room" },
+      { "word": "mirror", "hint": "shows your reflection" },
+      { "word": "pillow", "hint": "soft head support" },
+      { "word": "spoon", "hint": "scoops up food" },
+      { "word": "towel", "hint": "dries you off" },
+      { "word": "clock", "hint": "tells the time" },
+      { "word": "blanket", "hint": "keeps you warm" },
+      { "word": "plate", "hint": "holds your food" },
+      { "word": "cup", "hint": "you drink from it" },
+      { "word": "broom", "hint": "sweeps the floor" },
+      { "word": "soap", "hint": "cleans with lather" }
     ],
     "medium": [
-      "colander", "whisk", "coaster", "corkscrew", "ladle",
-      "dustpan", "plunger", "thermostat", "curtain rod", "garlic press",
-      "ice tray", "doorstop", "trivet"
+      { "word": "colander", "hint": "drains water from pasta" },
+      { "word": "whisk", "hint": "mixes batter quickly" },
+      { "word": "coaster", "hint": "protects surfaces from drinks" },
+      { "word": "corkscrew", "hint": "opens wine bottles" },
+      { "word": "ladle", "hint": "scoops soup out" },
+      { "word": "dustpan", "hint": "collects swept-up debris" },
+      { "word": "plunger", "hint": "unclogs blocked drains" },
+      { "word": "thermostat", "hint": "controls home temperature" },
+      { "word": "curtain rod", "hint": "holds window fabric" },
+      { "word": "garlic press", "hint": "crushes small cloves" },
+      { "word": "ice tray", "hint": "freezes water into cubes" },
+      { "word": "doorstop", "hint": "keeps doors from closing" },
+      { "word": "trivet", "hint": "protects table from heat" }
     ],
     "hard": [
-      "pestle", "zester", "awl", "antimacassar", "finial",
-      "escutcheon", "ferrule", "aglet", "wainscoting", "credenza",
-      "chafing dish", "bolster", "settee"
+      { "word": "pestle", "hint": "grinds inside a bowl" },
+      { "word": "zester", "hint": "shaves citrus peel" },
+      { "word": "awl", "hint": "pokes holes in leather" },
+      { "word": "antimacassar", "hint": "decorative chair back cover" },
+      { "word": "finial", "hint": "ornament on a post" },
+      { "word": "escutcheon", "hint": "plate around a keyhole" },
+      { "word": "ferrule", "hint": "metal cap on tip" },
+      { "word": "aglet", "hint": "tip of a shoelace" },
+      { "word": "wainscoting", "hint": "decorative lower wall panels" },
+      { "word": "credenza", "hint": "low cabinet for storage" },
+      { "word": "chafing dish", "hint": "keeps buffet food warm" },
+      { "word": "bolster", "hint": "long cylindrical pillow" },
+      { "word": "settee", "hint": "small sofa for two" }
     ]
   }
 }

@@ -3,19 +3,49 @@
   "emoji": "⚽",
   "words": {
     "easy": [
-      "soccer", "basketball", "tennis", "swimming", "baseball",
-      "volleyball", "golf", "boxing", "hockey", "rugby",
-      "cricket", "cycling", "running"
+      { "word": "soccer", "hint": "kick ball into net" },
+      { "word": "basketball", "hint": "shoot through elevated hoop" },
+      { "word": "tennis", "hint": "racket over a net" },
+      { "word": "swimming", "hint": "racing through pool lanes" },
+      { "word": "baseball", "hint": "bat, diamond, home run" },
+      { "word": "volleyball", "hint": "hit ball over high net" },
+      { "word": "golf", "hint": "club swings on greens" },
+      { "word": "boxing", "hint": "gloved ring combat" },
+      { "word": "hockey", "hint": "stick and puck on ice" },
+      { "word": "rugby", "hint": "tackle-heavy oval ball game" },
+      { "word": "cricket", "hint": "bat, wickets, and overs" },
+      { "word": "cycling", "hint": "pedal-powered racing" },
+      { "word": "running", "hint": "foot race on track" }
     ],
     "medium": [
-      "fencing", "archery", "badminton", "water polo", "rowing",
-      "handball", "lacrosse", "squash", "bobsled", "javelin",
-      "triathlon", "kayaking", "pole vault"
+      { "word": "fencing", "hint": "sword dueling with masks" },
+      { "word": "archery", "hint": "bow shooting at targets" },
+      { "word": "badminton", "hint": "lightweight shuttlecock racket game" },
+      { "word": "water polo", "hint": "swimming pool team goals" },
+      { "word": "rowing", "hint": "oar-powered boat racing" },
+      { "word": "handball", "hint": "throw into guarded goal" },
+      { "word": "lacrosse", "hint": "netted stick ball catching" },
+      { "word": "squash", "hint": "walled court racket game" },
+      { "word": "bobsled", "hint": "icy downhill team sled" },
+      { "word": "javelin", "hint": "throwing a long spear" },
+      { "word": "triathlon", "hint": "swim bike run combo" },
+      { "word": "kayaking", "hint": "paddle small boat rapids" },
+      { "word": "pole vault", "hint": "leap over high bar" }
     ],
     "hard": [
-      "curling", "sepak takraw", "pelota", "kabaddi", "buzkashi",
-      "jai alai", "bossaball", "hurling", "korfball", "bandy",
-      "capoeira", "netball", "petanque"
+      { "word": "curling", "hint": "sliding stones on ice" },
+      { "word": "sepak takraw", "hint": "Southeast Asian kick volleyball" },
+      { "word": "pelota", "hint": "Basque wall ball game" },
+      { "word": "kabaddi", "hint": "tag-wrestling breath-holding game" },
+      { "word": "buzkashi", "hint": "Central Asian horseback struggle" },
+      { "word": "jai alai", "hint": "fast basket wall court" },
+      { "word": "bossaball", "hint": "trampoline volleyball with music" },
+      { "word": "hurling", "hint": "Irish stick and ball" },
+      { "word": "korfball", "hint": "Dutch mixed-gender shooting game" },
+      { "word": "bandy", "hint": "field hockey on ice" },
+      { "word": "capoeira", "hint": "Brazilian martial dance art" },
+      { "word": "netball", "hint": "no-dribble court shooting game" },
+      { "word": "petanque", "hint": "French metal ball tossing" }
     ]
   }
 }

@@ -45,6 +45,12 @@ export default function ImposterSetup() {
   );
   const [enableTimer, setEnableTimer] = useState(imposterState.enableTimer);
   const [enableVoting, setEnableVoting] = useState(imposterState.enableVoting);
+  const [showCategoryToImposter, setShowCategoryToImposter] = useState(
+    imposterState.showCategoryToImposter
+  );
+  const [showHintToImposter, setShowHintToImposter] = useState(
+    imposterState.showHintToImposter
+  );
   const [showAdvanced, setShowAdvanced] = useState(
     imposterState.enableTimer || imposterState.enableVoting
   );
@@ -81,7 +87,7 @@ export default function ImposterSetup() {
     }));
 
     // Pick word and assign roles
-    const secretWord = pickWord(categoryData, difficulty);
+    const { word: secretWord, hint: secretHint } = pickWord(categoryData, difficulty);
     const imposterIndices = assignImposterRoles(playerCount, imposterCount);
 
     setPlayers(players);
@@ -89,12 +95,15 @@ export default function ImposterSetup() {
     updateImposterState({
       category: selectedCategory,
       secretWord,
+      secretHint,
       imposterIndices,
       imposterCount,
       difficulty,
       timerDuration,
       enableTimer,
       enableVoting,
+      showCategoryToImposter,
+      showHintToImposter,
       currentPlayerIndex: 0,
       phase: "assigning",
       votes: {},
@@ -357,6 +366,47 @@ export default function ImposterSetup() {
                     <p className="text-xs text-text-muted mt-1">
                       Vote through the phone instead of out loud
                     </p>
+                  </div>
+
+                  {/* Imposter Visibility */}
+                  <div className="border-t border-border pt-4">
+                    <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
+                      Imposter Visibility
+                    </p>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-text-primary">
+                            Show Category
+                          </span>
+                          <ToggleSwitch
+                            enabled={showCategoryToImposter}
+                            onToggle={() =>
+                              setShowCategoryToImposter(!showCategoryToImposter)
+                            }
+                          />
+                        </div>
+                        <p className="text-xs text-text-muted mt-1">
+                          Imposter sees the category name
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-text-primary">
+                            Show Hint
+                          </span>
+                          <ToggleSwitch
+                            enabled={showHintToImposter}
+                            onToggle={() =>
+                              setShowHintToImposter(!showHintToImposter)
+                            }
+                          />
+                        </div>
+                        <p className="text-xs text-text-muted mt-1">
+                          Imposter gets a vague clue about the word
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
