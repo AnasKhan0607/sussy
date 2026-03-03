@@ -13,7 +13,7 @@ interface ArchSpinnerProps {
 const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const SEGMENTS = NUMBERS.length;
 const ARC_DEGREES = 180;
-const SEGMENT_ANGLE = ARC_DEGREES / SEGMENTS;
+const SEGMENT_ANGLE = ARC_DEGREES / SEGMENTS; // 18° each
 
 // SVG dimensions
 const SIZE = 320;
@@ -21,6 +21,12 @@ const CX = SIZE / 2;
 const CY = SIZE / 2 + 20; // shift center down so arch is higher
 const R_OUTER = 140;
 const R_INNER = 90;
+
+// Arch spans from 270° (left) through 360°/0° (top) to 90° (right)
+// Using 270–450 so angles are contiguous
+const ARCH_START = 270;
+const ARCH_END = ARCH_START + ARC_DEGREES; // 450
+const ARCH_MID = ARCH_START + ARC_DEGREES / 2; // 360 = top center
 
 function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
@@ -65,12 +71,12 @@ export function ArchSpinner({
   disabled = false,
 }: ArchSpinnerProps) {
   const [spinning, setSpinning] = useState(false);
-  const [pointerAngle, setPointerAngle] = useState(270); // top center
+  const [pointerAngle, setPointerAngle] = useState(ARCH_MID); // top center
   const [result, setResult] = useState<number | null>(null);
   const onResultRef = useRef(onResult);
   onResultRef.current = onResult;
   const animRef = useRef<number>(0);
-  const pointerAngleRef = useRef(270);
+  const pointerAngleRef = useRef(ARCH_MID);
 
   useEffect(() => {
     return () => {
@@ -88,8 +94,8 @@ export function ArchSpinner({
     // Pick a random target number 1-10
     const target = Math.floor(Math.random() * 10) + 1;
     const targetIndex = target - 1;
-    // Segment centers: 1 at 189°, 2 at 207°, ..., 10 at 351°
-    const targetAngle = 180 + targetIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
+    // Segment centers: 1 at left (279°), 10 at right (441°)
+    const targetAngle = ARCH_START + targetIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
 
     const currentAngle = pointerAngleRef.current;
     const duration = 3500;
@@ -111,7 +117,7 @@ export function ArchSpinner({
       // Damped harmonic oscillation centered on target
       const oscillation =
         amplitude * Math.exp(-damping * t) * Math.sin(2 * Math.PI * frequency * t + initialPhase);
-      const angle = Math.max(180, Math.min(360, targetAngle + oscillation));
+      const angle = Math.max(ARCH_START, Math.min(ARCH_END, targetAngle + oscillation));
 
       setPointerAngle(angle);
       pointerAngleRef.current = angle;
@@ -131,9 +137,6 @@ export function ArchSpinner({
     animRef.current = requestAnimationFrame(animate);
   }, [spinning, disabled]);
 
-  // Static arch starts at 180°
-  const startAngle = 180;
-
   // Pointer triangle: tip points inward, base sits outside the arch
   const pointerTip = polarToCartesian(CX, CY, R_OUTER - 6, pointerAngle);
   const pointerWing1 = polarToCartesian(CX, CY, R_OUTER + 16, pointerAngle - 3);
@@ -147,9 +150,9 @@ export function ArchSpinner({
           height={SIZE / 2 + 60}
           viewBox={`0 0 ${SIZE} ${SIZE / 2 + 60}`}
         >
-          {/* Static arch segments */}
+          {/* Static arch segments — left to right over the top */}
           {NUMBERS.map((n, i) => {
-            const segStart = startAngle + i * SEGMENT_ANGLE;
+            const segStart = ARCH_START + i * SEGMENT_ANGLE;
             const segEnd = segStart + SEGMENT_ANGLE;
             const midAngle = segStart + SEGMENT_ANGLE / 2;
             const labelR = (R_OUTER + R_INNER) / 2;
