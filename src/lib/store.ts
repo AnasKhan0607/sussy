@@ -14,11 +14,13 @@ export interface ImposterState {
   secretWord: string;
   imposterIndices: number[];
   currentPlayerIndex: number;
-  phase: "setup" | "assigning" | "discussion" | "voting" | "results";
+  phase: "setup" | "assigning" | "discussion" | "voting" | "reveal" | "results";
   votes: Record<number, number>;
   timerDuration: number | null;
   difficulty: "easy" | "medium" | "hard" | "mixed";
   imposterCount: number;
+  enableTimer: boolean;
+  enableVoting: boolean;
 }
 
 export interface HotTakesState {
@@ -100,6 +102,8 @@ const defaultImposterState: ImposterState = {
   timerDuration: 120,
   difficulty: "mixed",
   imposterCount: 1,
+  enableTimer: false,
+  enableVoting: false,
 };
 
 const defaultHotTakesState: HotTakesState = {
@@ -170,6 +174,8 @@ export const useGameStore = create<GameStore>()(
           timerDuration: state.imposterState.timerDuration,
           difficulty: state.imposterState.difficulty,
           imposterCount: state.imposterState.imposterCount,
+          enableTimer: state.imposterState.enableTimer,
+          enableVoting: state.imposterState.enableVoting,
         },
         hotTakesState: {
           pack: state.hotTakesState.pack,
