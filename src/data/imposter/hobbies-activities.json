@@ -3,19 +3,49 @@
   "emoji": "🎨",
   "words": {
     "easy": [
-      "painting", "cooking", "reading", "dancing", "gardening",
-      "fishing", "camping", "singing", "hiking", "photography",
-      "yoga", "skateboarding", "bowling"
+      { "word": "painting", "hint": "brush and canvas art" },
+      { "word": "cooking", "hint": "preparing food at home" },
+      { "word": "reading", "hint": "enjoying written stories" },
+      { "word": "dancing", "hint": "moving to music" },
+      { "word": "gardening", "hint": "growing plants outdoors" },
+      { "word": "fishing", "hint": "catching water creatures" },
+      { "word": "camping", "hint": "sleeping outdoors in tents" },
+      { "word": "singing", "hint": "making music vocally" },
+      { "word": "hiking", "hint": "walking through nature trails" },
+      { "word": "photography", "hint": "capturing images with camera" },
+      { "word": "yoga", "hint": "mindful stretching and poses" },
+      { "word": "skateboarding", "hint": "riding a wheeled board" },
+      { "word": "bowling", "hint": "rolling ball at pins" }
     ],
     "medium": [
-      "pottery", "origami", "scuba diving", "rock climbing", "calligraphy",
-      "birdwatching", "woodworking", "geocaching", "beekeeping", "juggling",
-      "parkour", "quilting", "whittling"
+      { "word": "pottery", "hint": "shaping clay on wheel" },
+      { "word": "origami", "hint": "Japanese paper folding art" },
+      { "word": "scuba diving", "hint": "breathing underwater with tanks" },
+      { "word": "rock climbing", "hint": "scaling steep vertical surfaces" },
+      { "word": "calligraphy", "hint": "decorative artistic handwriting" },
+      { "word": "birdwatching", "hint": "observing wild avian species" },
+      { "word": "woodworking", "hint": "crafting objects from timber" },
+      { "word": "geocaching", "hint": "GPS-guided treasure hunting" },
+      { "word": "beekeeping", "hint": "tending hives for honey" },
+      { "word": "juggling", "hint": "tossing objects in rotation" },
+      { "word": "parkour", "hint": "urban acrobatic free-running" },
+      { "word": "quilting", "hint": "sewing patchwork blankets" },
+      { "word": "whittling", "hint": "carving wood with knife" }
     ],
     "hard": [
-      "falconry", "topiary", "spelunking", "taxidermy", "orienteering",
-      "pyrography", "bookbinding", "fermenting", "mudlarking", "panning",
-      "canyoneering", "kintsugi", "tufting"
+      { "word": "falconry", "hint": "hunting with trained birds" },
+      { "word": "topiary", "hint": "sculpting bushes into shapes" },
+      { "word": "spelunking", "hint": "exploring underground caves" },
+      { "word": "taxidermy", "hint": "preserving and mounting animals" },
+      { "word": "orienteering", "hint": "navigating terrain with map" },
+      { "word": "pyrography", "hint": "burning designs into wood" },
+      { "word": "bookbinding", "hint": "assembling pages into volumes" },
+      { "word": "fermenting", "hint": "culturing food with microbes" },
+      { "word": "mudlarking", "hint": "scavenging river shoreline finds" },
+      { "word": "panning", "hint": "sifting river sediment for gold" },
+      { "word": "canyoneering", "hint": "descending through narrow gorges" },
+      { "word": "kintsugi", "hint": "repairing pottery with gold" },
+      { "word": "tufting", "hint": "punching yarn into fabric" }
     ]
   }
 }

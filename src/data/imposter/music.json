@@ -3,19 +3,49 @@
   "emoji": "🎵",
   "words": {
     "easy": [
-      "guitar", "piano", "drums", "hip hop", "rock",
-      "violin", "microphone", "karaoke", "concert", "jazz",
-      "pop music", "DJ", "flute"
+      { "word": "guitar", "hint": "strummed string instrument" },
+      { "word": "piano", "hint": "black and white keys" },
+      { "word": "drums", "hint": "you hit to play" },
+      { "word": "hip hop", "hint": "rapping and beats genre" },
+      { "word": "rock", "hint": "electric guitar driven genre" },
+      { "word": "violin", "hint": "bowed string instrument" },
+      { "word": "microphone", "hint": "amplifies your voice" },
+      { "word": "karaoke", "hint": "sing along on screen" },
+      { "word": "concert", "hint": "live music event" },
+      { "word": "jazz", "hint": "improvised soulful genre" },
+      { "word": "pop music", "hint": "mainstream catchy songs" },
+      { "word": "DJ", "hint": "mixes tracks at parties" },
+      { "word": "flute", "hint": "blown woodwind tube" }
     ],
     "medium": [
-      "synthesizer", "acoustic", "reggae", "orchestra", "tempo",
-      "bass guitar", "harmonica", "blues", "gospel", "ukulele",
-      "metronome", "vinyl record", "saxophone"
+      { "word": "synthesizer", "hint": "electronic sound machine" },
+      { "word": "acoustic", "hint": "unplugged natural sound" },
+      { "word": "reggae", "hint": "Jamaican offbeat rhythm genre" },
+      { "word": "orchestra", "hint": "large classical ensemble" },
+      { "word": "tempo", "hint": "speed of the beat" },
+      { "word": "bass guitar", "hint": "deep low-end strings" },
+      { "word": "harmonica", "hint": "small mouth-blown reed instrument" },
+      { "word": "blues", "hint": "soulful melancholy music style" },
+      { "word": "gospel", "hint": "spiritual church singing" },
+      { "word": "ukulele", "hint": "tiny Hawaiian guitar" },
+      { "word": "metronome", "hint": "clicks to keep time" },
+      { "word": "vinyl record", "hint": "grooved spinning disc" },
+      { "word": "saxophone", "hint": "brassy jazz wind instrument" }
     ],
     "hard": [
-      "theremin", "sitar", "didgeridoo", "gamelan", "hurdy-gurdy",
-      "zither", "balalaika", "mbira", "oud", "shamisen",
-      "erhu", "tabla", "bandoneón"
+      { "word": "theremin", "hint": "played without touching it" },
+      { "word": "sitar", "hint": "Indian long-necked strings" },
+      { "word": "didgeridoo", "hint": "Australian droning wind tube" },
+      { "word": "gamelan", "hint": "Indonesian percussive ensemble" },
+      { "word": "hurdy-gurdy", "hint": "cranked wheel string instrument" },
+      { "word": "zither", "hint": "flat board with strings" },
+      { "word": "balalaika", "hint": "Russian triangular string instrument" },
+      { "word": "mbira", "hint": "African plucked metal tines" },
+      { "word": "oud", "hint": "Middle Eastern pear-shaped lute" },
+      { "word": "shamisen", "hint": "Japanese three-stringed plucked" },
+      { "word": "erhu", "hint": "Chinese two-stringed fiddle" },
+      { "word": "tabla", "hint": "Indian hand-played drum pair" },
+      { "word": "bandoneón", "hint": "Argentine tango squeezebox" }
     ]
   }
 }

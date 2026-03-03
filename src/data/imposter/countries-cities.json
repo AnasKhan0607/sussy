@@ -3,19 +3,49 @@
   "emoji": "🌍",
   "words": {
     "easy": [
-      "Paris", "New York", "London", "Japan", "Australia",
-      "Brazil", "Canada", "Italy", "Egypt", "India",
-      "Mexico", "China", "Germany"
+      { "word": "Paris", "hint": "famous European capital" },
+      { "word": "New York", "hint": "big American metropolis" },
+      { "word": "London", "hint": "royal British city" },
+      { "word": "Japan", "hint": "island nation in Asia" },
+      { "word": "Australia", "hint": "continent down under" },
+      { "word": "Brazil", "hint": "largest South American country" },
+      { "word": "Canada", "hint": "America's northern neighbor" },
+      { "word": "Italy", "hint": "boot-shaped Mediterranean country" },
+      { "word": "Egypt", "hint": "ancient pyramids homeland" },
+      { "word": "India", "hint": "huge South Asian nation" },
+      { "word": "Mexico", "hint": "southern border neighbor" },
+      { "word": "China", "hint": "most populous Asian country" },
+      { "word": "Germany", "hint": "central European powerhouse" }
     ],
     "medium": [
-      "Prague", "Morocco", "Buenos Aires", "Vietnam", "Istanbul",
-      "Singapore", "Cuba", "Dublin", "Budapest", "Peru",
-      "Bangkok", "Lisbon", "Kenya"
+      { "word": "Prague", "hint": "Czech Republic's capital" },
+      { "word": "Morocco", "hint": "North African kingdom" },
+      { "word": "Buenos Aires", "hint": "Argentina's grand capital" },
+      { "word": "Vietnam", "hint": "Southeast Asian coastal nation" },
+      { "word": "Istanbul", "hint": "bridges two continents" },
+      { "word": "Singapore", "hint": "tiny wealthy city-state" },
+      { "word": "Cuba", "hint": "Caribbean island nation" },
+      { "word": "Dublin", "hint": "Ireland's capital city" },
+      { "word": "Budapest", "hint": "Hungarian city on Danube" },
+      { "word": "Peru", "hint": "Machu Picchu's homeland" },
+      { "word": "Bangkok", "hint": "Thailand's bustling capital" },
+      { "word": "Lisbon", "hint": "Portugal's coastal capital" },
+      { "word": "Kenya", "hint": "East African safari country" }
     ],
     "hard": [
-      "Reykjavik", "Bhutan", "Liechtenstein", "Montevideo", "Ljubljana",
-      "Suriname", "Tbilisi", "Valletta", "Tuvalu", "Bratislava",
-      "Ouagadougou", "Bishkek", "Andorra"
+      { "word": "Reykjavik", "hint": "northernmost national capital" },
+      { "word": "Bhutan", "hint": "Himalayan happiness kingdom" },
+      { "word": "Liechtenstein", "hint": "tiny Alpine principality" },
+      { "word": "Montevideo", "hint": "Uruguay's only major city" },
+      { "word": "Ljubljana", "hint": "Slovenian capital city" },
+      { "word": "Suriname", "hint": "small South American country" },
+      { "word": "Tbilisi", "hint": "Georgian capital in Caucasus" },
+      { "word": "Valletta", "hint": "Malta's fortified capital" },
+      { "word": "Tuvalu", "hint": "tiny Pacific island nation" },
+      { "word": "Bratislava", "hint": "Slovak capital on Danube" },
+      { "word": "Ouagadougou", "hint": "Burkina Faso's capital" },
+      { "word": "Bishkek", "hint": "Kyrgyzstan's mountain capital" },
+      { "word": "Andorra", "hint": "microstate in the Pyrenees" }
     ]
   }
 }

@@ -3,19 +3,49 @@
   "emoji": "👗",
   "words": {
     "easy": [
-      "jeans", "sneakers", "hat", "dress", "sunglasses",
-      "jacket", "scarf", "boots", "T-shirt", "hoodie",
-      "shorts", "sandals", "socks"
+      { "word": "jeans", "hint": "casual blue trousers" },
+      { "word": "sneakers", "hint": "sporty everyday shoes" },
+      { "word": "hat", "hint": "sits on your head" },
+      { "word": "dress", "hint": "one-piece women's garment" },
+      { "word": "sunglasses", "hint": "shady eye protection" },
+      { "word": "jacket", "hint": "outer layer with sleeves" },
+      { "word": "scarf", "hint": "wraps around your neck" },
+      { "word": "boots", "hint": "sturdy ankle-covering footwear" },
+      { "word": "T-shirt", "hint": "basic cotton top" },
+      { "word": "hoodie", "hint": "casual top with hood" },
+      { "word": "shorts", "hint": "warm-weather legwear" },
+      { "word": "sandals", "hint": "open-toed summer shoes" },
+      { "word": "socks", "hint": "worn inside shoes" }
     ],
     "medium": [
-      "cardigan", "blazer", "turtleneck", "dungarees", "stilettos",
-      "corset", "parka", "poncho", "beret", "cufflinks",
-      "kimono", "loafers", "leggings"
+      { "word": "cardigan", "hint": "button-up knit layer" },
+      { "word": "blazer", "hint": "smart semi-formal jacket" },
+      { "word": "turtleneck", "hint": "high-collared fitted top" },
+      { "word": "dungarees", "hint": "overalls with bib front" },
+      { "word": "stilettos", "hint": "thin high-heeled shoes" },
+      { "word": "corset", "hint": "tight waist-shaping undergarment" },
+      { "word": "parka", "hint": "heavy hooded winter coat" },
+      { "word": "poncho", "hint": "draped blanket-like outerwear" },
+      { "word": "beret", "hint": "flat round French cap" },
+      { "word": "cufflinks", "hint": "decorative shirt sleeve fasteners" },
+      { "word": "kimono", "hint": "traditional Japanese robe" },
+      { "word": "loafers", "hint": "slip-on leather shoes" },
+      { "word": "leggings", "hint": "stretchy skin-tight pants" }
     ],
     "hard": [
-      "fascinator", "jodhpurs", "espadrilles", "cheongsam", "dirndl",
-      "dashiki", "sari", "kaftan", "lederhosen", "mantilla",
-      "sherwani", "dhoti", "balmoral"
+      { "word": "fascinator", "hint": "ornamental headpiece for events" },
+      { "word": "jodhpurs", "hint": "fitted horse-riding trousers" },
+      { "word": "espadrilles", "hint": "rope-soled canvas shoes" },
+      { "word": "cheongsam", "hint": "fitted Chinese formal dress" },
+      { "word": "dirndl", "hint": "traditional Alpine dress" },
+      { "word": "dashiki", "hint": "colorful West African tunic" },
+      { "word": "sari", "hint": "draped South Asian garment" },
+      { "word": "kaftan", "hint": "loose flowing long robe" },
+      { "word": "lederhosen", "hint": "Bavarian leather knee-breeches" },
+      { "word": "mantilla", "hint": "Spanish lace head veil" },
+      { "word": "sherwani", "hint": "long Indian formal coat" },
+      { "word": "dhoti", "hint": "wrapped Indian lower garment" },
+      { "word": "balmoral", "hint": "laced Scottish ankle boot" }
     ]
   }
 }

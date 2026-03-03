@@ -3,19 +3,49 @@
   "emoji": "🎬",
   "words": {
     "easy": [
-      "Titanic", "Harry Potter", "The Lion King", "Spider-Man", "Star Wars",
-      "Friends", "Batman", "Frozen", "Shrek", "The Simpsons",
-      "Finding Nemo", "Toy Story", "Stranger Things"
+      { "word": "Titanic", "hint": "doomed ocean voyage" },
+      { "word": "Harry Potter", "hint": "young wizard at school" },
+      { "word": "The Lion King", "hint": "African jungle royalty" },
+      { "word": "Spider-Man", "hint": "web-slinging city hero" },
+      { "word": "Star Wars", "hint": "galactic light sword battles" },
+      { "word": "Friends", "hint": "NYC apartment hangouts" },
+      { "word": "Batman", "hint": "dark cape crusader" },
+      { "word": "Frozen", "hint": "icy magical sister bond" },
+      { "word": "Shrek", "hint": "green ogre fairy tale" },
+      { "word": "The Simpsons", "hint": "yellow animated family" },
+      { "word": "Finding Nemo", "hint": "lost fish ocean search" },
+      { "word": "Toy Story", "hint": "playthings come alive" },
+      { "word": "Stranger Things", "hint": "kids face parallel dimension" }
     ],
     "medium": [
-      "Inception", "The Godfather", "Breaking Bad", "Jurassic Park", "Gladiator",
-      "The Matrix", "Pulp Fiction", "Game of Thrones", "Fight Club", "Interstellar",
-      "The Shawshank Redemption", "Forrest Gump", "Black Mirror"
+      { "word": "Inception", "hint": "layers of shared dreaming" },
+      { "word": "The Godfather", "hint": "powerful crime family saga" },
+      { "word": "Breaking Bad", "hint": "teacher turns to crime" },
+      { "word": "Jurassic Park", "hint": "prehistoric creatures escape captivity" },
+      { "word": "Gladiator", "hint": "ancient arena warrior revenge" },
+      { "word": "The Matrix", "hint": "simulated reality awakening" },
+      { "word": "Pulp Fiction", "hint": "intertwined criminal storylines" },
+      { "word": "Game of Thrones", "hint": "warring medieval kingdoms" },
+      { "word": "Fight Club", "hint": "secret underground brawling society" },
+      { "word": "Interstellar", "hint": "space travel to save humanity" },
+      { "word": "The Shawshank Redemption", "hint": "wrongful prison and hope" },
+      { "word": "Forrest Gump", "hint": "simple man lives through history" },
+      { "word": "Black Mirror", "hint": "dark technology cautionary tales" }
     ],
     "hard": [
-      "Memento", "Eternal Sunshine", "Mulholland Drive", "Oldboy", "Amelie",
-      "Spirited Away", "Parasite", "The Grand Budapest Hotel", "Blade Runner", "A Clockwork Orange",
-      "Twin Peaks", "Pan's Labyrinth", "Donnie Darko"
+      { "word": "Memento", "hint": "backward memory loss thriller" },
+      { "word": "Eternal Sunshine", "hint": "erasing romantic memories" },
+      { "word": "Mulholland Drive", "hint": "surreal Hollywood identity mystery" },
+      { "word": "Oldboy", "hint": "long imprisonment seeks answers" },
+      { "word": "Amelie", "hint": "whimsical Parisian secret kindness" },
+      { "word": "Spirited Away", "hint": "girl trapped in spirit world" },
+      { "word": "Parasite", "hint": "class divide family infiltration" },
+      { "word": "The Grand Budapest Hotel", "hint": "quirky European hotel caper" },
+      { "word": "Blade Runner", "hint": "hunting artificial beings" },
+      { "word": "A Clockwork Orange", "hint": "violent youth forced reform" },
+      { "word": "Twin Peaks", "hint": "strange small-town murder mystery" },
+      { "word": "Pan's Labyrinth", "hint": "dark wartime fairy tale" },
+      { "word": "Donnie Darko", "hint": "troubled teen time paradox" }
     ]
   }
 }

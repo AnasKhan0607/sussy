@@ -1,13 +1,18 @@
 import { Player } from "./store";
 import { shuffle, pickRandom } from "./utils";
 
+export interface WordEntry {
+  word: string;
+  hint: string;
+}
+
 export interface CategoryData {
   category: string;
   emoji: string;
   words: {
-    easy: string[];
-    medium: string[];
-    hard: string[];
+    easy: WordEntry[];
+    medium: WordEntry[];
+    hard: WordEntry[];
   };
 }
 
@@ -23,7 +28,7 @@ export function assignImposterRoles(
 export function pickWord(
   categoryData: CategoryData,
   difficulty: "easy" | "medium" | "hard" | "mixed"
-): string {
+): WordEntry {
   if (difficulty === "mixed") {
     const allWords = [
       ...categoryData.words.easy,

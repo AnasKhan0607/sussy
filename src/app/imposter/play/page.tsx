@@ -25,8 +25,16 @@ type PlayPhase = "pass" | "reveal";
 export default function ImposterPlay() {
   const router = useRouter();
   const { players, imposterState, updateImposterState } = useGameStore();
-  const { phase, currentPlayerIndex, imposterIndices, secretWord, category } =
-    imposterState;
+  const {
+    phase,
+    currentPlayerIndex,
+    imposterIndices,
+    secretWord,
+    secretHint,
+    category,
+    showCategoryToImposter,
+    showHintToImposter,
+  } = imposterState;
 
   // If no players or still in setup, redirect back
   if (players.length === 0 || phase === "setup") {
@@ -56,7 +64,10 @@ export default function ImposterPlay() {
         currentPlayerIndex={currentPlayerIndex}
         imposterIndices={imposterIndices}
         secretWord={secretWord}
+        secretHint={secretHint}
         category={category}
+        showCategoryToImposter={showCategoryToImposter}
+        showHintToImposter={showHintToImposter}
         onAdvance={(nextIndex) => {
           if (nextIndex >= players.length) {
             // All players have seen their roles — move to next phase
@@ -138,13 +149,14 @@ export default function ImposterPlay() {
         onPlayAgain={() => {
           const categoryData = categories.find((c) => c.category === category);
           if (!categoryData) return;
-          const newWord = pickWord(categoryData, imposterState.difficulty);
+          const { word: newWord, hint: newHint } = pickWord(categoryData, imposterState.difficulty);
           const newIndices = assignImposterRoles(
             players.length,
             imposterState.imposterCount
           );
           updateImposterState({
             secretWord: newWord,
+            secretHint: newHint,
             imposterIndices: newIndices,
             currentPlayerIndex: 0,
             phase: "assigning",
@@ -179,13 +191,14 @@ export default function ImposterPlay() {
           // Same settings, new word and roles
           const categoryData = categories.find((c) => c.category === category);
           if (!categoryData) return;
-          const newWord = pickWord(categoryData, imposterState.difficulty);
+          const { word: newWord, hint: newHint } = pickWord(categoryData, imposterState.difficulty);
           const newIndices = assignImposterRoles(
             players.length,
             imposterState.imposterCount
           );
           updateImposterState({
             secretWord: newWord,
+            secretHint: newHint,
             imposterIndices: newIndices,
             currentPlayerIndex: 0,
             phase: "assigning",
@@ -212,14 +225,20 @@ function AssigningPhase({
   currentPlayerIndex,
   imposterIndices,
   secretWord,
+  secretHint,
   category,
+  showCategoryToImposter,
+  showHintToImposter,
   onAdvance,
 }: {
   players: { id: number; name: string }[];
   currentPlayerIndex: number;
   imposterIndices: number[];
   secretWord: string;
+  secretHint: string;
   category: string;
+  showCategoryToImposter: boolean;
+  showHintToImposter: boolean;
   onAdvance: (nextIndex: number) => void;
 }) {
   const currentPlayer = players[currentPlayerIndex];
@@ -250,10 +269,18 @@ function AssigningPhase({
       <h2 className="text-3xl font-black text-danger mb-4 uppercase tracking-wider">
         You are the Imposter!
       </h2>
-      <div className="bg-surface border border-border rounded-[var(--radius-card)] p-4 mt-4 inline-block">
-        <p className="text-text-muted text-sm mb-1">Category</p>
-        <p className="text-xl font-bold text-text-primary">{category}</p>
-      </div>
+      {showCategoryToImposter && (
+        <div className="bg-surface border border-border rounded-[var(--radius-card)] p-4 mt-4 inline-block">
+          <p className="text-text-muted text-sm mb-1">Category</p>
+          <p className="text-xl font-bold text-text-primary">{category}</p>
+        </div>
+      )}
+      {showHintToImposter && secretHint && (
+        <div className="bg-surface border border-border rounded-[var(--radius-card)] p-4 mt-4 inline-block">
+          <p className="text-text-muted text-sm mb-1">Hint</p>
+          <p className="text-lg font-bold text-warning">{secretHint}</p>
+        </div>
+      )}
       <p className="text-text-muted text-sm mt-4">
         Blend in. Don&apos;t get caught.
       </p>
