@@ -1,3 +1,4 @@
+import random from "./random.json";
 import animals from "./animals.json";
 import foodDrinks from "./food-drinks.json";
 import moviesTv from "./movies-tv.json";
@@ -15,6 +16,7 @@ import type { CategoryData } from "@/lib/gameEngine";
 export type { CategoryData };
 
 export const categories: CategoryData[] = [
+  random,
   animals,
   foodDrinks,
   moviesTv,
@@ -30,6 +32,7 @@ export const categories: CategoryData[] = [
 ];
 
 export {
+  random,
   animals,
   foodDrinks,
   moviesTv,

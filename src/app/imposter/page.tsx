@@ -123,6 +123,7 @@ export default function ImposterSetup() {
           <div className="grid grid-cols-3 gap-2.5">
             {categories.map((cat) => {
               const isSelected = selectedCategory === cat.category;
+              const isRandom = cat.category === "Random";
               return (
                 <motion.button
                   key={cat.category}
@@ -132,8 +133,20 @@ export default function ImposterSetup() {
                     "flex flex-col items-center gap-1.5 p-3 rounded-[var(--radius-card)] border cursor-pointer transition-colors",
                     isSelected
                       ? "bg-[#8B5CF620] border-[#8B5CF6]"
-                      : "bg-surface border-border hover:bg-surface-hover"
+                      : isRandom
+                        ? "bg-surface border-transparent hover:bg-surface-hover"
+                        : "bg-surface border-border hover:bg-surface-hover"
                   )}
+                  style={
+                    isRandom && !isSelected
+                      ? {
+                          backgroundImage:
+                            "linear-gradient(var(--color-surface), var(--color-surface)), linear-gradient(135deg, #8B5CF6, #06B6D4, #F59E0B)",
+                          backgroundOrigin: "border-box",
+                          backgroundClip: "padding-box, border-box",
+                        }
+                      : undefined
+                  }
                 >
                   <span className="text-2xl">{cat.emoji}</span>
                   <span
