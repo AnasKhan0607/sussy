@@ -1,2 +1,3 @@
-src/app/spin-and-guess/play/page.tsx
-# issue-25
+src/app/imposter/page.tsx
+src/data/imposter/index.ts
+src/data/imposter/random.json
