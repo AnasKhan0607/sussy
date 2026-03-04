@@ -5,41 +5,9 @@ import { motion } from "framer-motion";
 import { HomeHeader } from "@/components/layout/HomeHeader";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-
-const games = [
-  {
-    id: "imposter",
-    emoji: "\ud83d\udd75\ufe0f",
-    name: "The Imposter",
-    tagline: "Find the fake",
-    players: "3\u201320",
-    color: "#8B5CF6",
-    featured: true,
-  },
-  {
-    id: "hot-takes",
-    emoji: "\ud83d\udd25",
-    name: "Hot Takes",
-    tagline: "Who's most likely to...",
-    players: "3\u201315",
-    color: "#F59E0B",
-    featured: false,
-  },
-  {
-    id: "spin-and-guess",
-    emoji: "\ud83c\udfaf",
-    name: "Spin & Guess",
-    tagline: "Spin, clue, guess the number",
-    players: "3\u201310",
-    color: "#06B6D4",
-    featured: false,
-  },
-];
-
-const comingSoon = [
-  { emoji: "\ud83c\udfad", name: "Bluff Master", color: "#EC4899" },
-  { emoji: "\u26a1", name: "Rapid Fire", color: "#F97316" },
-];
+import { LandingPage } from "@/components/landing/LandingPage";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { games, comingSoon } from "@/data/games";
 
 const containerVariants = {
   hidden: {},
@@ -55,6 +23,11 @@ const itemVariants = {
 
 export default function Home() {
   const router = useRouter();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  if (isDesktop) {
+    return <LandingPage />;
+  }
 
   return (
     <div className="min-h-dvh pb-12">
