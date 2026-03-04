@@ -28,15 +28,15 @@ export const games: Game[] = [
       "Everyone gets a secret word\u2014except the imposter. Discuss, deduce, and vote to find the fake before they blend in.",
   },
   {
-    id: "hot-takes",
-    emoji: "\ud83d\udd25",
-    name: "Hot Takes",
-    tagline: "Who's most likely to...",
+    id: "odd-one-out",
+    emoji: "\ud83e\udd14",
+    name: "Odd One Out",
+    tagline: "Spot the different question",
     players: "3\u201315",
     color: "#F59E0B",
     featured: false,
     description:
-      "Vote on spicy prompts about your friends. See who the group thinks is most likely to do the unthinkable.",
+      "Everyone gets the same question\u2014except one player. Answer, discuss, and figure out who got the odd question.",
   },
   {
     id: "spin-and-guess",

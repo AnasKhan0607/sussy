@@ -1,0 +1,86 @@
+{
+  "category": "Friends & Personal",
+  "emoji": "👥",
+  "questions": [
+    {
+      "normal": "Who in this group is most likely to cry during a movie?",
+      "oddOneOut": "Who in this group is most likely to cry during a commercial?"
+    },
+    {
+      "normal": "Who here would survive the longest in a zombie apocalypse?",
+      "oddOneOut": "Who here would survive the longest on a deserted island?"
+    },
+    {
+      "normal": "Who is most likely to become famous?",
+      "oddOneOut": "Who is most likely to become a millionaire?"
+    },
+    {
+      "normal": "Who is most likely to forget someone's birthday?",
+      "oddOneOut": "Who is most likely to forget someone's name?"
+    },
+    {
+      "normal": "Who would be the worst at keeping a secret?",
+      "oddOneOut": "Who would be the worst at telling a lie?"
+    },
+    {
+      "normal": "Who is most likely to show up late to their own wedding?",
+      "oddOneOut": "Who is most likely to show up late to their own birthday party?"
+    },
+    {
+      "normal": "Who is the most likely to fall asleep at a party?",
+      "oddOneOut": "Who is the most likely to be the last one awake at a party?"
+    },
+    {
+      "normal": "Who would be the best reality TV show contestant?",
+      "oddOneOut": "Who would be the best talk show host?"
+    },
+    {
+      "normal": "Who is most likely to go viral on social media?",
+      "oddOneOut": "Who is most likely to accidentally go viral on social media?"
+    },
+    {
+      "normal": "Who is the pickiest eater in this group?",
+      "oddOneOut": "Who is the most adventurous eater in this group?"
+    },
+    {
+      "normal": "Who is most likely to get lost in a new city?",
+      "oddOneOut": "Who is most likely to get lost in their own neighborhood?"
+    },
+    {
+      "normal": "Who is most likely to adopt a random stray animal?",
+      "oddOneOut": "Who is most likely to secretly name someone else's pet?"
+    },
+    {
+      "normal": "Who is the most competitive person here?",
+      "oddOneOut": "Who is the sorest loser here?"
+    },
+    {
+      "normal": "Who would survive the longest without their phone?",
+      "oddOneOut": "Who would survive the longest without the internet?"
+    },
+    {
+      "normal": "Who is most likely to start a fight over a board game?",
+      "oddOneOut": "Who is most likely to cheat at a board game?"
+    },
+    {
+      "normal": "Who is the biggest gossip in this group?",
+      "oddOneOut": "Who is the nosiest person in this group?"
+    },
+    {
+      "normal": "Who is most likely to binge an entire TV series in one day?",
+      "oddOneOut": "Who is most likely to rewatch the same movie 10 times?"
+    },
+    {
+      "normal": "Who is most likely to laugh at the worst possible moment?",
+      "oddOneOut": "Who is most likely to cry at the worst possible moment?"
+    },
+    {
+      "normal": "Who gives the best advice in this group?",
+      "oddOneOut": "Who gives the worst advice in this group?"
+    },
+    {
+      "normal": "Who is most likely to drop their phone in a toilet?",
+      "oddOneOut": "Who is most likely to drop their phone off a balcony?"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "category": "Spicy",
+  "emoji": "🌶️",
+  "questions": [
+    {
+      "normal": "What is your biggest red flag?",
+      "oddOneOut": "What is your biggest green flag?"
+    },
+    {
+      "normal": "What's the most embarrassing thing on your phone?",
+      "oddOneOut": "What's the most embarrassing thing in your search history?"
+    },
+    {
+      "normal": "Who here has the worst taste in music?",
+      "oddOneOut": "Who here has the worst taste in movies?"
+    },
+    {
+      "normal": "What's a secret you'd only tell your best friend?",
+      "oddOneOut": "What's a secret you'd never tell your best friend?"
+    },
+    {
+      "normal": "Who in this group would you trust least with your phone?",
+      "oddOneOut": "Who in this group would you trust least with your password?"
+    },
+    {
+      "normal": "What's the pettiest thing you've ever done?",
+      "oddOneOut": "What's the most dramatic thing you've ever done?"
+    },
+    {
+      "normal": "Who is most likely to ghost someone?",
+      "oddOneOut": "Who is most likely to double-text someone?"
+    },
+    {
+      "normal": "What's a lie you tell on a regular basis?",
+      "oddOneOut": "What's a truth you avoid telling people?"
+    },
+    {
+      "normal": "Who here is the biggest flirt?",
+      "oddOneOut": "Who here is the most oblivious to flirting?"
+    },
+    {
+      "normal": "What's the most trouble you've gotten into?",
+      "oddOneOut": "What's the closest you've come to getting caught doing something bad?"
+    },
+    {
+      "normal": "Who would you swap lives with for a week?",
+      "oddOneOut": "Who would you NOT want to swap lives with for a week?"
+    },
+    {
+      "normal": "What's the worst date you've ever been on?",
+      "oddOneOut": "What's the most awkward date you've ever been on?"
+    },
+    {
+      "normal": "Who in this group has the most questionable taste in partners?",
+      "oddOneOut": "Who in this group gives the most questionable relationship advice?"
+    },
+    {
+      "normal": "What's the boldest thing you've ever said to someone's face?",
+      "oddOneOut": "What's the boldest thing you've ever said behind someone's back?"
+    },
+    {
+      "normal": "Who here is most likely to say something they regret at a party?",
+      "oddOneOut": "Who here is most likely to do something they regret at a party?"
+    },
+    {
+      "normal": "What's your most toxic trait?",
+      "oddOneOut": "What's a toxic trait you secretly find attractive?"
+    },
+    {
+      "normal": "Who is most likely to stalk an ex on social media?",
+      "oddOneOut": "Who is most likely to accidentally like an ex's old photo?"
+    },
+    {
+      "normal": "What's the most money you've wasted on something stupid?",
+      "oddOneOut": "What's the cheapest thing you've ever done?"
+    },
+    {
+      "normal": "Who here do you think has the most skeletons in their closet?",
+      "oddOneOut": "Who here do you think is secretly the most boring?"
+    },
+    {
+      "normal": "What's the worst advice you've ever followed?",
+      "oddOneOut": "What's the worst advice you've ever given?"
+    }
+  ]
+}

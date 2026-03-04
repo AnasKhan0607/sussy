@@ -26,14 +26,24 @@ export interface ImposterState {
   showHintToImposter: boolean;
 }
 
-export interface HotTakesState {
-  pack: string;
-  currentPromptIndex: number;
-  prompts: string[];
-  votingMode: "open" | "secret";
+export interface OddOneOutState {
+  category: string;
+  currentRound: number;
+  totalRounds: number;
+  oddOneOutPlayerIndex: number | null;
+  currentNormalQuestion: string;
+  currentOddQuestion: string;
+  currentPlayerIndex: number;
+  phase: "setup" | "assigning" | "discussion" | "voting" | "reveal" | "end";
   votes: Record<number, number>;
-  results: Array<{ prompt: string; winnerId: number }>;
-  phase: "setup" | "prompt" | "voting" | "result" | "end";
+  enableTimer: boolean;
+  timerDuration: number | null;
+  results: Array<{
+    round: number;
+    oddOneOutIndex: number;
+    votedOutId: number;
+    wasCorrect: boolean;
+  }>;
 }
 
 export interface SpinAndGuessAssignment {
@@ -79,18 +89,18 @@ export interface SpinAndGuessState {
 interface GameStore {
   // Global
   players: Player[];
-  currentGame: "imposter" | "hot-takes" | "spin-and-guess" | null;
+  currentGame: "imposter" | "odd-one-out" | "spin-and-guess" | null;
 
   // Game states
   imposterState: ImposterState;
-  hotTakesState: HotTakesState;
+  oddOneOutState: OddOneOutState;
   spinAndGuessState: SpinAndGuessState;
 
   // Actions
   setPlayers: (players: Player[]) => void;
   setCurrentGame: (game: GameStore["currentGame"]) => void;
   updateImposterState: (state: Partial<ImposterState>) => void;
-  updateHotTakesState: (state: Partial<HotTakesState>) => void;
+  updateOddOneOutState: (state: Partial<OddOneOutState>) => void;
   updateSpinAndGuessState: (state: Partial<SpinAndGuessState>) => void;
   resetGame: () => void;
 }
@@ -112,14 +122,19 @@ const defaultImposterState: ImposterState = {
   showHintToImposter: false,
 };
 
-const defaultHotTakesState: HotTakesState = {
-  pack: "clean",
-  currentPromptIndex: 0,
-  prompts: [],
-  votingMode: "open",
-  votes: {},
-  results: [],
+const defaultOddOneOutState: OddOneOutState = {
+  category: "",
+  currentRound: 0,
+  totalRounds: 5,
+  oddOneOutPlayerIndex: null,
+  currentNormalQuestion: "",
+  currentOddQuestion: "",
+  currentPlayerIndex: 0,
   phase: "setup",
+  votes: {},
+  enableTimer: false,
+  timerDuration: 120,
+  results: [],
 };
 
 const defaultSpinAndGuessState: SpinAndGuessState = {
@@ -143,7 +158,7 @@ export const useGameStore = create<GameStore>()(
       players: [],
       currentGame: null,
       imposterState: { ...defaultImposterState },
-      hotTakesState: { ...defaultHotTakesState },
+      oddOneOutState: { ...defaultOddOneOutState },
       spinAndGuessState: { ...defaultSpinAndGuessState },
 
       setPlayers: (players) => set({ players }),
@@ -154,9 +169,9 @@ export const useGameStore = create<GameStore>()(
           imposterState: { ...prev.imposterState, ...state },
         })),
 
-      updateHotTakesState: (state) =>
+      updateOddOneOutState: (state) =>
         set((prev) => ({
-          hotTakesState: { ...prev.hotTakesState, ...state },
+          oddOneOutState: { ...prev.oddOneOutState, ...state },
         })),
 
       updateSpinAndGuessState: (state) =>
@@ -168,7 +183,7 @@ export const useGameStore = create<GameStore>()(
         set({
           currentGame: null,
           imposterState: { ...defaultImposterState },
-          hotTakesState: { ...defaultHotTakesState },
+          oddOneOutState: { ...defaultOddOneOutState },
           spinAndGuessState: { ...defaultSpinAndGuessState },
         }),
     }),
@@ -185,9 +200,11 @@ export const useGameStore = create<GameStore>()(
           showCategoryToImposter: state.imposterState.showCategoryToImposter,
           showHintToImposter: state.imposterState.showHintToImposter,
         },
-        hotTakesState: {
-          pack: state.hotTakesState.pack,
-          votingMode: state.hotTakesState.votingMode,
+        oddOneOutState: {
+          category: state.oddOneOutState.category,
+          enableTimer: state.oddOneOutState.enableTimer,
+          timerDuration: state.oddOneOutState.timerDuration,
+          totalRounds: state.oddOneOutState.totalRounds,
         },
         spinAndGuessState: {
           totalRounds: state.spinAndGuessState.totalRounds,
