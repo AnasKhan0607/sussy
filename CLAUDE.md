@@ -61,7 +61,7 @@ sussy/
 ├── src/
 │   ├── app/                    # Next.js App Router pages
 │   │   ├── layout.tsx          # Root layout, fonts, metadata
-│   │   ├── page.tsx            # Home screen — game selector
+│   │   ├── page.tsx            # Home screen — game selector (mobile) / landing page (desktop)
 │   │   ├── globals.css         # Theme variables, Tailwind
 │   │   ├── imposter/           # Imposter game
 │   │   │   ├── page.tsx        # Setup screen
@@ -82,8 +82,9 @@ sussy/
 │   │   │   ├── VotingScreen.tsx
 │   │   │   ├── ResultsScreen.tsx
 │   │   │   └── Scoreboard.tsx
+│   │   ├── landing/            # Desktop landing page sections
 │   │   └── layout/             # GameShell, HomeHeader
-│   ├── data/                   # Game content JSON (imposter/, hot-takes/, spin-and-guess/)
+│   ├── data/                   # Game content JSON + shared games.ts
 │   ├── lib/
 │   │   ├── store.ts            # Zustand store (all game states)
 │   │   ├── gameEngine.ts       # Role assignment, vote tallying, word picking
@@ -91,6 +92,7 @@ sussy/
 │   │   └── utils.ts            # Shuffle, random pick, cn()
 │   └── hooks/
 │       ├── useGameState.ts     # Game state helpers
+│       ├── useMediaQuery.ts    # Responsive breakpoint detection
 │       ├── useTimer.ts         # Countdown with pause/resume
 │       └── useWakeLock.ts      # Prevent screen sleep
 ├── public/
