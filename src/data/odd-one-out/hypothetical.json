@@ -1,0 +1,86 @@
+{
+  "category": "Hypothetical",
+  "emoji": "💭",
+  "questions": [
+    {
+      "normal": "If you could have any superpower, what would it be?",
+      "oddOneOut": "If you could remove one superpower from existence, what would it be?"
+    },
+    {
+      "normal": "If you could live in any time period, when would it be?",
+      "oddOneOut": "If you could visit any time period for a day, when would it be?"
+    },
+    {
+      "normal": "If you could have dinner with any celebrity, who would it be?",
+      "oddOneOut": "If you could be roommates with any celebrity, who would it be?"
+    },
+    {
+      "normal": "If you won the lottery, what's the first thing you'd buy?",
+      "oddOneOut": "If you won the lottery, what's the first thing you'd quit?"
+    },
+    {
+      "normal": "If you could master any skill instantly, what would it be?",
+      "oddOneOut": "If you could forget one skill you have, what would it be?"
+    },
+    {
+      "normal": "If you had to eat one food for the rest of your life, what would it be?",
+      "oddOneOut": "If you had to give up one food forever, what would it be?"
+    },
+    {
+      "normal": "If you could live anywhere in the world, where would you go?",
+      "oddOneOut": "If you could never visit one place again, where would it be?"
+    },
+    {
+      "normal": "If you could be any animal for a day, what would you be?",
+      "oddOneOut": "If you could have any animal as a pet, what would you choose?"
+    },
+    {
+      "normal": "If you had to survive a horror movie, what would your strategy be?",
+      "oddOneOut": "If you were the villain in a horror movie, what would your strategy be?"
+    },
+    {
+      "normal": "If you could read minds for a day, whose mind would you read first?",
+      "oddOneOut": "If everyone could read your mind for a day, what would you be most worried about?"
+    },
+    {
+      "normal": "If you could relive one day of your life, which day would it be?",
+      "oddOneOut": "If you could erase one day from your life, which day would it be?"
+    },
+    {
+      "normal": "If you could switch jobs with anyone here, who would it be?",
+      "oddOneOut": "If you could give your job to anyone here, who would it be?"
+    },
+    {
+      "normal": "If you could only listen to one song for the rest of your life, what would it be?",
+      "oddOneOut": "If you could ban one song from ever being played again, what would it be?"
+    },
+    {
+      "normal": "If you found a time machine, would you go to the past or the future?",
+      "oddOneOut": "If you found a time machine, would you change something or just observe?"
+    },
+    {
+      "normal": "If you could be invisible for a day, what would you do?",
+      "oddOneOut": "If everyone else was invisible for a day, what would you do?"
+    },
+    {
+      "normal": "If you had to teach a class on anything, what would you teach?",
+      "oddOneOut": "If you had to take a class on anything, what would you choose?"
+    },
+    {
+      "normal": "If you could wake up tomorrow with one new ability, what would it be?",
+      "oddOneOut": "If you woke up tomorrow and lost one ability, what would hurt the most?"
+    },
+    {
+      "normal": "If you could only watch one movie for the rest of your life, what would it be?",
+      "oddOneOut": "If you could only watch one TV show for the rest of your life, what would it be?"
+    },
+    {
+      "normal": "If you could have a conversation with your future self, what would you ask?",
+      "oddOneOut": "If you could have a conversation with your past self, what would you say?"
+    },
+    {
+      "normal": "If you were stranded on a deserted island, what three items would you bring?",
+      "oddOneOut": "If you were stranded on a deserted island, what three people would you bring?"
+    }
+  ]
+}
