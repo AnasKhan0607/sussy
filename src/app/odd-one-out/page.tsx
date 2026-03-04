@@ -1,15 +1,340 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { GameShell } from "@/components/layout/GameShell";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { useGameStore, Player } from "@/lib/store";
+import { categories } from "@/data/odd-one-out";
+import { cn } from "@/lib/utils";
+import { pickRandom } from "@/lib/utils";
+import { pickOddOneOut } from "@/lib/gameEngine";
+
+const ACCENT = "#F59E0B";
+
+const ROUND_OPTIONS = [3, 5, 7, 10];
+
+const TIMER_OPTIONS: { label: string; value: number | null }[] = [
+  { label: "1 min", value: 60 },
+  { label: "2 min", value: 120 },
+  { label: "3 min", value: 180 },
+  { label: "5 min", value: 300 },
+  { label: "No limit", value: null },
+];
 
 export default function OddOneOutSetup() {
+  const router = useRouter();
+  const { oddOneOutState, updateOddOneOutState, setPlayers, setCurrentGame } =
+    useGameStore();
+
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [playerCount, setPlayerCount] = useState(4);
+  const [totalRounds, setTotalRounds] = useState(oddOneOutState.totalRounds);
+  const [enableTimer, setEnableTimer] = useState(oddOneOutState.enableTimer);
+  const [timerDuration, setTimerDuration] = useState<number | null>(
+    oddOneOutState.timerDuration
+  );
+  const [showAdvanced, setShowAdvanced] = useState(oddOneOutState.enableTimer);
+  const [showNames, setShowNames] = useState(false);
+  const [names, setNames] = useState<string[]>([]);
+
+  const handlePlayerChange = (delta: number) => {
+    setPlayerCount(Math.min(15, Math.max(3, playerCount + delta)));
+  };
+
+  const handleNameChange = (index: number, name: string) => {
+    setNames((prev) => {
+      const updated = [...prev];
+      updated[index] = name;
+      return updated;
+    });
+  };
+
+  const handleStart = () => {
+    const categoryData = categories.find((c) => c.category === selectedCategory);
+    if (!categoryData) return;
+
+    // Create players
+    const players: Player[] = Array.from({ length: playerCount }, (_, i) => ({
+      id: i,
+      name: showNames && names[i]?.trim() ? names[i].trim() : `Player ${i + 1}`,
+      score: 0,
+    }));
+
+    // Pick first round question
+    const question = pickRandom(categoryData.questions);
+    const oddIndex = pickOddOneOut(playerCount);
+
+    setPlayers(players);
+    setCurrentGame("odd-one-out");
+    updateOddOneOutState({
+      category: selectedCategory,
+      totalRounds,
+      currentRound: 1,
+      currentPlayerIndex: 0,
+      oddOneOutPlayerIndex: oddIndex,
+      currentNormalQuestion: question.normal,
+      currentOddQuestion: question.oddOneOut,
+      phase: "assigning",
+      votes: {},
+      enableTimer,
+      timerDuration,
+      scores: {},
+      results: [],
+    });
+
+    router.push("/odd-one-out/play");
+  };
+
+  const canStart = selectedCategory !== "";
+
   return (
-    <GameShell title="Odd One Out" accentColor="#F59E0B">
-      <div className="text-center py-12">
-        <p className="text-6xl mb-4">{"\ud83e\udd14"}</p>
-        <h2 className="text-2xl font-bold mb-2">Odd One Out</h2>
-        <p className="text-text-secondary">Setup coming soon</p>
+    <GameShell title="Odd One Out" accentColor={ACCENT}>
+      <div className="space-y-8 pb-4">
+        {/* Category picker */}
+        <section>
+          <h2 className="text-lg font-bold mb-3">Choose a Category</h2>
+          <div className="grid grid-cols-3 gap-2.5">
+            {categories.map((cat) => {
+              const isSelected = selectedCategory === cat.category;
+              return (
+                <motion.button
+                  key={cat.category}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedCategory(cat.category)}
+                  className={cn(
+                    "flex flex-col items-center gap-1.5 p-3 rounded-[var(--radius-card)] border cursor-pointer transition-colors",
+                    isSelected
+                      ? "bg-[#F59E0B20] border-[#F59E0B]"
+                      : "bg-surface border-border hover:bg-surface-hover"
+                  )}
+                >
+                  <span className="text-2xl">{cat.emoji}</span>
+                  <span
+                    className={cn(
+                      "text-xs font-medium leading-tight text-center",
+                      isSelected ? "text-white" : "text-text-secondary"
+                    )}
+                  >
+                    {cat.category}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Player count */}
+        <section>
+          <h2 className="text-lg font-bold mb-3">Players</h2>
+          <Card>
+            <div className="flex items-center justify-between">
+              <span className="text-text-secondary">How many?</span>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => handlePlayerChange(-1)}
+                  disabled={playerCount <= 3}
+                  className={cn(
+                    "w-10 h-10 rounded-full bg-background border border-border text-xl font-bold flex items-center justify-center cursor-pointer",
+                    playerCount <= 3 ? "opacity-30" : "hover:bg-surface-hover"
+                  )}
+                >
+                  −
+                </button>
+                <motion.span
+                  key={playerCount}
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  className="text-3xl font-bold min-w-[40px] text-center"
+                  style={{ color: ACCENT }}
+                >
+                  {playerCount}
+                </motion.span>
+                <button
+                  onClick={() => handlePlayerChange(1)}
+                  disabled={playerCount >= 15}
+                  className={cn(
+                    "w-10 h-10 rounded-full bg-background border border-border text-xl font-bold flex items-center justify-center cursor-pointer",
+                    playerCount >= 15 ? "opacity-30" : "hover:bg-surface-hover"
+                  )}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* Name toggle */}
+            <button
+              onClick={() => setShowNames(!showNames)}
+              className="text-sm underline cursor-pointer mt-3 block"
+              style={{ color: ACCENT }}
+            >
+              {showNames ? "Skip player names" : "Add player names"}
+            </button>
+
+            {showNames && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                className="space-y-2 mt-3 overflow-hidden"
+              >
+                {Array.from({ length: playerCount }, (_, i) => (
+                  <input
+                    key={i}
+                    type="text"
+                    placeholder={`Player ${i + 1}`}
+                    value={names[i] || ""}
+                    onChange={(e) => handleNameChange(i, e.target.value)}
+                    className="w-full bg-background border border-border rounded-xl px-4 py-2.5 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-border-light text-sm"
+                  />
+                ))}
+              </motion.div>
+            )}
+          </Card>
+        </section>
+
+        {/* Round count */}
+        <section>
+          <h2 className="text-lg font-bold mb-3">Rounds</h2>
+          <div className="flex gap-2.5">
+            {ROUND_OPTIONS.map((n) => {
+              const isSelected = totalRounds === n;
+              return (
+                <motion.button
+                  key={n}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setTotalRounds(n)}
+                  className={cn(
+                    "flex-1 py-3 rounded-[var(--radius-button)] border font-bold text-lg cursor-pointer transition-colors",
+                    isSelected
+                      ? "bg-[#F59E0B20] border-[#F59E0B] text-white"
+                      : "bg-surface border-border text-text-secondary hover:bg-surface-hover"
+                  )}
+                >
+                  {n}
+                </motion.button>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Advanced Options */}
+        <section>
+          <button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="flex items-center gap-2 text-text-secondary cursor-pointer w-full"
+          >
+            <motion.span
+              animate={{ rotate: showAdvanced ? 90 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-sm"
+            >
+              ▶
+            </motion.span>
+            <span className="text-sm font-semibold">Advanced Options</span>
+          </button>
+
+          <AnimatePresence initial={false}>
+            {showAdvanced && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <div className="space-y-4 pt-4">
+                  {/* Discussion Timer toggle */}
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-text-primary">
+                        Discussion Timer
+                      </span>
+                      <ToggleSwitch
+                        enabled={enableTimer}
+                        onToggle={() => setEnableTimer(!enableTimer)}
+                      />
+                    </div>
+                    <p className="text-xs text-text-muted mt-1">
+                      Adds a countdown timer for the discussion phase
+                    </p>
+                    <AnimatePresence initial={false}>
+                      {enableTimer && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="flex gap-2 flex-wrap mt-3">
+                            {TIMER_OPTIONS.map((opt) => {
+                              const isSelected = timerDuration === opt.value;
+                              return (
+                                <motion.button
+                                  key={opt.label}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => setTimerDuration(opt.value)}
+                                  className={cn(
+                                    "px-4 py-2.5 rounded-[var(--radius-button)] border text-sm font-semibold cursor-pointer transition-colors",
+                                    isSelected
+                                      ? "bg-[#F59E0B20] border-[#F59E0B] text-white"
+                                      : "bg-surface border-border text-text-secondary hover:bg-surface-hover"
+                                  )}
+                                >
+                                  {opt.label}
+                                </motion.button>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+
+        {/* Start button */}
+        <Button
+          accentColor={ACCENT}
+          fullWidth
+          size="lg"
+          onClick={handleStart}
+          disabled={!canStart}
+          className={cn(!canStart && "opacity-50 cursor-not-allowed")}
+        >
+          🤔 Start Game
+        </Button>
       </div>
     </GameShell>
+  );
+}
+
+function ToggleSwitch({
+  enabled,
+  onToggle,
+}: {
+  enabled: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      onClick={onToggle}
+      className={cn(
+        "relative w-12 h-7 rounded-full transition-colors duration-200 flex-shrink-0 cursor-pointer",
+        enabled ? "bg-[#F59E0B]" : "bg-surface border border-border"
+      )}
+    >
+      <motion.div
+        className="absolute top-0.5 w-6 h-6 rounded-full bg-white shadow-md"
+        animate={{ left: enabled ? 22 : 2 }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+      />
+    </button>
   );
 }

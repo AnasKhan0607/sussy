@@ -21,6 +21,10 @@ export function useGameState() {
       store.updateImposterState({
         currentPlayerIndex: store.imposterState.currentPlayerIndex + 1,
       });
+    } else if (game === "odd-one-out") {
+      store.updateOddOneOutState({
+        currentPlayerIndex: store.oddOneOutState.currentPlayerIndex + 1,
+      });
     } else if (game === "spin-and-guess") {
       const next =
         (store.spinAndGuessState.currentClueIndex + 1) % store.players.length;

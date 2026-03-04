@@ -38,6 +38,7 @@ export interface OddOneOutState {
   votes: Record<number, number>;
   enableTimer: boolean;
   timerDuration: number | null;
+  scores: Record<number, number>;
   results: Array<{
     round: number;
     oddOneOutIndex: number;
@@ -134,6 +135,7 @@ const defaultOddOneOutState: OddOneOutState = {
   votes: {},
   enableTimer: false,
   timerDuration: 120,
+  scores: {},
   results: [],
 };
 
