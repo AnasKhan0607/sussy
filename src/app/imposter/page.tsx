@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { GameShell } from "@/components/layout/GameShell";
@@ -65,6 +65,16 @@ export default function ImposterSetup() {
   const [customLoading, setCustomLoading] = useState(false);
   const [customError, setCustomError] = useState("");
 
+  // Cooldown after generation
+  const [cooldown, setCooldown] = useState(0);
+  const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (cooldownRef.current) clearInterval(cooldownRef.current);
+    };
+  }, []);
+
   const maxImposters = Math.floor(playerCount / 2);
 
   const handlePlayerChange = (delta: number) => {
@@ -83,8 +93,23 @@ export default function ImposterSetup() {
     });
   };
 
+  const startCooldown = (seconds: number) => {
+    setCooldown(seconds);
+    if (cooldownRef.current) clearInterval(cooldownRef.current);
+    cooldownRef.current = setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(cooldownRef.current!);
+          cooldownRef.current = null;
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
   const handleGenerateCustom = async () => {
-    if (!customTopic.trim()) return;
+    if (!customTopic.trim() || cooldown > 0) return;
     setCustomLoading(true);
     setCustomError("");
     setCustomData(null);
@@ -96,10 +121,17 @@ export default function ImposterSetup() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setCustomError(data.error || "Failed to generate words");
+        if (res.status === 429) {
+          const retryAfter = data.retryAfter ?? 10;
+          startCooldown(retryAfter);
+          setCustomError("Too many requests — please wait and try again");
+        } else {
+          setCustomError(data.error || "Failed to generate words");
+        }
         return;
       }
       setCustomData(data as CategoryData);
+      startCooldown(10);
     } catch {
       setCustomError("Network error — check your connection");
     } finally {
@@ -269,10 +301,10 @@ export default function ImposterSetup() {
                       accentColor={ACCENT}
                       size="sm"
                       onClick={handleGenerateCustom}
-                      disabled={!customTopic.trim() || customLoading}
+                      disabled={!customTopic.trim() || customLoading || cooldown > 0}
                       className={cn(
                         "px-4 whitespace-nowrap",
-                        (!customTopic.trim() || customLoading) &&
+                        (!customTopic.trim() || customLoading || cooldown > 0) &&
                           "opacity-50 cursor-not-allowed"
                       )}
                     >
@@ -288,6 +320,8 @@ export default function ImposterSetup() {
                         >
                           ⏳
                         </motion.span>
+                      ) : cooldown > 0 ? (
+                        `Wait ${cooldown}s`
                       ) : (
                         "Generate"
                       )}

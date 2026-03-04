@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import { rateLimit } from "@/lib/rateLimiter";
 
 export async function POST(req: NextRequest) {
+  // Rate limit by IP
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  const { success, resetIn } = rateLimit(ip);
+  if (!success) {
+    return NextResponse.json(
+      { error: "Too many requests — please try again later", retryAfter: resetIn },
+      { status: 429, headers: { "Retry-After": String(resetIn) } }
+    );
+  }
+
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
