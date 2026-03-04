@@ -69,7 +69,7 @@ sussy/
 │   │   ├── imposter/           # Imposter game
 │   │   │   ├── page.tsx        # Setup screen
 │   │   │   └── play/page.tsx   # Gameplay loop
-│   │   ├── hot-takes/          # Hot Takes game
+│   │   ├── odd-one-out/        # Odd One Out game
 │   │   │   ├── page.tsx        # Setup screen
 │   │   │   └── play/page.tsx   # Gameplay loop
 │   │   └── spin-and-guess/     # Spin & Guess game
@@ -119,7 +119,7 @@ Text muted:     #6B7280
 
 Game accents:
   Imposter:       #8B5CF6 (purple)
-  Hot Takes:      #F59E0B (amber)
+  Odd One Out:    #F59E0B (amber)
   Spin & Guess:   #06B6D4 (cyan)
 
 Status:
@@ -135,7 +135,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 | Game | Players | Accent | Status |
 |------|---------|--------|--------|
 | The Imposter 🕵️ | 3-20 | Purple | Phase 1 scaffold done |
-| Hot Takes 🔥 | 3-15 | Amber | Phase 1 scaffold done |
+| Odd One Out 🤔 | 3-15 | Amber | Data done, gameplay not started |
 | Spin & Guess 🎯 | 3-10 | Cyan | Not started |
 
 ---
@@ -144,7 +144,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 
 1. **Foundation** — Project setup, design system, home screen, shared components ✅
 2. **The Imposter** — Full game: setup → role assignment → reveal (default); discussion timer, digital voting, and imposter help options (show category / show hint) are opt-in toggles
-3. **Hot Takes** — Full game: setup → prompts → voting → recap
+3. **Odd One Out** — Full game: setup → question assignment (pass-and-play) → discussion → voting → reveal → scoring
 4. **Spin & Guess** — Full game: setup → assign categories → spin → clues → guess → results
 5. **Polish & PWA** — Animations, haptics, offline, meta tags, deploy
 
@@ -160,6 +160,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 6. **Edge cases** — Cap imposters at (players - 2), reshuffle when prompts exhausted
 8. **Imposter word data** — Words are `{ word: string, hint: string }` objects (`WordEntry`), not flat strings. All 12 category files use this format
 7. **Spin & Guess arch spinner** — Use canvas or SVG for the arch (semicircle, numbers only), animate spin with easing
+9. **Odd One Out question data** — Questions are `{ normal: string, oddOneOut: string }` pairs (`QuestionPair`). Categories use `QuestionCategory` type from `src/data/odd-one-out/index.ts`
 
 ---
 
