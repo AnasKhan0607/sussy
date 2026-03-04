@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, useMotionValue, useSpring, animate } from "framer-motion";
+import { motion, useMotionValue, useSpring, animate, useTransform } from "framer-motion";
 import { PhoneFrame } from "./PhoneFrame";
 import { games, type Game } from "@/data/games";
 
 const ANGLE_PER_CARD = 360 / games.length;
-const RADIUS = 340;
+const RADIUS = 300;
 const AUTO_ROTATE_MS = 4000;
 
 function GamePreview({ game }: { game: Game }) {
@@ -32,6 +32,68 @@ function getActiveIndex(angle: number) {
   return Math.round(normalized / ANGLE_PER_CARD) % games.length;
 }
 
+/** Individual card that computes its own position from the carousel rotation */
+function CarouselCard({
+  game,
+  index,
+  carouselAngle,
+}: {
+  game: Game;
+  index: number;
+  carouselAngle: ReturnType<typeof useSpring>;
+}) {
+  const cardBaseAngle = index * ANGLE_PER_CARD;
+
+  // Compute this card's effective angle relative to the viewer (0 = front)
+  const cardAngle = useTransform(carouselAngle, (rot) => {
+    const effective = normalizeAngle(cardBaseAngle + rot);
+    return effective > 180 ? effective - 360 : effective;
+  });
+
+  // Convert angle to x position (sin curve)
+  const x = useTransform(cardAngle, (a) => Math.sin((a * Math.PI) / 180) * RADIUS);
+
+  // Convert angle to z-depth for scale + opacity
+  const z = useTransform(cardAngle, (a) => Math.cos((a * Math.PI) / 180));
+
+  // Scale: front = 1, sides = 0.75, back = 0.6
+  const scale = useTransform(z, [-1, 0, 1], [0.6, 0.75, 1]);
+
+  // Opacity: front = 1, sides = 0.5, back = 0.3
+  const opacity = useTransform(z, [-1, 0, 1], [0.3, 0.5, 1]);
+
+  // z-index: front cards on top
+  const zIndex = useTransform(z, (zVal) => Math.round((zVal + 1) * 50));
+
+  return (
+    <motion.div
+      className="absolute flex flex-col items-center gap-4"
+      style={{
+        x,
+        scale,
+        opacity,
+        zIndex,
+        // Center the card in the container
+        left: "50%",
+        marginLeft: -120, // half of 240px phone width
+      }}
+    >
+      <PhoneFrame>
+        <GamePreview game={game} />
+      </PhoneFrame>
+      <div className="flex items-center gap-2">
+        <div
+          className="w-2.5 h-2.5 rounded-full"
+          style={{ backgroundColor: game.color }}
+        />
+        <span className="text-sm font-medium text-text-primary">
+          {game.name}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
 export function GameShowcase() {
   const rotation = useMotionValue(0);
   const smoothRotation = useSpring(rotation, { stiffness: 200, damping: 30 });
@@ -45,7 +107,6 @@ export function GameShowcase() {
     (index: number) => {
       const target = -(index * ANGLE_PER_CARD);
       const current = rotation.get();
-      // Find the shortest rotation path
       const diff = ((target - current) % 360 + 540) % 360 - 180;
       animate(rotation, current + diff, {
         type: "spring",
@@ -75,7 +136,6 @@ export function GameShowcase() {
     };
   }, [resetAutoScroll]);
 
-  // Track active index from rotation changes
   useEffect(() => {
     const unsubscribe = smoothRotation.on("change", (v) => {
       if (!isDragging.current) {
@@ -106,7 +166,6 @@ export function GameShowcase() {
     isDragging.current = false;
     const dx = e.clientX - dragStartX.current;
     const newAngle = dragStartAngle.current + dx * 0.3;
-    // Snap to nearest card
     const nearestIndex = getActiveIndex(newAngle);
     snapTo(nearestIndex);
     resetAutoScroll();
@@ -129,49 +188,21 @@ export function GameShowcase() {
       </motion.div>
 
       <div
-        className="flex justify-center items-center cursor-grab active:cursor-grabbing"
-        style={{ perspective: "1200px", height: 560 }}
+        className="relative mx-auto cursor-grab active:cursor-grabbing select-none"
+        style={{ height: 560, maxWidth: 900 }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        <motion.div
-          className="relative"
-          style={{
-            transformStyle: "preserve-3d",
-            width: 240,
-            height: 480,
-            rotateY: smoothRotation,
-          }}
-        >
-          {games.map((game, i) => {
-            const angle = i * ANGLE_PER_CARD;
-            return (
-              <div
-                key={game.id}
-                className="absolute inset-0 flex flex-col items-center gap-4"
-                style={{
-                  transform: `rotateY(${angle}deg) translateZ(${RADIUS}px)`,
-                  backfaceVisibility: "hidden",
-                }}
-              >
-                <PhoneFrame>
-                  <GamePreview game={game} />
-                </PhoneFrame>
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: game.color }}
-                  />
-                  <span className="text-sm font-medium text-text-primary">
-                    {game.name}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </motion.div>
+        {games.map((game, i) => (
+          <CarouselCard
+            key={game.id}
+            game={game}
+            index={i}
+            carouselAngle={smoothRotation}
+          />
+        ))}
       </div>
 
       {/* Dots indicator */}
