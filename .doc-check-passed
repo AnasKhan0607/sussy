@@ -1,1 +1,3 @@
-src/components/game/ArchSpinner.tsx
+src/app/api/generate-words/route.ts
+src/app/imposter/page.tsx
+src/lib/rateLimiter.ts
