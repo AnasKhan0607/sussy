@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# netlify
+.netlify
+
 # PWA generated files
 public/sw.js
 public/sw.js.map
