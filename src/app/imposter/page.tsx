@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useGameStore, Player } from "@/lib/store";
 import { categories } from "@/data/imposter";
-import { assignImposterRoles, pickWord } from "@/lib/gameEngine";
+import { assignImposterRoles, pickWord, CategoryData } from "@/lib/gameEngine";
 import { cn } from "@/lib/utils";
+
+const CUSTOM_CATEGORY_ID = "__custom__";
 
 const ACCENT = "#8B5CF6";
 
@@ -57,6 +59,12 @@ export default function ImposterSetup() {
   const [showNames, setShowNames] = useState(false);
   const [names, setNames] = useState<string[]>([]);
 
+  // Custom category state
+  const [customTopic, setCustomTopic] = useState("");
+  const [customData, setCustomData] = useState<CategoryData | null>(null);
+  const [customLoading, setCustomLoading] = useState(false);
+  const [customError, setCustomError] = useState("");
+
   const maxImposters = Math.floor(playerCount / 2);
 
   const handlePlayerChange = (delta: number) => {
@@ -75,8 +83,35 @@ export default function ImposterSetup() {
     });
   };
 
+  const handleGenerateCustom = async () => {
+    if (!customTopic.trim()) return;
+    setCustomLoading(true);
+    setCustomError("");
+    setCustomData(null);
+    try {
+      const res = await fetch("/api/generate-words", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic: customTopic.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setCustomError(data.error || "Failed to generate words");
+        return;
+      }
+      setCustomData(data as CategoryData);
+    } catch {
+      setCustomError("Network error — check your connection");
+    } finally {
+      setCustomLoading(false);
+    }
+  };
+
   const handleStart = () => {
-    const categoryData = categories.find((c) => c.category === selectedCategory);
+    const isCustom = selectedCategory === CUSTOM_CATEGORY_ID;
+    const categoryData = isCustom
+      ? customData
+      : categories.find((c) => c.category === selectedCategory);
     if (!categoryData) return;
 
     // Create players
@@ -93,7 +128,7 @@ export default function ImposterSetup() {
     setPlayers(players);
     setCurrentGame("imposter");
     updateImposterState({
-      category: selectedCategory,
+      category: categoryData.category,
       secretWord,
       secretHint,
       imposterIndices,
@@ -112,7 +147,9 @@ export default function ImposterSetup() {
     router.push("/imposter/play");
   };
 
-  const canStart = selectedCategory !== "";
+  const isCustomSelected = selectedCategory === CUSTOM_CATEGORY_ID;
+  const canStart =
+    selectedCategory !== "" && (!isCustomSelected || customData !== null);
 
   return (
     <GameShell title="The Imposter" accentColor={ACCENT}>
@@ -165,7 +202,119 @@ export default function ImposterSetup() {
                 </motion.button>
               );
             })}
+
+            {/* Custom AI category */}
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                setSelectedCategory(CUSTOM_CATEGORY_ID);
+                setShowCategoryToImposter(true);
+              }}
+              className={cn(
+                "flex flex-col items-center gap-1.5 p-3 rounded-[var(--radius-card)] border cursor-pointer transition-colors",
+                isCustomSelected
+                  ? "bg-[#8B5CF620] border-[#8B5CF6]"
+                  : "bg-surface border-transparent hover:bg-surface-hover"
+              )}
+              style={
+                !isCustomSelected
+                  ? {
+                      backgroundImage:
+                        "linear-gradient(var(--color-surface), var(--color-surface)), linear-gradient(135deg, #8B5CF6, #EC4899, #F59E0B)",
+                      backgroundOrigin: "border-box",
+                      backgroundClip: "padding-box, border-box",
+                    }
+                  : undefined
+              }
+            >
+              <span className="text-2xl">✨</span>
+              <span
+                className={cn(
+                  "text-xs font-medium leading-tight text-center",
+                  isCustomSelected ? "text-white" : "text-text-secondary"
+                )}
+              >
+                Custom
+              </span>
+            </motion.button>
           </div>
+
+          {/* Custom topic input */}
+          <AnimatePresence initial={false}>
+            {isCustomSelected && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <div className="mt-3 space-y-3">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter a topic (e.g. Space, 90s Music)"
+                      value={customTopic}
+                      onChange={(e) => {
+                        setCustomTopic(e.target.value);
+                        setCustomError("");
+                      }}
+                      maxLength={100}
+                      className="flex-1 bg-background border border-border rounded-xl px-4 py-2.5 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-[#8B5CF6] text-sm"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !customLoading) handleGenerateCustom();
+                      }}
+                    />
+                    <Button
+                      accentColor={ACCENT}
+                      size="sm"
+                      onClick={handleGenerateCustom}
+                      disabled={!customTopic.trim() || customLoading}
+                      className={cn(
+                        "px-4 whitespace-nowrap",
+                        (!customTopic.trim() || customLoading) &&
+                          "opacity-50 cursor-not-allowed"
+                      )}
+                    >
+                      {customLoading ? (
+                        <motion.span
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            repeat: Infinity,
+                            duration: 1,
+                            ease: "linear",
+                          }}
+                          className="inline-block"
+                        >
+                          ⏳
+                        </motion.span>
+                      ) : (
+                        "Generate"
+                      )}
+                    </Button>
+                  </div>
+
+                  {customError && (
+                    <p className="text-xs text-[#EF4444]">{customError}</p>
+                  )}
+
+                  {customData && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-2 text-sm text-[#10B981]"
+                    >
+                      <span>✓</span>
+                      <span>
+                        Generated {customData.emoji} {customData.category} — ready
+                        to play!
+                      </span>
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
 
         {/* Player count */}
