@@ -1,9 +1,13 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useMotionValue, animate } from "framer-motion";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { motion, useMotionValue, useSpring, animate } from "framer-motion";
 import { PhoneFrame } from "./PhoneFrame";
 import { games, type Game } from "@/data/games";
+
+const ANGLE_PER_CARD = 360 / games.length;
+const RADIUS = 340;
+const AUTO_ROTATE_MS = 4000;
 
 function GamePreview({ game }: { game: Game }) {
   return (
@@ -19,26 +23,41 @@ function GamePreview({ game }: { game: Game }) {
   );
 }
 
+function normalizeAngle(angle: number) {
+  return ((angle % 360) + 360) % 360;
+}
+
+function getActiveIndex(angle: number) {
+  const normalized = normalizeAngle(-angle);
+  return Math.round(normalized / ANGLE_PER_CARD) % games.length;
+}
+
 export function GameShowcase() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
+  const rotation = useMotionValue(0);
+  const smoothRotation = useSpring(rotation, { stiffness: 200, damping: 30 });
   const [activeIndex, setActiveIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval>>(null);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragStartAngle = useRef(0);
 
-  const cardWidth = 280; // 240px phone + 40px gap
-  const totalWidth = cardWidth * games.length;
+  const snapTo = useCallback(
+    (index: number) => {
+      const target = -(index * ANGLE_PER_CARD);
+      const current = rotation.get();
+      // Find the shortest rotation path
+      const diff = ((target - current) % 360 + 540) % 360 - 180;
+      animate(rotation, current + diff, {
+        type: "spring",
+        stiffness: 200,
+        damping: 30,
+      });
+      setActiveIndex(index);
+    },
+    [rotation]
+  );
 
-  function snapTo(index: number) {
-    const clamped = Math.max(0, Math.min(index, games.length - 1));
-    setActiveIndex(clamped);
-    animate(x, -clamped * cardWidth, {
-      type: "spring",
-      stiffness: 300,
-      damping: 30,
-    });
-  }
-
-  function resetAutoScroll() {
+  const resetAutoScroll = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setActiveIndex((prev) => {
@@ -46,25 +65,50 @@ export function GameShowcase() {
         snapTo(next);
         return next;
       });
-    }, 4000);
-  }
+    }, AUTO_ROTATE_MS);
+  }, [snapTo]);
 
   useEffect(() => {
     resetAutoScroll();
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [resetAutoScroll]);
 
-  function handleDragEnd(
-    _: unknown,
-    info: { offset: { x: number }; velocity: { x: number } }
-  ) {
-    const swipe = info.offset.x + info.velocity.x * 0.2;
-    if (swipe < -50) snapTo(activeIndex + 1);
-    else if (swipe > 50) snapTo(activeIndex - 1);
-    else snapTo(activeIndex);
+  // Track active index from rotation changes
+  useEffect(() => {
+    const unsubscribe = smoothRotation.on("change", (v) => {
+      if (!isDragging.current) {
+        setActiveIndex(getActiveIndex(v));
+      }
+    });
+    return unsubscribe;
+  }, [smoothRotation]);
+
+  function handlePointerDown(e: React.PointerEvent) {
+    isDragging.current = true;
+    dragStartX.current = e.clientX;
+    dragStartAngle.current = rotation.get();
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  }
+
+  function handlePointerMove(e: React.PointerEvent) {
+    if (!isDragging.current) return;
+    const dx = e.clientX - dragStartX.current;
+    const newAngle = dragStartAngle.current + dx * 0.3;
+    rotation.set(newAngle);
+    setActiveIndex(getActiveIndex(newAngle));
+  }
+
+  function handlePointerUp(e: React.PointerEvent) {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    const dx = e.clientX - dragStartX.current;
+    const newAngle = dragStartAngle.current + dx * 0.3;
+    // Snap to nearest card
+    const nearestIndex = getActiveIndex(newAngle);
+    snapTo(nearestIndex);
     resetAutoScroll();
   }
 
@@ -80,29 +124,37 @@ export function GameShowcase() {
           Three Games, Infinite Fun
         </h2>
         <p className="text-text-secondary">
-          Swipe to preview each game mode
+          Drag to spin the carousel
         </p>
       </motion.div>
 
-      <div ref={containerRef} className="flex justify-center">
-        <div className="overflow-hidden" style={{ maxWidth: "100vw" }}>
-          <motion.div
-            className="flex gap-10 px-[calc(50vw-120px)] cursor-grab active:cursor-grabbing"
-            drag="x"
-            style={{ x }}
-            dragConstraints={{
-              left: -(totalWidth - cardWidth),
-              right: 0,
-            }}
-            dragElastic={0.1}
-            onDragEnd={handleDragEnd}
-          >
-            {games.map((game, i) => (
-              <motion.div
+      <div
+        className="flex justify-center items-center cursor-grab active:cursor-grabbing"
+        style={{ perspective: "1200px", height: 560 }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+      >
+        <motion.div
+          className="relative"
+          style={{
+            transformStyle: "preserve-3d",
+            width: 240,
+            height: 480,
+            rotateY: smoothRotation,
+          }}
+        >
+          {games.map((game, i) => {
+            const angle = i * ANGLE_PER_CARD;
+            return (
+              <div
                 key={game.id}
-                className="flex flex-col items-center gap-4"
-                animate={{ scale: activeIndex === i ? 1 : 0.9, opacity: activeIndex === i ? 1 : 0.5 }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="absolute inset-0 flex flex-col items-center gap-4"
+                style={{
+                  transform: `rotateY(${angle}deg) translateZ(${RADIUS}px)`,
+                  backfaceVisibility: "hidden",
+                }}
               >
                 <PhoneFrame>
                   <GamePreview game={game} />
@@ -116,10 +168,10 @@ export function GameShowcase() {
                     {game.name}
                   </span>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+              </div>
+            );
+          })}
+        </motion.div>
       </div>
 
       {/* Dots indicator */}
@@ -133,7 +185,8 @@ export function GameShowcase() {
             }}
             className="w-2.5 h-2.5 rounded-full transition-all cursor-pointer"
             style={{
-              backgroundColor: activeIndex === i ? game.color : "rgba(255,255,255,0.2)",
+              backgroundColor:
+                activeIndex === i ? game.color : "rgba(255,255,255,0.2)",
               transform: activeIndex === i ? "scale(1.3)" : "scale(1)",
             }}
           />
