@@ -49,8 +49,9 @@ npm run build                  # Type-check via build (no test runner yet)
 **State:** Zustand (with localStorage persistence)
 **PWA:** @ducanh2912/next-pwa
 **Haptics:** Web Vibration API (lib/haptics.ts)
+**AI:** OpenAI SDK (GPT-4o-mini) — custom word generation via API route
 
-No backend — all game data is local JSON. Single-device pass-and-play.
+No backend — all game data is local JSON. Single-device pass-and-play. The one exception is `/api/generate-words` which calls OpenAI for custom Imposter categories (requires `OPENAI_API_KEY` env var).
 
 ---
 
@@ -63,6 +64,8 @@ sussy/
 │   │   ├── layout.tsx          # Root layout, fonts, metadata
 │   │   ├── page.tsx            # Home screen — game selector (mobile) / landing page (desktop)
 │   │   ├── globals.css         # Theme variables, Tailwind
+│   │   ├── api/
+│   │   │   └── generate-words/ # POST: AI-powered custom word generation
 │   │   ├── imposter/           # Imposter game
 │   │   │   ├── page.tsx        # Setup screen
 │   │   │   └── play/page.tsx   # Gameplay loop
