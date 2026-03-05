@@ -1,1 +1,3 @@
-src/components/landing/GameShowcase.tsx
+src/app/odd-one-out/page.tsx
+src/app/odd-one-out/play/page.tsx
+src/lib/store.ts
