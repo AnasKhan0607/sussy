@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { vibrateMedium } from "@/lib/haptics";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface PrivacyRevealProps {
   content: React.ReactNode;
@@ -18,6 +19,7 @@ export function PrivacyReveal({
   accentColor = "var(--color-brand)",
 }: PrivacyRevealProps) {
   const [revealed, setRevealed] = useState(false);
+  const prefersReduced = useReducedMotion();
 
   const handleTap = useCallback(() => {
     if (!revealed) {
@@ -57,8 +59,8 @@ export function PrivacyReveal({
             className="text-center"
           >
             <motion.div
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              animate={prefersReduced ? undefined : { opacity: [0.5, 1, 0.5] }}
+              transition={prefersReduced ? undefined : { duration: 2, repeat: Infinity }}
               className="text-xl text-text-secondary"
             >
               Tap to reveal your role
@@ -67,10 +69,10 @@ export function PrivacyReveal({
         ) : (
           <motion.div
             key="revealed"
-            initial={{ rotateY: 90, opacity: 0 }}
-            animate={{ rotateY: 0, opacity: 1 }}
-            exit={{ rotateY: -90, opacity: 0 }}
-            transition={{ type: "spring", duration: 0.4 }}
+            initial={prefersReduced ? { opacity: 0 } : { rotateY: 90, opacity: 0 }}
+            animate={prefersReduced ? { opacity: 1 } : { rotateY: 0, opacity: 1 }}
+            exit={prefersReduced ? { opacity: 0 } : { rotateY: -90, opacity: 0 }}
+            transition={prefersReduced ? undefined : { type: "spring", duration: 0.4 }}
             className="text-center w-full"
           >
             {content}

@@ -14,6 +14,8 @@ import { useGameStore } from "@/lib/store";
 import { useWakeLock } from "@/hooks/useWakeLock";
 import { ResultsScreen } from "@/components/game/ResultsScreen";
 import { vibratePattern, vibrateSuccess, vibrateDanger } from "@/lib/haptics";
+import { fireConfetti, fireWinConfetti } from "@/lib/confetti";
+import { AnimatedNumber } from "@/components/game/AnimatedNumber";
 import { tallyVotes, checkImposterWin } from "@/lib/gameEngine";
 import { categories } from "@/data/imposter";
 import { assignImposterRoles, pickWord, rollChaosRound } from "@/lib/gameEngine";
@@ -119,7 +121,6 @@ export default function ImposterPlay() {
           const nextIndex = currentPlayerIndex + 1;
 
           if (nextIndex >= players.length) {
-            // All votes in — go to results
             updateImposterState({
               votes: newVotes,
               phase: "results",
@@ -195,7 +196,6 @@ export default function ImposterPlay() {
         timerDuration={imposterState.timerDuration}
         isChaosRound={imposterState.isChaosRound}
         onPlayAgain={() => {
-          // Same settings, new word and roles
           const categoryData = categories.find((c) => c.category === category);
           if (!categoryData) return;
           const { word: newWord, hint: newHint } = pickWord(categoryData, imposterState.difficulty);
@@ -580,6 +580,9 @@ function RevealPhase({
   const handleReveal = () => {
     vibrateDanger();
     setRevealed(true);
+    if (isChaosRound) {
+      fireConfetti(["#EF4444", "#8B5CF6"]);
+    }
   };
 
   if (!revealed) {
@@ -739,14 +742,17 @@ function ResultsPhase({
   const votedOutIndex = players.findIndex((p) => p.id === result.votedOutId);
   const votedOutWasImposter = imposterIndices.includes(votedOutIndex);
 
-  // Haptic on mount
+  // Haptic + confetti on mount
   useEffect(() => {
     if (isChaosRound) {
       vibrateDanger();
+      fireConfetti(["#EF4444", "#8B5CF6"]);
     } else if (imposterWins) {
       vibrateDanger();
+      fireConfetti(["#EF4444", "#8B5CF6"]);
     } else {
       vibrateSuccess();
+      fireWinConfetti();
     }
   }, [imposterWins, isChaosRound]);
 
@@ -889,22 +895,29 @@ function ResultsPhase({
                         )) && " 🕵️"}
                     </span>
                     <div className="flex items-center gap-2">
-                      <div
+                      <motion.div
                         className="h-2 rounded-full"
-                        style={{
-                          width: `${Math.max(
+                        initial={{ width: 8 }}
+                        animate={{
+                          width: Math.max(
                             8,
                             (count / players.length) * 120
-                          )}px`,
+                          ),
+                        }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        style={{
                           backgroundColor:
                             player.id === result.votedOutId
                               ? "#EF4444"
                               : ACCENT,
                         }}
                       />
-                      <span className="text-text-muted text-xs w-4">
-                        {count}
-                      </span>
+                      <AnimatedNumber
+                        value={count}
+                        duration={0.6}
+                        delay={0.3}
+                        className="text-text-muted text-xs w-4"
+                      />
                     </div>
                   </div>
                 ))}

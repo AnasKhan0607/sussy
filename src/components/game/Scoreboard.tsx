@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { AnimatedNumber } from "@/components/game/AnimatedNumber";
 import { Player } from "@/lib/store";
 
 interface ScoreboardProps {
@@ -35,15 +36,13 @@ export function Scoreboard({ players, accentColor = "var(--color-brand)" }: Scor
               {player.name}
             </span>
           </div>
-          <motion.span
-            key={player.score}
-            initial={{ scale: 1.3 }}
-            animate={{ scale: 1 }}
-            className="font-bold text-lg"
-            style={{ color: accentColor }}
-          >
-            {player.score}
-          </motion.span>
+          <span className="font-bold text-lg" style={{ color: accentColor }}>
+            <AnimatedNumber
+              value={player.score}
+              duration={0.8}
+              delay={index * 0.1}
+            />
+          </span>
         </motion.div>
       ))}
     </div>

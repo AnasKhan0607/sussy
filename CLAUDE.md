@@ -45,7 +45,7 @@ npm run build                  # Type-check via build (no test runner yet)
 
 **Framework:** Next.js (App Router) + TypeScript
 **Styling:** Tailwind CSS v4
-**Animations:** Framer Motion
+**Animations:** Framer Motion + canvas-confetti
 **State:** Zustand (with localStorage persistence)
 **PWA:** @ducanh2912/next-pwa
 **Haptics:** Web Vibration API (lib/haptics.ts)
@@ -84,7 +84,8 @@ sussy/
 │   │   │   ├── CountdownTimer.tsx
 │   │   │   ├── VotingScreen.tsx
 │   │   │   ├── ResultsScreen.tsx
-│   │   │   └── Scoreboard.tsx
+│   │   │   ├── Scoreboard.tsx
+│   │   │   └── AnimatedNumber.tsx
 │   │   ├── landing/            # Desktop landing page sections
 │   │   └── layout/             # GameShell, HomeHeader
 │   ├── data/                   # Game content JSON + shared games.ts
@@ -92,12 +93,15 @@ sussy/
 │   │   ├── store.ts            # Zustand store (all game states)
 │   │   ├── gameEngine.ts       # Role assignment, vote tallying, word picking
 │   │   ├── haptics.ts          # Vibration API wrappers
+│   │   ├── animations.ts       # Shared Framer Motion variants & transitions
+│   │   ├── confetti.ts         # canvas-confetti wrappers (fireConfetti, fireWinConfetti)
 │   │   └── utils.ts            # Shuffle, random pick, cn()
 │   └── hooks/
 │       ├── useGameState.ts     # Game state helpers
 │       ├── useMediaQuery.ts    # Responsive breakpoint detection
 │       ├── useTimer.ts         # Countdown with pause/resume
-│       └── useWakeLock.ts      # Prevent screen sleep
+│       ├── useWakeLock.ts      # Prevent screen sleep
+│       └── useReducedMotion.ts # prefers-reduced-motion wrapper
 ├── public/
 │   └── manifest.json           # PWA manifest
 ├── next.config.ts              # PWA + Next.js config
@@ -134,9 +138,9 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 
 | Game | Players | Accent | Status |
 |------|---------|--------|--------|
-| The Imposter 🕵️ | 3-20 | Purple | Phase 1 scaffold done |
+| The Imposter 🕵️ | 3-20 | Purple | Full gameplay implemented |
 | Odd One Out 🤔 | 3-15 | Amber | Full gameplay implemented |
-| Spin & Guess 🎯 | 3-10 | Cyan | Not started |
+| Spin & Guess 🎯 | 3-10 | Cyan | Full gameplay implemented |
 
 ---
 

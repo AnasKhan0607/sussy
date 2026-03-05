@@ -10,6 +10,7 @@ import { useGameStore, Player } from "@/lib/store";
 import { categories } from "@/data/imposter";
 import { assignImposterRoles, pickWord, rollChaosRound, CategoryData } from "@/lib/gameEngine";
 import { cn } from "@/lib/utils";
+import { staggerContainer, fadeSlideUp } from "@/lib/animations";
 
 const CUSTOM_CATEGORY_ID = "__custom__";
 
@@ -192,9 +193,14 @@ export default function ImposterSetup() {
 
   return (
     <GameShell title="The Imposter" accentColor={ACCENT}>
-      <div className="space-y-8 pb-4">
+      <motion.div
+        className="space-y-8 pb-4"
+        variants={staggerContainer(0.08)}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Category picker */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Choose a Category</h2>
           <div className="grid grid-cols-3 gap-2.5">
             {categories.map((cat) => {
@@ -356,10 +362,10 @@ export default function ImposterSetup() {
               </motion.div>
             )}
           </AnimatePresence>
-        </section>
+        </motion.section>
 
         {/* Player count */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Players</h2>
           <Card>
             <div className="flex items-center justify-between">
@@ -425,10 +431,10 @@ export default function ImposterSetup() {
               </motion.div>
             )}
           </Card>
-        </section>
+        </motion.section>
 
         {/* Imposter count */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Imposters</h2>
           <div className="flex gap-2.5">
             {[1, 2, 3].map((n) => {
@@ -459,10 +465,10 @@ export default function ImposterSetup() {
               {playerCount} players
             </p>
           )}
-        </section>
+        </motion.section>
 
         {/* Difficulty */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Difficulty</h2>
           <div className="flex gap-2">
             {DIFFICULTY_OPTIONS.map((opt) => {
@@ -484,10 +490,10 @@ export default function ImposterSetup() {
               );
             })}
           </div>
-        </section>
+        </motion.section>
 
         {/* Advanced Options */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <button
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="flex items-center gap-2 text-text-secondary cursor-pointer w-full"
@@ -623,9 +629,10 @@ export default function ImposterSetup() {
               </motion.div>
             )}
           </AnimatePresence>
-        </section>
+        </motion.section>
 
         {/* Start button */}
+        <motion.div variants={fadeSlideUp}>
         <Button
           accentColor={ACCENT}
           fullWidth
@@ -636,7 +643,8 @@ export default function ImposterSetup() {
         >
           🕵️ Start Game
         </Button>
-      </div>
+        </motion.div>
+      </motion.div>
     </GameShell>
   );
 }

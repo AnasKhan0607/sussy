@@ -10,6 +10,7 @@ import { useGameStore, Player } from "@/lib/store";
 import { categories } from "@/data/odd-one-out";
 import { cn } from "@/lib/utils";
 import { pickRandom } from "@/lib/utils";
+import { staggerContainer, fadeSlideUp } from "@/lib/animations";
 import { pickOddOneOut } from "@/lib/gameEngine";
 
 const ACCENT = "#F59E0B";
@@ -96,9 +97,14 @@ export default function OddOneOutSetup() {
 
   return (
     <GameShell title="Odd One Out" accentColor={ACCENT}>
-      <div className="space-y-8 pb-4">
+      <motion.div
+        className="space-y-8 pb-4"
+        variants={staggerContainer(0.08)}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Category picker */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Choose a Category</h2>
           <div className="grid grid-cols-3 gap-2.5">
             {categories.map((cat) => {
@@ -128,10 +134,10 @@ export default function OddOneOutSetup() {
               );
             })}
           </div>
-        </section>
+        </motion.section>
 
         {/* Player count */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Players</h2>
           <Card>
             <div className="flex items-center justify-between">
@@ -197,10 +203,10 @@ export default function OddOneOutSetup() {
               </motion.div>
             )}
           </Card>
-        </section>
+        </motion.section>
 
         {/* Round count */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Rounds</h2>
           <div className="flex gap-2.5">
             {ROUND_OPTIONS.map((n) => {
@@ -222,10 +228,10 @@ export default function OddOneOutSetup() {
               );
             })}
           </div>
-        </section>
+        </motion.section>
 
         {/* Advanced Options */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <button
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="flex items-center gap-2 text-text-secondary cursor-pointer w-full"
@@ -317,9 +323,10 @@ export default function OddOneOutSetup() {
               </motion.div>
             )}
           </AnimatePresence>
-        </section>
+        </motion.section>
 
         {/* Start button */}
+        <motion.div variants={fadeSlideUp}>
         <Button
           accentColor={ACCENT}
           fullWidth
@@ -330,7 +337,8 @@ export default function OddOneOutSetup() {
         >
           🤔 Start Game
         </Button>
-      </div>
+        </motion.div>
+      </motion.div>
     </GameShell>
   );
 }

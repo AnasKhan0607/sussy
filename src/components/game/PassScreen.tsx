@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { vibrateShort } from "@/lib/haptics";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface PassScreenProps {
   playerName: string;
@@ -15,6 +16,8 @@ export function PassScreen({
   onReady,
   accentColor = "var(--color-brand)",
 }: PassScreenProps) {
+  const prefersReduced = useReducedMotion();
+
   const handleReady = () => {
     vibrateShort();
     onReady();
@@ -28,8 +31,8 @@ export function PassScreen({
       className="fixed inset-0 bg-bg-primary flex flex-col items-center justify-center p-8 z-50"
     >
       <motion.div
-        animate={{ scale: [1, 1.1, 1] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        animate={prefersReduced ? undefined : { scale: [1, 1.1, 1] }}
+        transition={prefersReduced ? undefined : { duration: 2, repeat: Infinity }}
         className="text-6xl mb-8"
       >
         📱

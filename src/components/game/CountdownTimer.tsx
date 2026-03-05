@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useTimer } from "@/hooks/useTimer";
 import { useEffect } from "react";
 import { vibrateLong } from "@/lib/haptics";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface CountdownTimerProps {
   duration: number;
@@ -18,6 +19,7 @@ export function CountdownTimer({
   autoStart = true,
   size = 200,
 }: CountdownTimerProps) {
+  const prefersReduced = useReducedMotion();
   const { timeLeft, progress, start } = useTimer({
     duration,
     onComplete: () => {
@@ -73,8 +75,24 @@ export function CountdownTimer({
       <motion.span
         key={timeLeft}
         initial={{ scale: 1.1 }}
-        animate={{ scale: timeLeft <= 10 ? [1, 1.1, 1] : 1 }}
-        transition={timeLeft <= 10 ? { duration: 1, repeat: Infinity } : undefined}
+        animate={{
+          scale: prefersReduced
+            ? 1
+            : timeLeft <= 10
+              ? [1, 1.1, 1]
+              : timeLeft <= 30
+                ? [1, 1.05, 1]
+                : 1,
+        }}
+        transition={
+          prefersReduced
+            ? undefined
+            : timeLeft <= 10
+              ? { duration: 0.8, repeat: Infinity }
+              : timeLeft <= 30
+                ? { duration: 1.2, repeat: Infinity }
+                : undefined
+        }
         className="absolute text-5xl font-bold"
         style={{ color: getColor() }}
       >
