@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { GameShell } from "@/components/layout/GameShell";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -22,12 +22,14 @@ const ROUND_OPTIONS = [
 
 export default function SpinAndGuessSetup() {
   const router = useRouter();
-  const { setPlayers, setCurrentGame, updateSpinAndGuessState } = useGameStore();
+  const { spinAndGuessState, setPlayers, setCurrentGame, updateSpinAndGuessState } = useGameStore();
 
   const [playerCount, setPlayerCount] = useState(4);
   const [names, setNames] = useState<string[]>([]);
   const [roundMode, setRoundMode] = useState("standard");
   const [guesserMode, setGuesserMode] = useState<"random" | "first">("random");
+  const [enableDigitalClues, setEnableDigitalClues] = useState(spinAndGuessState.enableDigitalClues);
+  const [showAdvanced, setShowAdvanced] = useState(spinAndGuessState.enableDigitalClues);
 
   const handlePlayerChange = (delta: number) => {
     setPlayerCount((prev) =>
@@ -72,6 +74,7 @@ export default function SpinAndGuessSetup() {
     setCurrentGame("spin-and-guess");
     updateSpinAndGuessState({
       phase: "assign-categories",
+      enableDigitalClues,
       guesserIndex,
       totalRounds,
       roundNumber: 1,
@@ -222,6 +225,52 @@ export default function SpinAndGuessSetup() {
           </div>
         </motion.section>
 
+        {/* Advanced Options */}
+        <motion.section variants={fadeSlideUp}>
+          <button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="flex items-center gap-2 text-text-secondary cursor-pointer w-full"
+          >
+            <motion.span
+              animate={{ rotate: showAdvanced ? 90 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-sm"
+            >
+              ▶
+            </motion.span>
+            <span className="text-sm font-semibold">Advanced Options</span>
+          </button>
+
+          <AnimatePresence initial={false}>
+            {showAdvanced && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <div className="space-y-4 pt-4">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-text-primary">
+                        Digital Clue Entry
+                      </span>
+                      <ToggleSwitch
+                        enabled={enableDigitalClues}
+                        onToggle={() => setEnableDigitalClues(!enableDigitalClues)}
+                      />
+                    </div>
+                    <p className="text-xs text-text-muted mt-1">
+                      Type clues on the phone instead of saying them out loud
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.section>
+
         {/* Start button */}
         <motion.div variants={fadeSlideUp}>
         <Button
@@ -235,5 +284,29 @@ export default function SpinAndGuessSetup() {
         </motion.div>
       </motion.div>
     </GameShell>
+  );
+}
+
+function ToggleSwitch({
+  enabled,
+  onToggle,
+}: {
+  enabled: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      onClick={onToggle}
+      className={cn(
+        "relative w-12 h-7 rounded-full transition-colors duration-200 flex-shrink-0 cursor-pointer",
+        enabled ? "bg-[#06B6D4]" : "bg-surface border border-border"
+      )}
+    >
+      <motion.div
+        className="absolute top-0.5 w-6 h-6 rounded-full bg-white shadow-md"
+        animate={{ left: enabled ? 22 : 2 }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+      />
+    </button>
   );
 }

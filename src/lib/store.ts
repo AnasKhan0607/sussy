@@ -68,10 +68,12 @@ export interface SpinAndGuessState {
     | "setup"
     | "assign-categories"
     | "spinning"
+    | "clue-overview"
     | "clues"
     | "guessing"
     | "reveal"
     | "end";
+  enableDigitalClues: boolean;
   guesserIndex: number;
   totalRounds: number;
   roundNumber: number;
@@ -145,6 +147,7 @@ const defaultOddOneOutState: OddOneOutState = {
 
 const defaultSpinAndGuessState: SpinAndGuessState = {
   phase: "setup",
+  enableDigitalClues: false,
   guesserIndex: 0,
   totalRounds: 0,
   roundNumber: 0,
@@ -215,6 +218,7 @@ export const useGameStore = create<GameStore>()(
         },
         spinAndGuessState: {
           totalRounds: state.spinAndGuessState.totalRounds,
+          enableDigitalClues: state.spinAndGuessState.enableDigitalClues,
         },
       }),
     }

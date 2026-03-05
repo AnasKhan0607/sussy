@@ -76,10 +76,25 @@ export default function SpinAndGuessPlay() {
         onResult={(n) => {
           updateSpinAndGuessState({
             secretNumber: n,
-            phase: "clues",
+            phase: state.enableDigitalClues ? "clues" : "clue-overview",
             currentClueIndex: 0,
             clues: {},
           });
+        }}
+      />
+    );
+  }
+
+  if (state.phase === "clue-overview") {
+    return (
+      <ClueOverviewPhase
+        players={players}
+        guesserIndex={state.guesserIndex}
+        assignments={state.assignments}
+        customCategory={state.customCategory}
+        secretNumber={state.secretNumber!}
+        onDone={() => {
+          updateSpinAndGuessState({ phase: "guessing" });
         }}
       />
     );
@@ -120,6 +135,16 @@ export default function SpinAndGuessPlay() {
   }
 
   if (state.phase === "guessing") {
+    if (!state.enableDigitalClues) {
+      return (
+        <VerbalGuessPhase
+          guesserName={players[state.guesserIndex]?.name || "Guesser"}
+          onReveal={() => {
+            updateSpinAndGuessState({ phase: "reveal" });
+          }}
+        />
+      );
+    }
     return (
       <GuessingPhase
         guesserName={players[state.guesserIndex]?.name || "Guesser"}
@@ -583,6 +608,125 @@ function CluesPhase({
   );
 }
 
+// ── Clue Overview Phase (verbal clues) ───────────────────────────
+
+function ClueOverviewPhase({
+  players,
+  guesserIndex,
+  assignments,
+  customCategory,
+  secretNumber,
+  onDone,
+}: {
+  players: { id: number; name: string }[];
+  guesserIndex: number;
+  assignments: SpinAndGuessAssignment[];
+  customCategory: { label: string; scaleId: string; playerIndex: number } | null;
+  secretNumber: number;
+  onDone: () => void;
+}) {
+  const guesser = players[guesserIndex];
+
+  return (
+    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+      <div className="space-y-5">
+        <div className="text-center">
+          <p className="text-text-muted text-sm mb-1">The number is</p>
+          <motion.p
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="text-6xl font-black"
+            style={{ color: ACCENT }}
+          >
+            {secretNumber}
+          </motion.p>
+        </div>
+
+        <Card>
+          <p className="text-center text-sm text-text-secondary mb-3">
+            Everyone except <span className="font-bold text-text-primary">{guesser.name}</span> — give your clue out loud!
+          </p>
+          <div className="space-y-2">
+            {assignments.map((a) => {
+              const player = players[a.playerIndex];
+              const cat = allCategories.find((c) => c.id === a.categoryId);
+              const scale = getScale(a.scaleId);
+              return (
+                <div
+                  key={a.playerIndex}
+                  className="flex items-center gap-2 bg-background rounded-lg px-3 py-2"
+                >
+                  <span className="text-lg">{cat?.emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-text-primary">
+                      {player?.name}
+                    </p>
+                    <p className="text-xs text-text-muted">
+                      {cat?.label} · {scale?.label}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+
+            {customCategory && (
+              <div className="flex items-center gap-2 bg-background rounded-lg px-3 py-2">
+                <span className="text-lg">✨</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-text-primary">
+                    {players[customCategory.playerIndex]?.name}
+                  </p>
+                  <p className="text-xs text-text-muted">
+                    {customCategory.label} · {getScale(customCategory.scaleId)?.label}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </Card>
+
+        <Button accentColor={ACCENT} fullWidth size="lg" onClick={onDone}>
+          Done — {guesser.name}&apos;s Turn
+        </Button>
+      </div>
+    </GameShell>
+  );
+}
+
+// ── Verbal Guess Phase (no digital input) ────────────────────────
+
+function VerbalGuessPhase({
+  guesserName,
+  onReveal,
+}: {
+  guesserName: string;
+  onReveal: () => void;
+}) {
+  return (
+    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+      <div className="flex flex-col items-center text-center gap-6 pt-12">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", duration: 0.5 }}
+        >
+          <p className="text-5xl mb-4">🎯</p>
+          <h2 className="text-2xl font-black" style={{ color: ACCENT }}>
+            {guesserName}&apos;s Turn
+          </h2>
+          <p className="text-text-secondary mt-2">
+            Say your guess out loud!
+          </p>
+        </motion.div>
+
+        <Button accentColor={ACCENT} fullWidth size="lg" onClick={onReveal}>
+          Reveal Answer
+        </Button>
+      </div>
+    </GameShell>
+  );
+}
+
 // ── Guessing Phase ───────────────────────────────────────────────
 
 function GuessingPhase({
@@ -728,11 +872,15 @@ function RevealPhase({
   };
   onNextRound: () => void;
 }) {
-  const diff = Math.abs((state.guess ?? 0) - (state.secretNumber ?? 0));
-  const score =
-    diff === 0 ? 10 : diff === 1 ? 7 : diff === 2 ? 4 : diff === 3 ? 1 : 0;
-  const isExact = diff === 0;
-  const isClose = diff <= 2;
+  const hasDigitalGuess = state.guess !== null;
+  const diff = hasDigitalGuess
+    ? Math.abs(state.guess! - (state.secretNumber ?? 0))
+    : 0;
+  const score = hasDigitalGuess
+    ? (diff === 0 ? 10 : diff === 1 ? 7 : diff === 2 ? 4 : diff === 3 ? 1 : 0)
+    : 0;
+  const isExact = hasDigitalGuess && diff === 0;
+  const isClose = hasDigitalGuess && diff <= 2;
   const guesser = players[state.guesserIndex];
   const isLastRound = state.roundNumber >= state.totalRounds;
 
@@ -760,70 +908,74 @@ function RevealPhase({
           </span>
         </motion.div>
 
-        {/* Guess comparison */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
-        >
-          <p className="text-text-muted text-sm mb-1">
-            {guesser.name} guessed
-          </p>
-          <p className="text-4xl font-bold text-text-primary">
-            {state.guess}
-          </p>
-          <p
-            className={cn(
-              "text-lg font-bold mt-2",
-              isExact
-                ? "text-success"
-                : isClose
-                  ? "text-warning"
-                  : "text-danger"
-            )}
+        {/* Guess comparison — only when digital guess was made */}
+        {hasDigitalGuess && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
           >
-            {isExact
-              ? "PERFECT!"
-              : diff === 1
-                ? "So close! Off by 1"
-                : `Off by ${diff}`}
-          </p>
-          <p className="text-text-muted text-sm mt-1">+{score} points</p>
-        </motion.div>
+            <p className="text-text-muted text-sm mb-1">
+              {guesser.name} guessed
+            </p>
+            <p className="text-4xl font-bold text-text-primary">
+              {state.guess}
+            </p>
+            <p
+              className={cn(
+                "text-lg font-bold mt-2",
+                isExact
+                  ? "text-success"
+                  : isClose
+                    ? "text-warning"
+                    : "text-danger"
+              )}
+            >
+              {isExact
+                ? "PERFECT!"
+                : diff === 1
+                  ? "So close! Off by 1"
+                  : `Off by ${diff}`}
+            </p>
+            <p className="text-text-muted text-sm mt-1">+{score} points</p>
+          </motion.div>
+        )}
 
-        {/* Current scores */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="w-full"
-        >
-          <p className="text-text-muted text-sm mb-2">Scores</p>
-          <div className="space-y-1.5">
-            {players
-              .map((p, i) => ({
-                player: p,
-                score:
-                  (state.scores[i] || 0) +
-                  (i === state.guesserIndex ? score : 0),
-              }))
-              .sort((a, b) => b.score - a.score)
-              .map(({ player, score: s }) => (
-                <div
-                  key={player.id}
-                  className="flex items-center justify-between bg-surface rounded-lg px-3 py-2"
-                >
-                  <span className="text-sm text-text-secondary">
-                    {player.name}
-                  </span>
-                  <span className="font-bold text-sm" style={{ color: ACCENT }}>
-                    {s}
-                  </span>
-                </div>
-              ))}
-          </div>
-        </motion.div>
+        {/* Current scores — only when scoring is active */}
+        {hasDigitalGuess && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="w-full"
+          >
+            <p className="text-text-muted text-sm mb-2">Scores</p>
+            <div className="space-y-1.5">
+              {players
+                .map((p, i) => ({
+                  player: p,
+                  score:
+                    (state.scores[i] || 0) +
+                    (i === state.guesserIndex ? score : 0),
+                }))
+                .sort((a, b) => b.score - a.score)
+                .map(({ player, score: s }) => (
+                  <div
+                    key={player.id}
+                    className="flex items-center justify-between bg-surface rounded-lg px-3 py-2"
+                  >
+                    <span className="text-sm text-text-secondary">
+                      {player.name}
+                    </span>
+                    <span className="font-bold text-sm" style={{ color: ACCENT }}>
+                      {s}
+                    </span>
+                  </div>
+                ))}
+            </div>
+          </motion.div>
+        )}
 
         <Button accentColor={ACCENT} fullWidth size="lg" onClick={onNextRound}>
           {isLastRound ? "See Final Results" : "Next Round"}
