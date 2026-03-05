@@ -37,6 +37,7 @@ export interface OddOneOutState {
   phase: "setup" | "assigning" | "discussion" | "voting" | "reveal" | "end";
   votes: Record<number, number>;
   enableTimer: boolean;
+  enableVoting: boolean;
   timerDuration: number | null;
   scores: Record<number, number>;
   results: Array<{
@@ -134,6 +135,7 @@ const defaultOddOneOutState: OddOneOutState = {
   phase: "setup",
   votes: {},
   enableTimer: false,
+  enableVoting: false,
   timerDuration: 120,
   scores: {},
   results: [],
@@ -205,6 +207,7 @@ export const useGameStore = create<GameStore>()(
         oddOneOutState: {
           category: state.oddOneOutState.category,
           enableTimer: state.oddOneOutState.enableTimer,
+          enableVoting: state.oddOneOutState.enableVoting,
           timerDuration: state.oddOneOutState.timerDuration,
           totalRounds: state.oddOneOutState.totalRounds,
         },

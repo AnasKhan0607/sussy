@@ -33,10 +33,13 @@ export default function OddOneOutSetup() {
   const [playerCount, setPlayerCount] = useState(4);
   const [totalRounds, setTotalRounds] = useState(oddOneOutState.totalRounds);
   const [enableTimer, setEnableTimer] = useState(oddOneOutState.enableTimer);
+  const [enableVoting, setEnableVoting] = useState(oddOneOutState.enableVoting);
   const [timerDuration, setTimerDuration] = useState<number | null>(
     oddOneOutState.timerDuration
   );
-  const [showAdvanced, setShowAdvanced] = useState(oddOneOutState.enableTimer);
+  const [showAdvanced, setShowAdvanced] = useState(
+    oddOneOutState.enableTimer || oddOneOutState.enableVoting
+  );
   const [showNames, setShowNames] = useState(false);
   const [names, setNames] = useState<string[]>([]);
 
@@ -80,6 +83,7 @@ export default function OddOneOutSetup() {
       phase: "assigning",
       votes: {},
       enableTimer,
+      enableVoting,
       timerDuration,
       scores: {},
       results: [],
@@ -292,6 +296,22 @@ export default function OddOneOutSetup() {
                         </motion.div>
                       )}
                     </AnimatePresence>
+                  </div>
+
+                  {/* Digital Voting toggle */}
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-text-primary">
+                        Digital Voting
+                      </span>
+                      <ToggleSwitch
+                        enabled={enableVoting}
+                        onToggle={() => setEnableVoting(!enableVoting)}
+                      />
+                    </div>
+                    <p className="text-xs text-text-muted mt-1">
+                      Vote through the phone instead of out loud
+                    </p>
                   </div>
                 </div>
               </motion.div>
