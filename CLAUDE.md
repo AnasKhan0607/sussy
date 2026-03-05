@@ -135,7 +135,7 @@ All buttons min 48px tap target. Min font 18px for game content. Dark mode only.
 | Game | Players | Accent | Status |
 |------|---------|--------|--------|
 | The Imposter 🕵️ | 3-20 | Purple | Phase 1 scaffold done |
-| Odd One Out 🤔 | 3-15 | Amber | Data done, gameplay not started |
+| Odd One Out 🤔 | 3-15 | Amber | Full gameplay implemented |
 | Spin & Guess 🎯 | 3-10 | Cyan | Not started |
 
 ---
