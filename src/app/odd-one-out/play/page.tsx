@@ -77,11 +77,13 @@ export default function OddOneOutPlay() {
         currentRound={oddOneOutState.currentRound}
         totalRounds={oddOneOutState.totalRounds}
         enableTimer={oddOneOutState.enableTimer}
+        enableVoting={oddOneOutState.enableVoting}
         timerDuration={oddOneOutState.timerDuration}
         playerCount={players.length}
-        onEnd={() =>
-          updateOddOneOutState({ phase: "voting", currentPlayerIndex: 0 })
-        }
+        onEnd={() => {
+          const nextPhase = oddOneOutState.enableVoting ? "voting" : "reveal";
+          updateOddOneOutState({ phase: nextPhase, currentPlayerIndex: 0 });
+        }}
       />
     );
   }
@@ -121,6 +123,7 @@ export default function OddOneOutPlay() {
         normalQuestion={oddOneOutState.currentNormalQuestion}
         oddQuestion={oddOneOutState.currentOddQuestion}
         votes={oddOneOutState.votes}
+        enableVoting={oddOneOutState.enableVoting}
         currentRound={oddOneOutState.currentRound}
         totalRounds={oddOneOutState.totalRounds}
         scores={oddOneOutState.scores}
@@ -308,6 +311,7 @@ function DiscussionPhase({
   currentRound,
   totalRounds,
   enableTimer,
+  enableVoting,
   timerDuration,
   playerCount,
   onEnd,
@@ -315,6 +319,7 @@ function DiscussionPhase({
   currentRound: number;
   totalRounds: number;
   enableTimer: boolean;
+  enableVoting: boolean;
   timerDuration: number | null;
   playerCount: number;
   onEnd: () => void;
@@ -409,7 +414,9 @@ function DiscussionPhase({
             End discussion?
           </h3>
           <p className="text-text-secondary">
-            Move on to voting now?
+            {enableVoting
+              ? "Move on to voting now?"
+              : "End the discussion and reveal the answer?"}
           </p>
           <div className="flex gap-3">
             <Button
@@ -429,7 +436,7 @@ function DiscussionPhase({
                 onEnd();
               }}
             >
-              Vote now
+              {enableVoting ? "Vote now" : "Reveal"}
             </Button>
           </div>
         </div>
@@ -503,6 +510,7 @@ function RevealPhase({
   normalQuestion,
   oddQuestion,
   votes,
+  enableVoting,
   currentRound,
   totalRounds,
   scores,
@@ -514,6 +522,7 @@ function RevealPhase({
   normalQuestion: string;
   oddQuestion: string;
   votes: Record<number, number>;
+  enableVoting: boolean;
   currentRound: number;
   totalRounds: number;
   scores: Record<number, number>;
@@ -537,12 +546,18 @@ function RevealPhase({
   ) => void;
 }) {
   useWakeLock(true);
+  const [revealed, setRevealed] = useState(false);
 
-  const result = tallyVotes(votes, players);
   const oddPlayer = players[oddOneOutPlayerIndex];
-  const votedOutPlayer = players.find((p) => p.id === result.votedOutId);
-  const wasCorrect = result.votedOutId === oddPlayer.id;
   const isFinalRound = currentRound >= totalRounds;
+
+  // Voting mode: tally votes and compute scores
+  const hasVotes = enableVoting && Object.keys(votes).length > 0;
+  const result = hasVotes ? tallyVotes(votes, players) : null;
+  const votedOutPlayer = result
+    ? players.find((p) => p.id === result.votedOutId)
+    : null;
+  const wasCorrect = result ? result.votedOutId === oddPlayer.id : false;
 
   // Calculate scores for this round
   const newScores = { ...scores };
@@ -550,33 +565,88 @@ function RevealPhase({
     if (newScores[p.id] === undefined) newScores[p.id] = 0;
   });
 
-  // Each voter who correctly identified the odd one out gets +1
-  Object.entries(votes).forEach(([voterId, votedForId]) => {
-    if (votedForId === oddPlayer.id) {
-      newScores[Number(voterId)] = (newScores[Number(voterId)] || 0) + 1;
-    }
-  });
+  if (hasVotes) {
+    // Each voter who correctly identified the odd one out gets +1
+    Object.entries(votes).forEach(([voterId, votedForId]) => {
+      if (votedForId === oddPlayer.id) {
+        newScores[Number(voterId)] = (newScores[Number(voterId)] || 0) + 1;
+      }
+    });
 
-  // If the odd one out survived (wasn't voted out), they get +2
-  if (!wasCorrect) {
-    newScores[oddPlayer.id] = (newScores[oddPlayer.id] || 0) + 2;
+    // If the odd one out survived (wasn't voted out), they get +2
+    if (!wasCorrect) {
+      newScores[oddPlayer.id] = (newScores[oddPlayer.id] || 0) + 2;
+    }
   }
 
   const roundResult = {
     round: currentRound,
     oddOneOutIndex: oddOneOutPlayerIndex,
-    votedOutId: result.votedOutId,
+    votedOutId: result?.votedOutId ?? -1,
     wasCorrect,
   };
 
-  // Haptic on mount
+  // Haptic on reveal (voting mode only — no-voting mode fires via button)
   useEffect(() => {
-    if (wasCorrect) {
-      vibrateSuccess();
-    } else {
-      vibrateDanger();
+    if (!enableVoting) return;
+    if (hasVotes) {
+      if (wasCorrect) {
+        vibrateSuccess();
+      } else {
+        vibrateDanger();
+      }
     }
-  }, [wasCorrect]);
+  }, [wasCorrect, hasVotes, enableVoting]);
+
+  // No-voting mode: show a "reveal" button first
+  if (!enableVoting && !revealed) {
+    return (
+      <GameShell title="Odd One Out" accentColor={ACCENT}>
+        <div className="flex flex-col items-center text-center gap-6 pt-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <p className="text-text-muted text-sm mb-1">
+              Round {currentRound} of {totalRounds}
+            </p>
+            <h2 className="text-2xl font-bold text-text-primary mb-2">
+              Who do you think it was?
+            </h2>
+            <p className="text-text-secondary text-sm">
+              Discuss and decide, then reveal the answer.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-6xl py-4"
+          >
+            🤔
+          </motion.div>
+
+          <p className="text-text-muted text-sm">
+            {players.length} players
+          </p>
+
+          <Button
+            accentColor="#EF4444"
+            fullWidth
+            size="lg"
+            onClick={() => {
+              vibrateDanger();
+              setRevealed(true);
+            }}
+            className="max-w-sm"
+          >
+            Reveal Answer
+          </Button>
+        </div>
+      </GameShell>
+    );
+  }
 
   return (
     <GameShell title="Odd One Out" accentColor={ACCENT}>
@@ -587,57 +657,70 @@ function RevealPhase({
         </p>
 
         {/* Outcome */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-        >
-          <h2
-            className="text-2xl font-bold"
-            style={{ color: wasCorrect ? "#10B981" : "#EF4444" }}
+        {hasVotes ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
           >
-            {wasCorrect
-              ? "The group found the Odd One Out!"
-              : "The Odd One Out survived!"}
-          </h2>
-        </motion.div>
-
-        {/* Voted out */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
-        >
-          <p className="text-text-muted text-sm mb-2">Voted Out</p>
-          <p className="text-2xl font-bold text-text-primary mb-1">
-            {votedOutPlayer?.name}
-          </p>
-          <p
-            className={`text-lg font-semibold ${
-              wasCorrect ? "text-success" : "text-danger"
-            }`}
+            <h2
+              className="text-2xl font-bold"
+              style={{ color: wasCorrect ? "#10B981" : "#EF4444" }}
+            >
+              {wasCorrect
+                ? "The group found the Odd One Out!"
+                : "The Odd One Out survived!"}
+            </h2>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
           >
-            {wasCorrect
-              ? "They had the different question!"
-              : "They had the same question as everyone else!"}
-          </p>
-          {result.isTie && (
-            <p className="text-text-muted text-xs mt-1">
-              (Tie — first player with most votes was eliminated)
-            </p>
-          )}
-        </motion.div>
+            <h2 className="text-2xl font-bold" style={{ color: ACCENT }}>
+              The Odd One Out was...
+            </h2>
+          </motion.div>
+        )}
 
-        {/* The odd one out (if they weren't voted out) */}
-        {!wasCorrect && (
+        {/* Voted out (only in voting mode) */}
+        {hasVotes && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.3 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
+          >
+            <p className="text-text-muted text-sm mb-2">Voted Out</p>
+            <p className="text-2xl font-bold text-text-primary mb-1">
+              {votedOutPlayer?.name}
+            </p>
+            <p
+              className={`text-lg font-semibold ${
+                wasCorrect ? "text-success" : "text-danger"
+              }`}
+            >
+              {wasCorrect
+                ? "They had the different question!"
+                : "They had the same question as everyone else!"}
+            </p>
+            {result!.isTie && (
+              <p className="text-text-muted text-xs mt-1">
+                (Tie — first player with most votes was eliminated)
+              </p>
+            )}
+          </motion.div>
+        )}
+
+        {/* The odd one out reveal */}
+        {(!hasVotes || !wasCorrect) && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: hasVotes ? 0.5 : 0.3 }}
             className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
           >
             <p className="text-text-muted text-sm mb-2">
-              The real Odd One Out
+              {hasVotes ? "The real Odd One Out" : "The Odd One Out"}
             </p>
             <p className="text-2xl font-bold" style={{ color: ACCENT }}>
               {oddPlayer.name}
@@ -649,7 +732,7 @@ function RevealPhase({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
+          transition={{ delay: hasVotes ? 0.7 : 0.5 }}
           className="w-full space-y-3"
         >
           <div className="bg-surface border border-border rounded-[var(--radius-card)] p-4">
@@ -679,96 +762,108 @@ function RevealPhase({
           </div>
         </motion.div>
 
-        {/* Vote breakdown */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
-        >
-          <p className="text-text-muted text-sm mb-3">Vote Breakdown</p>
-          <div className="space-y-2">
-            {players
-              .map((p) => ({
-                player: p,
-                count: result.voteCounts[p.id] || 0,
-              }))
-              .sort((a, b) => b.count - a.count)
-              .map(({ player, count }) => (
-                <div
-                  key={player.id}
-                  className="flex items-center justify-between"
-                >
-                  <span
-                    className={`text-sm font-medium ${
-                      player.id === oddPlayer.id
-                        ? "text-warning"
-                        : "text-text-secondary"
-                    }`}
-                  >
-                    {player.name}
-                    {player.id === oddPlayer.id && " 🤔"}
-                  </span>
-                  <div className="flex items-center gap-2">
+        {/* Vote breakdown (only in voting mode) */}
+        {hasVotes && (
+          <>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+              className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
+            >
+              <p className="text-text-muted text-sm mb-3">Vote Breakdown</p>
+              <div className="space-y-2">
+                {players
+                  .map((p) => ({
+                    player: p,
+                    count: result!.voteCounts[p.id] || 0,
+                  }))
+                  .sort((a, b) => b.count - a.count)
+                  .map(({ player, count }) => (
                     <div
-                      className="h-2 rounded-full"
-                      style={{
-                        width: `${Math.max(
-                          8,
-                          (count / players.length) * 120
-                        )}px`,
-                        backgroundColor:
-                          player.id === result.votedOutId ? "#EF4444" : ACCENT,
-                      }}
-                    />
-                    <span className="text-text-muted text-xs w-4">
-                      {count}
-                    </span>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </motion.div>
-
-        {/* Scoring summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1 }}
-          className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
-        >
-          <p className="text-text-muted text-sm mb-3">Round Scoring</p>
-          <div className="space-y-1 text-sm">
-            {Object.entries(votes).map(([voterId, votedForId]) => {
-              const voter = players.find((p) => p.id === Number(voterId));
-              const correct = votedForId === oddPlayer.id;
-              if (!voter) return null;
-              return (
-                <div
-                  key={voterId}
-                  className="flex items-center justify-between"
-                >
-                  <span className="text-text-secondary">{voter.name}</span>
-                  <span
-                    className={
-                      correct ? "text-success font-bold" : "text-text-muted"
-                    }
-                  >
-                    {correct ? "+1" : "0"}
-                  </span>
-                </div>
-              );
-            })}
-            {!wasCorrect && (
-              <div className="flex items-center justify-between border-t border-border pt-1 mt-1">
-                <span style={{ color: ACCENT }} className="font-medium">
-                  {oddPlayer.name} (survived)
-                </span>
-                <span className="text-success font-bold">+2</span>
+                      key={player.id}
+                      className="flex items-center justify-between"
+                    >
+                      <span
+                        className={`text-sm font-medium ${
+                          player.id === oddPlayer.id
+                            ? "text-warning"
+                            : "text-text-secondary"
+                        }`}
+                      >
+                        {player.name}
+                        {player.id === oddPlayer.id && " 🤔"}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="h-2 rounded-full"
+                          style={{
+                            width: `${Math.max(
+                              8,
+                              (count / players.length) * 120
+                            )}px`,
+                            backgroundColor:
+                              player.id === result!.votedOutId
+                                ? "#EF4444"
+                                : ACCENT,
+                          }}
+                        />
+                        <span className="text-text-muted text-xs w-4">
+                          {count}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
               </div>
-            )}
-          </div>
-        </motion.div>
+            </motion.div>
+
+            {/* Scoring summary */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1 }}
+              className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
+            >
+              <p className="text-text-muted text-sm mb-3">Round Scoring</p>
+              <div className="space-y-1 text-sm">
+                {Object.entries(votes).map(([voterId, votedForId]) => {
+                  const voter = players.find(
+                    (p) => p.id === Number(voterId)
+                  );
+                  const correct = votedForId === oddPlayer.id;
+                  if (!voter) return null;
+                  return (
+                    <div
+                      key={voterId}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-text-secondary">
+                        {voter.name}
+                      </span>
+                      <span
+                        className={
+                          correct
+                            ? "text-success font-bold"
+                            : "text-text-muted"
+                        }
+                      >
+                        {correct ? "+1" : "0"}
+                      </span>
+                    </div>
+                  );
+                })}
+                {!wasCorrect && (
+                  <div className="flex items-center justify-between border-t border-border pt-1 mt-1">
+                    <span style={{ color: ACCENT }} className="font-medium">
+                      {oddPlayer.name} (survived)
+                    </span>
+                    <span className="text-success font-bold">+2</span>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
 
         {/* Action button */}
         <Button
