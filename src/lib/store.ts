@@ -24,6 +24,7 @@ export interface ImposterState {
   enableVoting: boolean;
   showCategoryToImposter: boolean;
   showHintToImposter: boolean;
+  isChaosRound: boolean;
 }
 
 export interface OddOneOutState {
@@ -122,6 +123,7 @@ const defaultImposterState: ImposterState = {
   enableVoting: false,
   showCategoryToImposter: true,
   showHintToImposter: false,
+  isChaosRound: false,
 };
 
 const defaultOddOneOutState: OddOneOutState = {

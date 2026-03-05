@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useGameStore, Player } from "@/lib/store";
 import { categories } from "@/data/imposter";
-import { assignImposterRoles, pickWord, CategoryData } from "@/lib/gameEngine";
+import { assignImposterRoles, pickWord, rollChaosRound, CategoryData } from "@/lib/gameEngine";
 import { cn } from "@/lib/utils";
 
 const CUSTOM_CATEGORY_ID = "__custom__";
@@ -155,7 +155,13 @@ export default function ImposterSetup() {
 
     // Pick word and assign roles
     const { word: secretWord, hint: secretHint } = pickWord(categoryData, difficulty);
-    const imposterIndices = assignImposterRoles(playerCount, imposterCount);
+    let imposterIndices = assignImposterRoles(playerCount, imposterCount);
+
+    // 1-in-15 chance: chaos round — everyone is the imposter
+    const isChaosRound = rollChaosRound();
+    if (isChaosRound) {
+      imposterIndices = Array.from({ length: playerCount }, (_, i) => i);
+    }
 
     setPlayers(players);
     setCurrentGame("imposter");
@@ -171,6 +177,7 @@ export default function ImposterSetup() {
       enableVoting,
       showCategoryToImposter,
       showHintToImposter,
+      isChaosRound,
       currentPlayerIndex: 0,
       phase: "assigning",
       votes: {},

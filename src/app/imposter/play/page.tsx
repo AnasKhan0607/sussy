@@ -16,7 +16,7 @@ import { ResultsScreen } from "@/components/game/ResultsScreen";
 import { vibratePattern, vibrateSuccess, vibrateDanger } from "@/lib/haptics";
 import { tallyVotes, checkImposterWin } from "@/lib/gameEngine";
 import { categories } from "@/data/imposter";
-import { assignImposterRoles, pickWord } from "@/lib/gameEngine";
+import { assignImposterRoles, pickWord, rollChaosRound } from "@/lib/gameEngine";
 
 const ACCENT = "#8B5CF6";
 
@@ -146,18 +146,24 @@ export default function ImposterPlay() {
         category={category}
         imposterCount={imposterState.imposterCount}
         playerCount={players.length}
+        isChaosRound={imposterState.isChaosRound}
         onPlayAgain={() => {
           const categoryData = categories.find((c) => c.category === category);
           if (!categoryData) return;
           const { word: newWord, hint: newHint } = pickWord(categoryData, imposterState.difficulty);
-          const newIndices = assignImposterRoles(
+          let newIndices = assignImposterRoles(
             players.length,
             imposterState.imposterCount
           );
+          const chaos = rollChaosRound();
+          if (chaos) {
+            newIndices = Array.from({ length: players.length }, (_, i) => i);
+          }
           updateImposterState({
             secretWord: newWord,
             secretHint: newHint,
             imposterIndices: newIndices,
+            isChaosRound: chaos,
             currentPlayerIndex: 0,
             phase: "assigning",
             votes: {},
@@ -187,19 +193,25 @@ export default function ImposterPlay() {
         difficulty={imposterState.difficulty}
         imposterCount={imposterState.imposterCount}
         timerDuration={imposterState.timerDuration}
+        isChaosRound={imposterState.isChaosRound}
         onPlayAgain={() => {
           // Same settings, new word and roles
           const categoryData = categories.find((c) => c.category === category);
           if (!categoryData) return;
           const { word: newWord, hint: newHint } = pickWord(categoryData, imposterState.difficulty);
-          const newIndices = assignImposterRoles(
+          let newIndices = assignImposterRoles(
             players.length,
             imposterState.imposterCount
           );
+          const chaos = rollChaosRound();
+          if (chaos) {
+            newIndices = Array.from({ length: players.length }, (_, i) => i);
+          }
           updateImposterState({
             secretWord: newWord,
             secretHint: newHint,
             imposterIndices: newIndices,
+            isChaosRound: chaos,
             currentPlayerIndex: 0,
             phase: "assigning",
             votes: {},
@@ -542,6 +554,7 @@ function RevealPhase({
   category,
   imposterCount,
   playerCount,
+  isChaosRound,
   onPlayAgain,
   onNewGame,
   onHome,
@@ -552,6 +565,7 @@ function RevealPhase({
   category: string;
   imposterCount: number;
   playerCount: number;
+  isChaosRound: boolean;
   onPlayAgain: () => void;
   onNewGame: () => void;
   onHome: () => void;
@@ -618,7 +632,7 @@ function RevealPhase({
   return (
     <GameShell title="The Imposter" accentColor={ACCENT}>
       <ResultsScreen
-        title="The Imposter Revealed!"
+        title={isChaosRound ? "Plot Twist!" : "The Imposter Revealed!"}
         accentColor={ACCENT}
         onPlayAgain={onPlayAgain}
         onNewGame={onNewGame}
@@ -632,22 +646,35 @@ function RevealPhase({
             transition={{ delay: 0.3 }}
             className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
           >
-            <p className="text-text-muted text-sm mb-2">
-              {imposterNames.length === 1 ? "The Imposter" : "The Imposters"}
-            </p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {imposterNames.map((name, i) => (
-                <motion.span
-                  key={name}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.4 + i * 0.2 }}
-                  className="text-2xl font-bold text-danger"
-                >
-                  {name}
-                </motion.span>
-              ))}
-            </div>
+            {isChaosRound ? (
+              <div className="text-center">
+                <p className="text-3xl font-black text-danger mb-2">
+                  EVERYONE was the Imposter!
+                </p>
+                <p className="text-text-secondary text-sm">
+                  Nobody knew the word. Pure chaos.
+                </p>
+              </div>
+            ) : (
+              <>
+                <p className="text-text-muted text-sm mb-2">
+                  {imposterNames.length === 1 ? "The Imposter" : "The Imposters"}
+                </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {imposterNames.map((name, i) => (
+                    <motion.span
+                      key={name}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.4 + i * 0.2 }}
+                      className="text-2xl font-bold text-danger"
+                    >
+                      {name}
+                    </motion.span>
+                  ))}
+                </div>
+              </>
+            )}
           </motion.div>
 
           {/* Secret word */}
@@ -657,7 +684,9 @@ function RevealPhase({
             transition={{ delay: 0.6 }}
             className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
           >
-            <p className="text-text-muted text-sm mb-1">The Secret Word</p>
+            <p className="text-text-muted text-sm mb-1">
+              {isChaosRound ? "The Word Nobody Knew" : "The Secret Word"}
+            </p>
             <p className="text-3xl font-black" style={{ color: ACCENT }}>
               {secretWord}
             </p>
@@ -678,6 +707,7 @@ function ResultsPhase({
   difficulty,
   imposterCount,
   timerDuration,
+  isChaosRound,
   onPlayAgain,
   onNewGame,
   onHome,
@@ -690,6 +720,7 @@ function ResultsPhase({
   difficulty: string;
   imposterCount: number;
   timerDuration: number | null;
+  isChaosRound: boolean;
   onPlayAgain: () => void;
   onNewGame: () => void;
   onHome: () => void;
@@ -710,80 +741,110 @@ function ResultsPhase({
 
   // Haptic on mount
   useEffect(() => {
-    if (imposterWins) {
+    if (isChaosRound) {
+      vibrateDanger();
+    } else if (imposterWins) {
       vibrateDanger();
     } else {
       vibrateSuccess();
     }
-  }, [imposterWins]);
+  }, [imposterWins, isChaosRound]);
+
+  const title = isChaosRound
+    ? "Total Chaos!"
+    : imposterWins
+      ? "The Imposter Wins!"
+      : "The Group Wins!";
 
   return (
     <GameShell title="The Imposter" accentColor={ACCENT}>
       <ResultsScreen
-        title={imposterWins ? "The Imposter Wins!" : "The Group Wins!"}
+        title={title}
         accentColor={ACCENT}
         onPlayAgain={onPlayAgain}
         onNewGame={onNewGame}
         onHome={onHome}
       >
         <div className="space-y-5 w-full">
-          {/* Voted out reveal */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
-          >
-            <p className="text-text-muted text-sm mb-2">Voted Out</p>
-            <p className="text-2xl font-bold text-text-primary mb-1">
-              {votedOutPlayer?.name}
-            </p>
-            <p
-              className={`text-lg font-semibold ${
-                votedOutWasImposter ? "text-success" : "text-danger"
-              }`}
+          {/* Chaos reveal or voted out reveal */}
+          {isChaosRound ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
             >
-              {votedOutWasImposter
-                ? "They were the Imposter!"
-                : "They were innocent!"}
-            </p>
-            {result.isTie && (
-              <p className="text-text-muted text-xs mt-1">
-                (Tie — first player with most votes was eliminated)
+              <div className="text-center">
+                <p className="text-3xl font-black text-danger mb-2">
+                  EVERYONE was the Imposter!
+                </p>
+                <p className="text-text-secondary text-sm">
+                  Nobody knew the word. Pure chaos.
+                </p>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
+            >
+              <p className="text-text-muted text-sm mb-2">Voted Out</p>
+              <p className="text-2xl font-bold text-text-primary mb-1">
+                {votedOutPlayer?.name}
               </p>
-            )}
-          </motion.div>
+              <p
+                className={`text-lg font-semibold ${
+                  votedOutWasImposter ? "text-success" : "text-danger"
+                }`}
+              >
+                {votedOutWasImposter
+                  ? "They were the Imposter!"
+                  : "They were innocent!"}
+              </p>
+              {result.isTie && (
+                <p className="text-text-muted text-xs mt-1">
+                  (Tie — first player with most votes was eliminated)
+                </p>
+              )}
+            </motion.div>
+          )}
 
-          {/* Imposter reveal */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
-          >
-            <p className="text-text-muted text-sm mb-2">
-              {imposterNames.length === 1 ? "The Imposter" : "The Imposters"}
-            </p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {imposterNames.map((name) => (
-                <span
-                  key={name}
-                  className="text-xl font-bold text-danger"
-                >
-                  {name}
-                </span>
-              ))}
-            </div>
-          </motion.div>
+          {/* Imposter reveal (skip in chaos — already shown above) */}
+          {!isChaosRound && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
+            >
+              <p className="text-text-muted text-sm mb-2">
+                {imposterNames.length === 1 ? "The Imposter" : "The Imposters"}
+              </p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {imposterNames.map((name) => (
+                  <span
+                    key={name}
+                    className="text-xl font-bold text-danger"
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
           {/* Secret word */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
+            transition={{ delay: isChaosRound ? 0.6 : 0.9 }}
             className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
           >
-            <p className="text-text-muted text-sm mb-1">The Secret Word</p>
+            <p className="text-text-muted text-sm mb-1">
+              {isChaosRound ? "The Word Nobody Knew" : "The Secret Word"}
+            </p>
             <p className="text-3xl font-black" style={{ color: ACCENT }}>
               {secretWord}
             </p>
@@ -794,7 +855,7 @@ function ResultsPhase({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
+            transition={{ delay: isChaosRound ? 0.9 : 1.2 }}
             className="bg-surface border border-border rounded-[var(--radius-card)] p-5"
           >
             <p className="text-text-muted text-sm mb-3">Vote Breakdown</p>
@@ -812,17 +873,20 @@ function ResultsPhase({
                   >
                     <span
                       className={`text-sm font-medium ${
-                        imposterIndices.includes(
-                          players.findIndex((p) => p.id === player.id)
-                        )
+                        isChaosRound
                           ? "text-danger"
-                          : "text-text-secondary"
+                          : imposterIndices.includes(
+                              players.findIndex((p) => p.id === player.id)
+                            )
+                            ? "text-danger"
+                            : "text-text-secondary"
                       }`}
                     >
                       {player.name}
-                      {imposterIndices.includes(
-                        players.findIndex((p) => p.id === player.id)
-                      ) && " 🕵️"}
+                      {(isChaosRound ||
+                        imposterIndices.includes(
+                          players.findIndex((p) => p.id === player.id)
+                        )) && " 🕵️"}
                     </span>
                     <div className="flex items-center gap-2">
                       <div
