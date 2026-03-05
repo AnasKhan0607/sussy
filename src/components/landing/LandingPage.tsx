@@ -10,6 +10,7 @@ import { ComparisonTable } from "./ComparisonTable";
 import { FooterCTA } from "./FooterCTA";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import Image from "next/image";
 import { games, comingSoon } from "@/data/games";
 
 const containerVariants = {
@@ -69,7 +70,17 @@ export function LandingPage() {
                 onClick={() => router.push(`/${game.id}`)}
                 className="h-full text-center p-8"
               >
-                <span className="text-5xl block mb-4">{game.emoji}</span>
+                {game.icon ? (
+                  <Image
+                    src={game.icon}
+                    alt={game.name}
+                    width={96}
+                    height={96}
+                    className="object-contain mx-auto mb-4"
+                  />
+                ) : (
+                  <span className="text-5xl block mb-4">{game.emoji}</span>
+                )}
                 <h3 className="text-xl font-bold mb-1">{game.name}</h3>
                 <p className="text-text-secondary text-sm mb-3">
                   {game.description}

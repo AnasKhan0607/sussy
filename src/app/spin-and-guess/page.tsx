@@ -95,7 +95,7 @@ export default function SpinAndGuessSetup() {
   const hasNames = Array.from({ length: playerCount }, (_, i) => names[i]?.trim()).some(Boolean);
 
   return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+    <GameShell title="Wavelength" accentColor={ACCENT}>
       <motion.div
         className="space-y-8 pb-4"
         variants={staggerContainer(0.08)}
@@ -279,7 +279,7 @@ export default function SpinAndGuessSetup() {
           size="lg"
           onClick={handleStart}
         >
-          🎯 Start Game
+          🌊 Start Game
         </Button>
         </motion.div>
       </motion.div>

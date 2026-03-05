@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useMotionValue, useSpring, animate, useTransform } from "framer-motion";
+import Image from "next/image";
 import { PhoneFrame } from "./PhoneFrame";
 import { games, type Game } from "@/data/games";
 
@@ -12,7 +13,17 @@ const AUTO_ROTATE_MS = 4000;
 function GamePreview({ game }: { game: Game }) {
   return (
     <div className="h-full flex flex-col items-center justify-center p-4 bg-bg-secondary">
-      <span className="text-6xl mb-4">{game.emoji}</span>
+      {game.icon ? (
+        <Image
+          src={game.icon}
+          alt={game.name}
+          width={120}
+          height={120}
+          className="object-contain mb-4"
+        />
+      ) : (
+        <span className="text-6xl mb-4">{game.emoji}</span>
+      )}
       <h3 className="text-lg font-bold text-text-primary mb-1">{game.name}</h3>
       <p className="text-xs text-text-secondary text-center">{game.tagline}</p>
       <div

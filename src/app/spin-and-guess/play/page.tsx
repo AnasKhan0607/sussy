@@ -35,7 +35,7 @@ export default function SpinAndGuessPlay() {
 
   if (players.length === 0 || state.phase === "setup") {
     return (
-      <GameShell title="Spin & Guess" accentColor={ACCENT}>
+      <GameShell title="Wavelength" accentColor={ACCENT}>
         <div className="text-center py-12">
           <p className="text-text-secondary text-lg mb-4">
             No game in progress
@@ -327,7 +327,7 @@ function AssignCategoriesPhase({
   };
 
   return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+    <GameShell title="Wavelength" accentColor={ACCENT}>
       <div className="space-y-5">
         <div className="text-center">
           <p className="text-text-muted text-sm">
@@ -459,7 +459,7 @@ function SpinningPhase({
   }
 
   return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+    <GameShell title="Wavelength" accentColor={ACCENT}>
       <div className="flex flex-col items-center gap-4 pt-4">
         <p className="text-text-secondary text-sm">
           {guesserName}, look away!
@@ -532,7 +532,7 @@ function CluesPhase({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <GameShell title="Spin & Guess" accentColor={ACCENT}>
+      <GameShell title="Wavelength" accentColor={ACCENT}>
         <div className="space-y-5">
           <div className="text-center">
             <p className="text-text-muted text-sm mb-1">
@@ -628,7 +628,7 @@ function ClueOverviewPhase({
   const guesser = players[guesserIndex];
 
   return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+    <GameShell title="Wavelength" accentColor={ACCENT}>
       <div className="space-y-5">
         <div className="text-center">
           <p className="text-text-muted text-sm mb-1">The number is</p>
@@ -703,14 +703,14 @@ function VerbalGuessPhase({
   onReveal: () => void;
 }) {
   return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+    <GameShell title="Wavelength" accentColor={ACCENT}>
       <div className="flex flex-col items-center text-center gap-6 pt-12">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", duration: 0.5 }}
         >
-          <p className="text-5xl mb-4">🎯</p>
+          <p className="text-5xl mb-4">🌊</p>
           <h2 className="text-2xl font-black" style={{ color: ACCENT }}>
             {guesserName}&apos;s Turn
           </h2>
@@ -760,7 +760,7 @@ function GuessingPhase({
   }
 
   return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+    <GameShell title="Wavelength" accentColor={ACCENT}>
       <div className="space-y-5">
         <div className="text-center">
           <h2 className="text-xl font-bold" style={{ color: ACCENT }}>
@@ -891,7 +891,7 @@ function RevealPhase({
   }, [isExact]);
 
   return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+    <GameShell title="Wavelength" accentColor={ACCENT}>
       <div className="flex flex-col items-center text-center gap-5 pt-4">
         {/* Number reveal */}
         <motion.div
@@ -1040,7 +1040,7 @@ function EndScreen({
   );
 
   return (
-    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+    <GameShell title="Wavelength" accentColor={ACCENT}>
       <ResultsScreen
         title="Game Over!"
         accentColor={ACCENT}

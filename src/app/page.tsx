@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { LandingPage } from "@/components/landing/LandingPage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import Image from "next/image";
 import { games, comingSoon } from "@/data/games";
 
 const containerVariants = {
@@ -48,9 +49,19 @@ export default function Home() {
               className={game.featured ? "py-8" : ""}
             >
               <div className="flex items-center gap-4">
-                <span className={game.featured ? "text-5xl" : "text-3xl"}>
-                  {game.emoji}
-                </span>
+                {game.icon ? (
+                  <Image
+                    src={game.icon}
+                    alt={game.name}
+                    width={game.featured ? 96 : 72}
+                    height={game.featured ? 96 : 72}
+                    className="object-contain"
+                  />
+                ) : (
+                  <span className={game.featured ? "text-5xl" : "text-3xl"}>
+                    {game.emoji}
+                  </span>
+                )}
                 <div className="flex-1 min-w-0">
                   <h2
                     className={`font-bold ${game.featured ? "text-2xl" : "text-xl"}`}

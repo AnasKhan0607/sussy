@@ -216,7 +216,7 @@ export function ArchSpinner({
           className="px-8 py-4 rounded-full font-bold text-lg text-white cursor-pointer min-h-[48px]"
           style={{ backgroundColor: accentColor }}
         >
-          🎯 Spin!
+          🌊 Spin!
         </motion.button>
       )}
 
