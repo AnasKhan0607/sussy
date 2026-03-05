@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { GameShell } from "@/components/layout/GameShell";
@@ -11,6 +11,7 @@ import { ArchSpinner } from "@/components/game/ArchSpinner";
 import { ResultsScreen } from "@/components/game/ResultsScreen";
 import { useGameStore, SpinAndGuessAssignment, SpinAndGuessRound } from "@/lib/store";
 import { vibrateSuccess } from "@/lib/haptics";
+import { fireConfetti, fireWinConfetti } from "@/lib/confetti";
 import { useWakeLock } from "@/hooks/useWakeLock";
 import {
   categories as allCategories,
@@ -143,7 +144,6 @@ export default function SpinAndGuessPlay() {
         players={players}
         state={state}
         onNextRound={() => {
-          // Score: exact = 10, off by 1 = 7, off by 2 = 4, off by 3 = 1
           const diff = Math.abs(
             (state.guess ?? 0) - (state.secretNumber ?? 0)
           );
@@ -171,7 +171,6 @@ export default function SpinAndGuessPlay() {
               phase: "end",
             });
           } else {
-            // Rotate guesser
             const nextGuesser =
               (state.guesserIndex + 1) % players.length;
             updateSpinAndGuessState({
@@ -193,7 +192,6 @@ export default function SpinAndGuessPlay() {
     );
   }
 
-  // End phase
   if (state.phase === "end") {
     return (
       <EndScreen
@@ -201,7 +199,6 @@ export default function SpinAndGuessPlay() {
         scores={state.scores}
         roundHistory={state.roundHistory}
         onPlayAgain={() => {
-          // Same players, reset game
           const initialScores: Record<number, number> = {};
           players.forEach((p) => (initialScores[p.id] = 0));
           updateSpinAndGuessState({
@@ -739,6 +736,12 @@ function RevealPhase({
   const guesser = players[state.guesserIndex];
   const isLastRound = state.roundNumber >= state.totalRounds;
 
+  useEffect(() => {
+    if (isExact) {
+      fireConfetti(["#06B6D4", "#10B981", "#FFFFFF"]);
+    }
+  }, [isExact]);
+
   return (
     <GameShell title="Spin & Guess" accentColor={ACCENT}>
       <div className="flex flex-col items-center text-center gap-5 pt-4">
@@ -847,6 +850,10 @@ function EndScreen({
   onNewGame: () => void;
   onHome: () => void;
 }) {
+  useEffect(() => {
+    fireWinConfetti();
+  }, []);
+
   // Sort players by score descending
   const leaderboard = players
     .map((p, i) => ({ player: p, index: i, score: scores[i] || 0 }))

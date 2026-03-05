@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useGameStore, Player } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { staggerContainer, fadeSlideUp } from "@/lib/animations";
 
 const ACCENT = "#06B6D4";
 const MIN_PLAYERS = 3;
@@ -92,9 +93,14 @@ export default function SpinAndGuessSetup() {
 
   return (
     <GameShell title="Spin & Guess" accentColor={ACCENT}>
-      <div className="space-y-8 pb-4">
+      <motion.div
+        className="space-y-8 pb-4"
+        variants={staggerContainer(0.08)}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Player count */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Players</h2>
           <Card>
             <div className="flex items-center justify-between mb-4">
@@ -150,10 +156,10 @@ export default function SpinAndGuessSetup() {
               ))}
             </div>
           </Card>
-        </section>
+        </motion.section>
 
         {/* Rounds */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">Rounds</h2>
           <div className="space-y-2.5">
             {ROUND_OPTIONS.map((opt) => {
@@ -189,10 +195,10 @@ export default function SpinAndGuessSetup() {
             {getRoundCount()} rounds total · each player guesses{" "}
             {roundMode === "quick" ? "once" : roundMode === "standard" ? "twice" : "3 times"}
           </p>
-        </section>
+        </motion.section>
 
         {/* First guesser */}
-        <section>
+        <motion.section variants={fadeSlideUp}>
           <h2 className="text-lg font-bold mb-3">First Guesser</h2>
           <div className="flex gap-2.5">
             {(["random", "first"] as const).map((mode) => {
@@ -214,9 +220,10 @@ export default function SpinAndGuessSetup() {
               );
             })}
           </div>
-        </section>
+        </motion.section>
 
         {/* Start button */}
+        <motion.div variants={fadeSlideUp}>
         <Button
           accentColor={ACCENT}
           fullWidth
@@ -225,7 +232,8 @@ export default function SpinAndGuessSetup() {
         >
           🎯 Start Game
         </Button>
-      </div>
+        </motion.div>
+      </motion.div>
     </GameShell>
   );
 }

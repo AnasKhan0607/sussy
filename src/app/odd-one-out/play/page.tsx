@@ -15,6 +15,8 @@ import { Modal } from "@/components/ui/Modal";
 import { useGameStore, Player } from "@/lib/store";
 import { useWakeLock } from "@/hooks/useWakeLock";
 import { vibratePattern, vibrateSuccess, vibrateDanger } from "@/lib/haptics";
+import { fireConfetti, fireWinConfetti } from "@/lib/confetti";
+import { AnimatedNumber } from "@/components/game/AnimatedNumber";
 import { tallyVotes, pickOddOneOut } from "@/lib/gameEngine";
 import { categories } from "@/data/odd-one-out";
 import { pickRandom } from "@/lib/utils";
@@ -137,7 +139,6 @@ export default function OddOneOutPlay() {
           const question = pickRandom(categoryData.questions);
           const oddIndex = pickOddOneOut(players.length);
 
-          // Update player scores in store
           const updatedPlayers = players.map((p) => ({
             ...p,
             score: newScores[p.id] || 0,
@@ -189,7 +190,6 @@ export default function OddOneOutPlay() {
           const question = pickRandom(categoryData.questions);
           const oddIndex = pickOddOneOut(players.length);
 
-          // Reset player scores
           const resetPlayers = players.map((p) => ({ ...p, score: 0 }));
           setPlayers(resetPlayers);
 
@@ -586,12 +586,13 @@ function RevealPhase({
     wasCorrect,
   };
 
-  // Haptic on reveal (voting mode only — no-voting mode fires via button)
+  // Haptic + confetti on reveal (voting mode only — no-voting mode fires via button)
   useEffect(() => {
     if (!enableVoting) return;
     if (hasVotes) {
       if (wasCorrect) {
         vibrateSuccess();
+        fireConfetti(["#F59E0B", "#10B981"]);
       } else {
         vibrateDanger();
       }
@@ -795,22 +796,29 @@ function RevealPhase({
                         {player.id === oddPlayer.id && " 🤔"}
                       </span>
                       <div className="flex items-center gap-2">
-                        <div
+                        <motion.div
                           className="h-2 rounded-full"
-                          style={{
-                            width: `${Math.max(
+                          initial={{ width: 8 }}
+                          animate={{
+                            width: Math.max(
                               8,
                               (count / players.length) * 120
-                            )}px`,
+                            ),
+                          }}
+                          transition={{ duration: 0.6, delay: 0.3 }}
+                          style={{
                             backgroundColor:
                               player.id === result!.votedOutId
                                 ? "#EF4444"
                                 : ACCENT,
                           }}
                         />
-                        <span className="text-text-muted text-xs w-4">
-                          {count}
-                        </span>
+                        <AnimatedNumber
+                          value={count}
+                          duration={0.6}
+                          delay={0.3}
+                          className="text-text-muted text-xs w-4"
+                        />
                       </div>
                     </div>
                   ))}
@@ -921,6 +929,7 @@ function EndPhase({
 
   useEffect(() => {
     vibrateSuccess();
+    fireWinConfetti();
   }, []);
 
   return (

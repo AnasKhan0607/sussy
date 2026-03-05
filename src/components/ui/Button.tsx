@@ -2,6 +2,7 @@
 
 import { motion, HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 type ButtonSize = "sm" | "md" | "lg";
@@ -37,6 +38,7 @@ export function Button({
   style,
   ...props
 }: ButtonProps) {
+  const prefersReduced = useReducedMotion();
   const bgStyle =
     variant === "primary" && accentColor
       ? { background: accentColor, ...style }
@@ -44,8 +46,8 @@ export function Button({
 
   return (
     <motion.button
-      whileTap={{ scale: 0.97 }}
-      whileHover={{ scale: 1.02 }}
+      whileTap={prefersReduced ? undefined : { scale: 0.97 }}
+      whileHover={prefersReduced ? undefined : { scale: 1.02 }}
       className={cn(
         "cursor-pointer transition-colors select-none",
         variantStyles[variant],

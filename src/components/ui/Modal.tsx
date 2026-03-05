@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface ModalProps {
   open: boolean;
@@ -9,6 +10,8 @@ interface ModalProps {
 }
 
 export function Modal({ open, onClose, children }: ModalProps) {
+  const prefersReduced = useReducedMotion();
+
   return (
     <AnimatePresence>
       {open && (
@@ -21,10 +24,10 @@ export function Modal({ open, onClose, children }: ModalProps) {
             onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: "spring", duration: 0.3 }}
+            initial={prefersReduced ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 20 }}
+            animate={prefersReduced ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+            exit={prefersReduced ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 20 }}
+            transition={prefersReduced ? undefined : { type: "spring", duration: 0.3 }}
             className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-50 bg-surface border border-border rounded-[var(--radius-card)] p-6 max-w-md mx-auto"
           >
             {children}
