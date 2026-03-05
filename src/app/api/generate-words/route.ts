@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "system",
-          content: `You generate word lists for a party game called "The Imposter". Players each receive a secret word from a category — except the imposter, who must bluff.
+          content: `You generate word lists for a party game called "Imposter". Players each receive a secret word from a category — except the imposter, who must bluff.
 
 Given a topic, produce exactly 15 words related to that topic:
 - 5 easy (common, well-known)

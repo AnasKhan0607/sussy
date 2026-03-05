@@ -1,6 +1,7 @@
 export interface Game {
   id: string;
   emoji: string;
+  icon?: string;
   name: string;
   tagline: string;
   players: string;
@@ -19,7 +20,8 @@ export const games: Game[] = [
   {
     id: "imposter",
     emoji: "\ud83d\udd75\ufe0f",
-    name: "The Imposter",
+    icon: "/images/imposter.png",
+    name: "Imposter",
     tagline: "Find the fake",
     players: "3\u201320",
     color: "#8B5CF6",
@@ -30,6 +32,7 @@ export const games: Game[] = [
   {
     id: "odd-one-out",
     emoji: "\ud83e\udd14",
+    icon: "/images/odd-one-out.png",
     name: "Odd One Out",
     tagline: "Spot the different question",
     players: "3\u201315",
@@ -41,8 +44,9 @@ export const games: Game[] = [
   {
     id: "spin-and-guess",
     emoji: "\ud83c\udfaf",
-    name: "Spin & Guess",
-    tagline: "Spin, clue, guess the number",
+    icon: "/images/wavelength.png",
+    name: "Wavelength",
+    tagline: "Spin, clue, guess the wavelength",
     players: "3\u201310",
     color: "#06B6D4",
     featured: false,

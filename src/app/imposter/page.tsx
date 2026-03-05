@@ -192,7 +192,7 @@ export default function ImposterSetup() {
     selectedCategory !== "" && (!isCustomSelected || customData !== null);
 
   return (
-    <GameShell title="The Imposter" accentColor={ACCENT}>
+    <GameShell title="Imposter" accentColor={ACCENT}>
       <motion.div
         className="space-y-8 pb-4"
         variants={staggerContainer(0.08)}

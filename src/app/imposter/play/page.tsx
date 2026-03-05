@@ -41,7 +41,7 @@ export default function ImposterPlay() {
   // If no players or still in setup, redirect back
   if (players.length === 0 || phase === "setup") {
     return (
-      <GameShell title="The Imposter" accentColor={ACCENT}>
+      <GameShell title="Imposter" accentColor={ACCENT}>
         <div className="text-center py-12">
           <p className="text-text-secondary text-lg mb-4">
             No game in progress
@@ -399,7 +399,7 @@ function DiscussionPhase({
   };
 
   return (
-    <GameShell title="The Imposter" accentColor={ACCENT}>
+    <GameShell title="Imposter" accentColor={ACCENT}>
       <div className="flex flex-col items-center text-center gap-6 pt-4">
         {/* Category */}
         <div>
@@ -533,7 +533,7 @@ function VotingPhase({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <GameShell title="The Imposter" accentColor={ACCENT}>
+          <GameShell title="Imposter" accentColor={ACCENT}>
             <VotingScreen
               voter={currentPlayer}
               players={players}
@@ -587,7 +587,7 @@ function RevealPhase({
 
   if (!revealed) {
     return (
-      <GameShell title="The Imposter" accentColor={ACCENT}>
+      <GameShell title="Imposter" accentColor={ACCENT}>
         <div className="flex flex-col items-center text-center gap-6 pt-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -633,7 +633,7 @@ function RevealPhase({
   }
 
   return (
-    <GameShell title="The Imposter" accentColor={ACCENT}>
+    <GameShell title="Imposter" accentColor={ACCENT}>
       <ResultsScreen
         title={isChaosRound ? "Plot Twist!" : "The Imposter Revealed!"}
         accentColor={ACCENT}
@@ -763,7 +763,7 @@ function ResultsPhase({
       : "The Group Wins!";
 
   return (
-    <GameShell title="The Imposter" accentColor={ACCENT}>
+    <GameShell title="Imposter" accentColor={ACCENT}>
       <ResultsScreen
         title={title}
         accentColor={ACCENT}
