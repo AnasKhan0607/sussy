@@ -63,6 +63,10 @@ export function tallyVotes(
   };
 }
 
+export function rollChaosRound(): boolean {
+  return Math.random() < 1 / 15;
+}
+
 export function pickOddOneOut(playerCount: number): number {
   return Math.floor(Math.random() * playerCount);
 }
