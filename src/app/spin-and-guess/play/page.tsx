@@ -76,10 +76,25 @@ export default function SpinAndGuessPlay() {
         onResult={(n) => {
           updateSpinAndGuessState({
             secretNumber: n,
-            phase: "clues",
+            phase: state.enableDigitalClues ? "clues" : "clue-overview",
             currentClueIndex: 0,
             clues: {},
           });
+        }}
+      />
+    );
+  }
+
+  if (state.phase === "clue-overview") {
+    return (
+      <ClueOverviewPhase
+        players={players}
+        guesserIndex={state.guesserIndex}
+        assignments={state.assignments}
+        customCategory={state.customCategory}
+        secretNumber={state.secretNumber!}
+        onDone={() => {
+          updateSpinAndGuessState({ phase: "guessing" });
         }}
       />
     );
@@ -128,6 +143,7 @@ export default function SpinAndGuessPlay() {
         assignments={state.assignments}
         customCategory={state.customCategory}
         clues={state.clues}
+        enableDigitalClues={state.enableDigitalClues}
         onGuess={(guess) => {
           updateSpinAndGuessState({
             guess,
@@ -583,6 +599,91 @@ function CluesPhase({
   );
 }
 
+// ── Clue Overview Phase (verbal clues) ───────────────────────────
+
+function ClueOverviewPhase({
+  players,
+  guesserIndex,
+  assignments,
+  customCategory,
+  secretNumber,
+  onDone,
+}: {
+  players: { id: number; name: string }[];
+  guesserIndex: number;
+  assignments: SpinAndGuessAssignment[];
+  customCategory: { label: string; scaleId: string; playerIndex: number } | null;
+  secretNumber: number;
+  onDone: () => void;
+}) {
+  const guesser = players[guesserIndex];
+
+  return (
+    <GameShell title="Spin & Guess" accentColor={ACCENT}>
+      <div className="space-y-5">
+        <div className="text-center">
+          <p className="text-text-muted text-sm mb-1">The number is</p>
+          <motion.p
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="text-6xl font-black"
+            style={{ color: ACCENT }}
+          >
+            {secretNumber}
+          </motion.p>
+        </div>
+
+        <Card>
+          <p className="text-center text-sm text-text-secondary mb-3">
+            Everyone except <span className="font-bold text-text-primary">{guesser.name}</span> — give your clue out loud!
+          </p>
+          <div className="space-y-2">
+            {assignments.map((a) => {
+              const player = players[a.playerIndex];
+              const cat = allCategories.find((c) => c.id === a.categoryId);
+              const scale = getScale(a.scaleId);
+              return (
+                <div
+                  key={a.playerIndex}
+                  className="flex items-center gap-2 bg-background rounded-lg px-3 py-2"
+                >
+                  <span className="text-lg">{cat?.emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-text-primary">
+                      {player?.name}
+                    </p>
+                    <p className="text-xs text-text-muted">
+                      {cat?.label} · {scale?.label}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+
+            {customCategory && (
+              <div className="flex items-center gap-2 bg-background rounded-lg px-3 py-2">
+                <span className="text-lg">✨</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-text-primary">
+                    {players[customCategory.playerIndex]?.name}
+                  </p>
+                  <p className="text-xs text-text-muted">
+                    {customCategory.label} · {getScale(customCategory.scaleId)?.label}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </Card>
+
+        <Button accentColor={ACCENT} fullWidth size="lg" onClick={onDone}>
+          Done — {guesser.name}&apos;s Turn
+        </Button>
+      </div>
+    </GameShell>
+  );
+}
+
 // ── Guessing Phase ───────────────────────────────────────────────
 
 function GuessingPhase({
@@ -592,6 +693,7 @@ function GuessingPhase({
   assignments,
   customCategory,
   clues,
+  enableDigitalClues,
   onGuess,
 }: {
   guesserName: string;
@@ -600,6 +702,7 @@ function GuessingPhase({
   assignments: SpinAndGuessAssignment[];
   customCategory: { label: string; scaleId: string; playerIndex: number } | null;
   clues: Record<number, string>;
+  enableDigitalClues: boolean;
   onGuess: (guess: number) => void;
 }) {
   const [showGuess, setShowGuess] = useState(false);
@@ -640,16 +743,18 @@ function GuessingPhase({
                       <p className="text-xs text-text-muted">{cat?.label}</p>
                     </div>
                   </div>
-                  <p className="text-lg font-bold" style={{ color: ACCENT }}>
-                    {clue || "—"}
-                  </p>
+                  {enableDigitalClues && (
+                    <p className="text-lg font-bold" style={{ color: ACCENT }}>
+                      {clue || "—"}
+                    </p>
+                  )}
                 </div>
               </Card>
             );
           })}
 
           {/* Custom category clue */}
-          {customCategory && clues[customCategory.playerIndex] && (
+          {enableDigitalClues && customCategory && clues[customCategory.playerIndex] && (
             <Card>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 min-w-0 flex-1">
