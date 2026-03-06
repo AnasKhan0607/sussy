@@ -91,9 +91,6 @@ export default function SpinAndGuessSetup() {
     router.push("/spin-and-guess/play");
   };
 
-  // Need at least names entered
-  const hasNames = Array.from({ length: playerCount }, (_, i) => names[i]?.trim()).some(Boolean);
-
   return (
     <GameShell title="Wavelength" accentColor={ACCENT}>
       <motion.div

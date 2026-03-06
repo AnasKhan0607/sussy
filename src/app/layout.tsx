@@ -28,6 +28,7 @@ export const metadata: Metadata = {
       "The ultimate pass-and-play party game. No Wi-Fi, no second devices, no accounts.",
     type: "website",
     siteName: "Sussy",
+    images: [{ url: "/icons/icon-512.png", width: 512, height: 512, alt: "Sussy" }],
   },
 };
 

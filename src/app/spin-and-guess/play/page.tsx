@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { GameShell } from "@/components/layout/GameShell";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -10,15 +10,12 @@ import { PassScreen } from "@/components/game/PassScreen";
 import { ArchSpinner } from "@/components/game/ArchSpinner";
 import { ResultsScreen } from "@/components/game/ResultsScreen";
 import { useGameStore, SpinAndGuessAssignment, SpinAndGuessRound } from "@/lib/store";
-import { vibrateSuccess } from "@/lib/haptics";
 import { fireConfetti, fireWinConfetti } from "@/lib/confetti";
 import { useWakeLock } from "@/hooks/useWakeLock";
 import {
   categories as allCategories,
   scales as allScales,
   getScale,
-  type Category,
-  type Scale,
 } from "@/data/spin-and-guess";
 import { shuffle } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -108,12 +105,10 @@ export default function SpinAndGuessPlay() {
       <CluesPhase
         players={players}
         nonGuessers={nonGuessers}
-        guesserIndex={state.guesserIndex}
         assignments={state.assignments}
         customCategory={state.customCategory}
         secretNumber={state.secretNumber!}
         currentClueIndex={state.currentClueIndex}
-        clues={state.clues}
         onClue={(playerIndex, clue) => {
           const newClues = { ...state.clues, [playerIndex]: clue };
           const nextClueIdx = state.currentClueIndex + 1;
@@ -149,7 +144,6 @@ export default function SpinAndGuessPlay() {
       <GuessingPhase
         guesserName={players[state.guesserIndex]?.name || "Guesser"}
         players={players}
-        guesserIndex={state.guesserIndex}
         assignments={state.assignments}
         customCategory={state.customCategory}
         clues={state.clues}
@@ -475,22 +469,18 @@ function SpinningPhase({
 function CluesPhase({
   players,
   nonGuessers,
-  guesserIndex,
   assignments,
   customCategory,
   secretNumber,
   currentClueIndex,
-  clues,
   onClue,
 }: {
   players: { id: number; name: string }[];
   nonGuessers: { id: number; name: string }[];
-  guesserIndex: number;
   assignments: SpinAndGuessAssignment[];
   customCategory: { label: string; scaleId: string; playerIndex: number } | null;
   secretNumber: number;
   currentClueIndex: number;
-  clues: Record<number, string>;
   onClue: (playerIndex: number, clue: string) => void;
 }) {
   const [subPhase, setSubPhase] = useState<"pass" | "clue">("pass");
@@ -732,7 +722,6 @@ function VerbalGuessPhase({
 function GuessingPhase({
   guesserName,
   players,
-  guesserIndex,
   assignments,
   customCategory,
   clues,
@@ -740,7 +729,6 @@ function GuessingPhase({
 }: {
   guesserName: string;
   players: { id: number; name: string }[];
-  guesserIndex: number;
   assignments: SpinAndGuessAssignment[];
   customCategory: { label: string; scaleId: string; playerIndex: number } | null;
   clues: Record<number, string>;
@@ -1025,9 +1013,6 @@ function EndScreen({
           ) / totalRounds
         ).toFixed(1)
       : "0";
-
-  // Best guesser: player with highest score
-  const bestGuesser = winner;
 
   // Worst guess: round with biggest diff
   const worstRound = roundHistory.reduce(
