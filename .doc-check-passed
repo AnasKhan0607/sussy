@@ -1,5 +1,2 @@
-src/data/odd-one-out/friends.json
-src/data/odd-one-out/hypothetical.json
-src/data/odd-one-out/index.ts
-src/data/odd-one-out/random.json
-src/data/odd-one-out/spicy.json
+src/data/spin-and-guess/categories.json
+src/data/spin-and-guess/scales.json
