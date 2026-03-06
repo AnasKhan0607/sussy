@@ -40,6 +40,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Strip control characters and validate reasonable text input
+  topic = topic.replace(/[\x00-\x1F\x7F]/g, "");
+  if (!/^[\p{L}\p{N}\p{P}\p{Z}\p{S}]+$/u.test(topic)) {
+    return NextResponse.json(
+      { error: "Topic contains invalid characters" },
+      { status: 400 }
+    );
+  }
+
   const openai = new OpenAI({ apiKey });
 
   try {

@@ -38,7 +38,12 @@ export function PlayerSetup({
 
   const handleStart = () => {
     const playerNames = showNames
-      ? Array.from({ length: count }, (_, i) => names[i]?.trim() || `Player ${i + 1}`)
+      ? Array.from({ length: count }, (_, i) => {
+          const raw = names[i] || "";
+          // Trim, cap at 50 chars, strip control characters
+          const sanitized = raw.trim().slice(0, 50).replace(/[\x00-\x1F\x7F]/g, "");
+          return sanitized || `Player ${i + 1}`;
+        })
       : [];
     onStart(count, playerNames);
   };
@@ -107,6 +112,7 @@ export function PlayerSetup({
               type="text"
               placeholder={`Player ${i + 1}`}
               value={names[i] || ""}
+              maxLength={50}
               onChange={(e) => handleNameChange(i, e.target.value)}
               className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-border-light"
             />
