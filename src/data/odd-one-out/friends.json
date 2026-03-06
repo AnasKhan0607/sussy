@@ -3,84 +3,164 @@
   "emoji": "👥",
   "questions": [
     {
-      "normal": "Who in this group is most likely to cry during a movie?",
-      "oddOneOut": "Who in this group is most likely to cry during a commercial?"
+      "normal": "Who's the best cook here?",
+      "oddOneOut": "Who's the best at ordering takeout?"
     },
     {
-      "normal": "Who here would survive the longest in a zombie apocalypse?",
-      "oddOneOut": "Who here would survive the longest on a deserted island?"
+      "normal": "Who's the funniest person here?",
+      "oddOneOut": "Who's the smartest person here?"
     },
     {
-      "normal": "Who is most likely to become famous?",
-      "oddOneOut": "Who is most likely to become a millionaire?"
+      "normal": "Who's always running late?",
+      "oddOneOut": "Who always cancels plans?"
     },
     {
-      "normal": "Who is most likely to forget someone's birthday?",
-      "oddOneOut": "Who is most likely to forget someone's name?"
+      "normal": "Who's the biggest risk-taker?",
+      "oddOneOut": "Who's the most cautious person here?"
     },
     {
-      "normal": "Who would be the worst at keeping a secret?",
-      "oddOneOut": "Who would be the worst at telling a lie?"
+      "normal": "Who has the best style?",
+      "oddOneOut": "Who has the best music taste?"
     },
     {
-      "normal": "Who is most likely to show up late to their own wedding?",
-      "oddOneOut": "Who is most likely to show up late to their own birthday party?"
+      "normal": "Who would you call at 3 AM?",
+      "oddOneOut": "Who would you road trip with?"
     },
     {
-      "normal": "Who is the most likely to fall asleep at a party?",
-      "oddOneOut": "Who is the most likely to be the last one awake at a party?"
+      "normal": "Who's the biggest overthinker?",
+      "oddOneOut": "Who's the most impulsive?"
     },
     {
-      "normal": "Who would be the best reality TV show contestant?",
-      "oddOneOut": "Who would be the best talk show host?"
+      "normal": "Who talks the most?",
+      "oddOneOut": "Who's the best listener?"
     },
     {
-      "normal": "Who is most likely to go viral on social media?",
-      "oddOneOut": "Who is most likely to accidentally go viral on social media?"
+      "normal": "Who would win in a debate?",
+      "oddOneOut": "Who would win in a fight?"
     },
     {
-      "normal": "Who is the pickiest eater in this group?",
-      "oddOneOut": "Who is the most adventurous eater in this group?"
+      "normal": "Who's most likely to cry at a wedding?",
+      "oddOneOut": "Who's most likely to give the best toast?"
     },
     {
-      "normal": "Who is most likely to get lost in a new city?",
-      "oddOneOut": "Who is most likely to get lost in their own neighborhood?"
+      "normal": "Who's the most dramatic?",
+      "oddOneOut": "Who's the most easygoing?"
     },
     {
-      "normal": "Who is most likely to adopt a random stray animal?",
-      "oddOneOut": "Who is most likely to secretly name someone else's pet?"
+      "normal": "Who's the biggest morning person?",
+      "oddOneOut": "Who's the biggest night owl?"
     },
     {
-      "normal": "Who is the most competitive person here?",
-      "oddOneOut": "Who is the sorest loser here?"
+      "normal": "Who's the most creative?",
+      "oddOneOut": "Who's the most organized?"
     },
     {
-      "normal": "Who would survive the longest without their phone?",
-      "oddOneOut": "Who would survive the longest without the internet?"
+      "normal": "Who would you want on your trivia team?",
+      "oddOneOut": "Who would you want on your dodgeball team?"
     },
     {
-      "normal": "Who is most likely to start a fight over a board game?",
-      "oddOneOut": "Who is most likely to cheat at a board game?"
+      "normal": "Who takes the longest to get ready?",
+      "oddOneOut": "Who takes the longest to make a decision?"
     },
     {
-      "normal": "Who is the biggest gossip in this group?",
-      "oddOneOut": "Who is the nosiest person in this group?"
+      "normal": "Who is the biggest foodie?",
+      "oddOneOut": "Who is the biggest homebody?"
     },
     {
-      "normal": "Who is most likely to binge an entire TV series in one day?",
-      "oddOneOut": "Who is most likely to rewatch the same movie 10 times?"
+      "normal": "Who would be the best babysitter?",
+      "oddOneOut": "Who would throw the best party?"
     },
     {
-      "normal": "Who is most likely to laugh at the worst possible moment?",
-      "oddOneOut": "Who is most likely to cry at the worst possible moment?"
+      "normal": "Who's most likely to start a business?",
+      "oddOneOut": "Who's most likely to write a book?"
     },
     {
-      "normal": "Who gives the best advice in this group?",
-      "oddOneOut": "Who gives the worst advice in this group?"
+      "normal": "Who is the most stubborn?",
+      "oddOneOut": "Who is the most go-with-the-flow?"
     },
     {
-      "normal": "Who is most likely to drop their phone in a toilet?",
-      "oddOneOut": "Who is most likely to drop their phone off a balcony?"
+      "normal": "Who has the worst luck?",
+      "oddOneOut": "Who has the best luck?"
+    },
+    {
+      "normal": "Who's the most sarcastic?",
+      "oddOneOut": "Who's the most wholesome?"
+    },
+    {
+      "normal": "Who would be the best travel buddy?",
+      "oddOneOut": "Who would be the worst roommate?"
+    },
+    {
+      "normal": "Who's most likely to ghost a group chat?",
+      "oddOneOut": "Who's most likely to blow up the group chat?"
+    },
+    {
+      "normal": "Who gives the best advice?",
+      "oddOneOut": "Who gives the most brutally honest advice?"
+    },
+    {
+      "normal": "Who's most likely to become famous?",
+      "oddOneOut": "Who's most likely to go completely off the grid?"
+    },
+    {
+      "normal": "Who's the best at keeping secrets?",
+      "oddOneOut": "Who's the best at reading people?"
+    },
+    {
+      "normal": "Who would survive a horror movie?",
+      "oddOneOut": "Who would accidentally cause chaos in a horror movie?"
+    },
+    {
+      "normal": "Who's the most athletic?",
+      "oddOneOut": "Who's the most artistic?"
+    },
+    {
+      "normal": "Who has the best laugh?",
+      "oddOneOut": "Who has the most contagious energy?"
+    },
+    {
+      "normal": "Who is the mom or dad of the group?",
+      "oddOneOut": "Who is the baby of the group?"
+    },
+    {
+      "normal": "Who would you trust to plan your birthday?",
+      "oddOneOut": "Who would you trust to pick your outfit?"
+    },
+    {
+      "normal": "Who's the most tech-savvy?",
+      "oddOneOut": "Who's the most outdoorsy?"
+    },
+    {
+      "normal": "Who would you want as your lawyer?",
+      "oddOneOut": "Who would you want as your doctor?"
+    },
+    {
+      "normal": "Who tells the best stories?",
+      "oddOneOut": "Who exaggerates the most?"
+    },
+    {
+      "normal": "Who would win a staring contest?",
+      "oddOneOut": "Who would win a talent show?"
+    },
+    {
+      "normal": "Who's most likely to forget their wallet?",
+      "oddOneOut": "Who's most likely to lose their phone?"
+    },
+    {
+      "normal": "Who's the biggest perfectionist?",
+      "oddOneOut": "Who's the biggest procrastinator?"
+    },
+    {
+      "normal": "Who's the most likely to become a politician?",
+      "oddOneOut": "Who's the most likely to join a reality show?"
+    },
+    {
+      "normal": "Who has the best handwriting?",
+      "oddOneOut": "Who has the best singing voice?"
+    },
+    {
+      "normal": "Who would survive the longest without WiFi?",
+      "oddOneOut": "Who would survive the longest without coffee?"
     }
   ]
 }

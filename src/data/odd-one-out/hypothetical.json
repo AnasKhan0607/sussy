@@ -7,80 +7,160 @@
       "oddOneOut": "If you could remove one superpower from existence, what would it be?"
     },
     {
-      "normal": "If you could live in any time period, when would it be?",
-      "oddOneOut": "If you could visit any time period for a day, when would it be?"
+      "normal": "Name a skill you'd want to master instantly",
+      "oddOneOut": "Name a language you'd want to master instantly"
     },
     {
-      "normal": "If you could have dinner with any celebrity, who would it be?",
-      "oddOneOut": "If you could be roommates with any celebrity, who would it be?"
+      "normal": "If you had dinner with any celebrity, who?",
+      "oddOneOut": "If you were roommates with any celebrity, who?"
     },
     {
-      "normal": "If you won the lottery, what's the first thing you'd buy?",
-      "oddOneOut": "If you won the lottery, what's the first thing you'd quit?"
+      "normal": "If you won the lottery, first thing you'd buy?",
+      "oddOneOut": "If you won the lottery, first thing you'd quit?"
     },
     {
-      "normal": "If you could master any skill instantly, what would it be?",
-      "oddOneOut": "If you could forget one skill you have, what would it be?"
+      "normal": "If you could live anywhere, where?",
+      "oddOneOut": "If you could vacation anywhere, where?"
     },
     {
-      "normal": "If you had to eat one food for the rest of your life, what would it be?",
-      "oddOneOut": "If you had to give up one food forever, what would it be?"
+      "normal": "If you were an animal, which one?",
+      "oddOneOut": "If you could have any animal as a pet, which one?"
     },
     {
-      "normal": "If you could live anywhere in the world, where would you go?",
-      "oddOneOut": "If you could never visit one place again, where would it be?"
+      "normal": "Name a fictional world you'd want to live in",
+      "oddOneOut": "Name a fictional character you'd want to be"
     },
     {
-      "normal": "If you could be any animal for a day, what would you be?",
-      "oddOneOut": "If you could have any animal as a pet, what would you choose?"
+      "normal": "If you could time travel, what era would you visit?",
+      "oddOneOut": "If you could time travel, what event would you witness?"
     },
     {
-      "normal": "If you had to survive a horror movie, what would your strategy be?",
-      "oddOneOut": "If you were the villain in a horror movie, what would your strategy be?"
+      "normal": "If you had one wish, what would it be?",
+      "oddOneOut": "If you could undo one thing in your life, what?"
     },
     {
-      "normal": "If you could read minds for a day, whose mind would you read first?",
-      "oddOneOut": "If everyone could read your mind for a day, what would you be most worried about?"
+      "normal": "Name a job you'd be terrible at",
+      "oddOneOut": "Name a job you'd secretly love"
     },
     {
-      "normal": "If you could relive one day of your life, which day would it be?",
-      "oddOneOut": "If you could erase one day from your life, which day would it be?"
+      "normal": "If you could only eat one cuisine forever, which?",
+      "oddOneOut": "If you had to give up one cuisine forever, which?"
     },
     {
-      "normal": "If you could switch jobs with anyone here, who would it be?",
-      "oddOneOut": "If you could give your job to anyone here, who would it be?"
+      "normal": "If you were famous, what would you be famous for?",
+      "oddOneOut": "If you were infamous, what would you be infamous for?"
     },
     {
-      "normal": "If you could only listen to one song for the rest of your life, what would it be?",
-      "oddOneOut": "If you could ban one song from ever being played again, what would it be?"
+      "normal": "Name a movie you'd want to live in",
+      "oddOneOut": "Name a TV show you'd want to live in"
     },
     {
-      "normal": "If you found a time machine, would you go to the past or the future?",
-      "oddOneOut": "If you found a time machine, would you change something or just observe?"
+      "normal": "If you could relive one year of your life, which?",
+      "oddOneOut": "If you could skip one year of your life, which?"
     },
     {
-      "normal": "If you could be invisible for a day, what would you do?",
-      "oddOneOut": "If everyone else was invisible for a day, what would you do?"
+      "normal": "If you could ban one thing from existence, what?",
+      "oddOneOut": "If you could invent one thing, what?"
     },
     {
-      "normal": "If you had to teach a class on anything, what would you teach?",
-      "oddOneOut": "If you had to take a class on anything, what would you choose?"
+      "normal": "Name something you'd bring to a deserted island",
+      "oddOneOut": "Name someone you'd bring to a deserted island"
     },
     {
-      "normal": "If you could wake up tomorrow with one new ability, what would it be?",
-      "oddOneOut": "If you woke up tomorrow and lost one ability, what would hurt the most?"
+      "normal": "If your life was a movie, what genre?",
+      "oddOneOut": "If your life had a theme song, what genre?"
     },
     {
-      "normal": "If you could only watch one movie for the rest of your life, what would it be?",
-      "oddOneOut": "If you could only watch one TV show for the rest of your life, what would it be?"
+      "normal": "If you could only wear one color forever, which?",
+      "oddOneOut": "If you could only drive one car forever, which?"
     },
     {
-      "normal": "If you could have a conversation with your future self, what would you ask?",
-      "oddOneOut": "If you could have a conversation with your past self, what would you say?"
+      "normal": "Name a historical figure you'd want to meet",
+      "oddOneOut": "Name a fictional character you'd want to meet"
     },
     {
-      "normal": "If you were stranded on a deserted island, what three items would you bring?",
-      "oddOneOut": "If you were stranded on a deserted island, what three people would you bring?"
+      "normal": "If you could only use one app forever, which?",
+      "oddOneOut": "If you could delete one app from existence, which?"
+    },
+    {
+      "normal": "If you found a million dollars, what would you do?",
+      "oddOneOut": "If you had to give away a million dollars, who gets it?"
+    },
+    {
+      "normal": "Name a talent you wish you had",
+      "oddOneOut": "Name a talent you wish was more appreciated"
+    },
+    {
+      "normal": "If you could change one law, which?",
+      "oddOneOut": "If you could create one new law, what?"
+    },
+    {
+      "normal": "If you had to fight any animal, which?",
+      "oddOneOut": "If you had to ride any animal, which?"
+    },
+    {
+      "normal": "Name the worst superpower to have",
+      "oddOneOut": "Name the most useless superpower"
+    },
+    {
+      "normal": "If you swapped lives with someone here for a day, who?",
+      "oddOneOut": "If you swapped wardrobes with someone here, who?"
+    },
+    {
+      "normal": "If you could only listen to one artist forever, who?",
+      "oddOneOut": "If you could only watch one director's movies forever, who?"
+    },
+    {
+      "normal": "Name a conspiracy theory you half believe",
+      "oddOneOut": "Name a myth you wish were true"
+    },
+    {
+      "normal": "If you were a cartoon character, who would you be?",
+      "oddOneOut": "If you were a video game character, who would you be?"
+    },
+    {
+      "normal": "If you had to pick a new first name, what?",
+      "oddOneOut": "If you had to pick a new last name, what?"
+    },
+    {
+      "normal": "Name a sport you'd compete in at the Olympics",
+      "oddOneOut": "Name a new sport you'd add to the Olympics"
+    },
+    {
+      "normal": "If you had a robot, what would it do first?",
+      "oddOneOut": "If you had a clone, what would it do first?"
+    },
+    {
+      "normal": "Name a food you could eat every single day",
+      "oddOneOut": "Name a drink you could have every single day"
+    },
+    {
+      "normal": "If your house was on fire, what do you grab?",
+      "oddOneOut": "If you were moving countries, what one thing do you bring?"
+    },
+    {
+      "normal": "Name a decade you'd love to visit",
+      "oddOneOut": "Name a century you'd never want to visit"
+    },
+    {
+      "normal": "If you could read one person's mind, who?",
+      "oddOneOut": "If one person could read YOUR mind, who would be safest?"
+    },
+    {
+      "normal": "If you were a villain, what's your weapon?",
+      "oddOneOut": "If you were a hero, what's your superpower?"
+    },
+    {
+      "normal": "Name a place you'd haunt as a ghost",
+      "oddOneOut": "Name a person you'd haunt as a ghost"
+    },
+    {
+      "normal": "If you could master one instrument, which?",
+      "oddOneOut": "If you could master one sport, which?"
+    },
+    {
+      "normal": "Name your dream car",
+      "oddOneOut": "Name your dream house location"
     }
   ]
 }

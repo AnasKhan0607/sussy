@@ -1,0 +1,246 @@
+{
+  "category": "Random",
+  "emoji": "🎲",
+  "questions": [
+    {
+      "normal": "Favorite pizza topping?",
+      "oddOneOut": "Favorite ice cream flavor?"
+    },
+    {
+      "normal": "Name a country you'd visit",
+      "oddOneOut": "Name a city you'd live in"
+    },
+    {
+      "normal": "Best movie of all time?",
+      "oddOneOut": "Best TV show of all time?"
+    },
+    {
+      "normal": "Name something in your fridge right now",
+      "oddOneOut": "Name something on your nightstand right now"
+    },
+    {
+      "normal": "Favorite holiday?",
+      "oddOneOut": "Favorite season?"
+    },
+    {
+      "normal": "Name a childhood cartoon you loved",
+      "oddOneOut": "Name a childhood snack you loved"
+    },
+    {
+      "normal": "Best fast food chain?",
+      "oddOneOut": "Best sit-down restaurant chain?"
+    },
+    {
+      "normal": "Name something you're good at",
+      "oddOneOut": "Name something you're terrible at"
+    },
+    {
+      "normal": "Favorite board game?",
+      "oddOneOut": "Favorite card game?"
+    },
+    {
+      "normal": "Name an overrated movie",
+      "oddOneOut": "Name an overrated song"
+    },
+    {
+      "normal": "What's your go-to coffee order?",
+      "oddOneOut": "What's your go-to drink at a bar?"
+    },
+    {
+      "normal": "Name a sport you enjoy watching",
+      "oddOneOut": "Name a sport you enjoy playing"
+    },
+    {
+      "normal": "Favorite app on your phone?",
+      "oddOneOut": "Most annoying app on your phone?"
+    },
+    {
+      "normal": "Name a song everyone knows",
+      "oddOneOut": "Name a movie everyone has seen"
+    },
+    {
+      "normal": "Best smell in the world?",
+      "oddOneOut": "Best sound in the world?"
+    },
+    {
+      "normal": "Name something you'd find at a birthday party",
+      "oddOneOut": "Name something you'd find at a wedding"
+    },
+    {
+      "normal": "Favorite midnight snack?",
+      "oddOneOut": "Favorite breakfast food?"
+    },
+    {
+      "normal": "Name a famous landmark",
+      "oddOneOut": "Name a famous painting"
+    },
+    {
+      "normal": "Best Disney movie?",
+      "oddOneOut": "Best Pixar movie?"
+    },
+    {
+      "normal": "Name something you'd find at the beach",
+      "oddOneOut": "Name something you'd find at a campsite"
+    },
+    {
+      "normal": "Favorite school subject?",
+      "oddOneOut": "Least favorite school subject?"
+    },
+    {
+      "normal": "Name a superhero",
+      "oddOneOut": "Name a villain"
+    },
+    {
+      "normal": "Best fruit?",
+      "oddOneOut": "Best vegetable?"
+    },
+    {
+      "normal": "Name something in your bag right now",
+      "oddOneOut": "Name something in your car right now"
+    },
+    {
+      "normal": "Favorite candy?",
+      "oddOneOut": "Favorite chip flavor?"
+    },
+    {
+      "normal": "Name an animal that's cute",
+      "oddOneOut": "Name an animal that's terrifying"
+    },
+    {
+      "normal": "Best karaoke song?",
+      "oddOneOut": "Best road trip song?"
+    },
+    {
+      "normal": "Name a famous athlete",
+      "oddOneOut": "Name a famous musician"
+    },
+    {
+      "normal": "Favorite comfort food?",
+      "oddOneOut": "Favorite fancy meal?"
+    },
+    {
+      "normal": "Name something you do every morning",
+      "oddOneOut": "Name something you do every night"
+    },
+    {
+      "normal": "Worst household chore?",
+      "oddOneOut": "Easiest household chore?"
+    },
+    {
+      "normal": "Name a famous TV character",
+      "oddOneOut": "Name a famous movie character"
+    },
+    {
+      "normal": "Best thing about summer?",
+      "oddOneOut": "Best thing about winter?"
+    },
+    {
+      "normal": "Name a word that describes your week",
+      "oddOneOut": "Name a word that describes your mood right now"
+    },
+    {
+      "normal": "Favorite condiment?",
+      "oddOneOut": "Favorite spice?"
+    },
+    {
+      "normal": "Name something in a doctor's office",
+      "oddOneOut": "Name something in a classroom"
+    },
+    {
+      "normal": "Best type of cookie?",
+      "oddOneOut": "Best type of cake?"
+    },
+    {
+      "normal": "Name something you collect",
+      "oddOneOut": "Name something you always lose"
+    },
+    {
+      "normal": "Favorite type of music?",
+      "oddOneOut": "Favorite type of movie?"
+    },
+    {
+      "normal": "Name a green thing",
+      "oddOneOut": "Name a red thing"
+    },
+    {
+      "normal": "Best sandwich filling?",
+      "oddOneOut": "Best burger topping?"
+    },
+    {
+      "normal": "Favorite cereal?",
+      "oddOneOut": "Favorite snack?"
+    },
+    {
+      "normal": "Name something loud",
+      "oddOneOut": "Name something quiet"
+    },
+    {
+      "normal": "Best video game ever?",
+      "oddOneOut": "Best mobile game ever?"
+    },
+    {
+      "normal": "Favorite thing about weekends?",
+      "oddOneOut": "Worst thing about Mondays?"
+    },
+    {
+      "normal": "Name something you'd find in a gym",
+      "oddOneOut": "Name something you'd find in a spa"
+    },
+    {
+      "normal": "Best soup?",
+      "oddOneOut": "Best pasta dish?"
+    },
+    {
+      "normal": "Favorite shoe brand?",
+      "oddOneOut": "Favorite clothing brand?"
+    },
+    {
+      "normal": "Name something you're afraid of",
+      "oddOneOut": "Name something that grosses you out"
+    },
+    {
+      "normal": "Best dessert?",
+      "oddOneOut": "Best appetizer?"
+    },
+    {
+      "normal": "Favorite social media platform?",
+      "oddOneOut": "Least favorite social media platform?"
+    },
+    {
+      "normal": "Name something at a concert",
+      "oddOneOut": "Name something at a music festival"
+    },
+    {
+      "normal": "Best cheese?",
+      "oddOneOut": "Best bread?"
+    },
+    {
+      "normal": "Name a word that sounds funny",
+      "oddOneOut": "Name a word that's hard to spell"
+    },
+    {
+      "normal": "Favorite outdoor activity?",
+      "oddOneOut": "Favorite indoor activity?"
+    },
+    {
+      "normal": "Name a good gift idea",
+      "oddOneOut": "Name a terrible gift idea"
+    },
+    {
+      "normal": "Name a famous YouTuber",
+      "oddOneOut": "Name a famous TikToker"
+    },
+    {
+      "normal": "Favorite thing to cook?",
+      "oddOneOut": "Favorite thing to order?"
+    },
+    {
+      "normal": "Name something in a hotel room",
+      "oddOneOut": "Name something in a hospital room"
+    },
+    {
+      "normal": "Best breakfast drink?",
+      "oddOneOut": "Best late night drink?"
+    }
+  ]
+}
