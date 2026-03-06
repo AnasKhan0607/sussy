@@ -74,7 +74,7 @@ export function ArchSpinner({
   const [pointerAngle, setPointerAngle] = useState(ARCH_MID); // top center
   const [result, setResult] = useState<number | null>(null);
   const onResultRef = useRef(onResult);
-  onResultRef.current = onResult;
+  useEffect(() => { onResultRef.current = onResult; }, [onResult]);
   const animRef = useRef<number>(0);
   const pointerAngleRef = useRef(ARCH_MID);
 

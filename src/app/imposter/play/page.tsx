@@ -114,8 +114,6 @@ export default function ImposterPlay() {
       <VotingPhase
         players={players}
         currentPlayerIndex={currentPlayerIndex}
-        imposterIndices={imposterIndices}
-        votes={imposterState.votes}
         onVote={(voterId, votedForId) => {
           const newVotes = { ...imposterState.votes, [voterId]: votedForId };
           const nextIndex = currentPlayerIndex + 1;
@@ -191,9 +189,6 @@ export default function ImposterPlay() {
         votes={imposterState.votes}
         secretWord={secretWord}
         category={category}
-        difficulty={imposterState.difficulty}
-        imposterCount={imposterState.imposterCount}
-        timerDuration={imposterState.timerDuration}
         isChaosRound={imposterState.isChaosRound}
         onPlayAgain={() => {
           const categoryData = categories.find((c) => c.category === category);
@@ -492,14 +487,10 @@ function DiscussionPhase({
 function VotingPhase({
   players,
   currentPlayerIndex,
-  imposterIndices,
-  votes,
   onVote,
 }: {
   players: { id: number; name: string; score: number }[];
   currentPlayerIndex: number;
-  imposterIndices: number[];
-  votes: Record<number, number>;
   onVote: (voterId: number, votedForId: number) => void;
 }) {
   const [subPhase, setSubPhase] = useState<"pass" | "vote">("pass");
@@ -707,9 +698,6 @@ function ResultsPhase({
   votes,
   secretWord,
   category,
-  difficulty,
-  imposterCount,
-  timerDuration,
   isChaosRound,
   onPlayAgain,
   onNewGame,
@@ -720,9 +708,6 @@ function ResultsPhase({
   votes: Record<number, number>;
   secretWord: string;
   category: string;
-  difficulty: string;
-  imposterCount: number;
-  timerDuration: number | null;
   isChaosRound: boolean;
   onPlayAgain: () => void;
   onNewGame: () => void;
