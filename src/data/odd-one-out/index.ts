@@ -1,6 +1,7 @@
 import friends from "./friends.json";
 import spicy from "./spicy.json";
 import hypothetical from "./hypothetical.json";
+import random from "./random.json";
 
 export interface QuestionPair {
   normal: string;
@@ -14,9 +15,10 @@ export interface QuestionCategory {
 }
 
 export const categories: QuestionCategory[] = [
+  random,
   friends,
   spicy,
   hypothetical,
 ];
 
-export { friends, spicy, hypothetical };
+export { friends, spicy, hypothetical, random };
