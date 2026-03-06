@@ -124,5 +124,161 @@
     "label": "Best to Visit to Skip",
     "low": "Skip it",
     "high": "Bucket list"
+  },
+  {
+    "id": "most-iconic",
+    "label": "Most Iconic to Forgettable",
+    "low": "Forgettable",
+    "high": "Iconic"
+  },
+  {
+    "id": "most-nostalgic",
+    "label": "Most Nostalgic to Least",
+    "low": "Who remembers?",
+    "high": "Pure nostalgia"
+  },
+  {
+    "id": "most-underrated",
+    "label": "Most Underrated to Properly Rated",
+    "low": "Properly rated",
+    "high": "Slept on"
+  },
+  {
+    "id": "most-dangerous",
+    "label": "Most Dangerous to Safest",
+    "low": "Harmless",
+    "high": "Deadly"
+  },
+  {
+    "id": "most-annoying",
+    "label": "Most Annoying to Delightful",
+    "low": "Delightful",
+    "high": "Infuriating"
+  },
+  {
+    "id": "most-aesthetic",
+    "label": "Most Aesthetic to Least",
+    "low": "Eyesore",
+    "high": "Chef's kiss"
+  },
+  {
+    "id": "most-overpriced",
+    "label": "Most Overpriced to Best Value",
+    "low": "Great value",
+    "high": "Total ripoff"
+  },
+  {
+    "id": "most-influential",
+    "label": "Most Influential to Least",
+    "low": "No impact",
+    "high": "Changed everything"
+  },
+  {
+    "id": "most-relaxing",
+    "label": "Most Relaxing to Most Stressful",
+    "low": "Stressful",
+    "high": "Pure zen"
+  },
+  {
+    "id": "most-quotable",
+    "label": "Most Quotable to Least",
+    "low": "Forgettable lines",
+    "high": "Endlessly quotable"
+  },
+  {
+    "id": "most-innovative",
+    "label": "Most Innovative to Least",
+    "low": "Copycat",
+    "high": "Groundbreaking"
+  },
+  {
+    "id": "most-kid-friendly",
+    "label": "Most Kid-Friendly to Least",
+    "low": "Adults only",
+    "high": "Family fun"
+  },
+  {
+    "id": "most-guilty-pleasure",
+    "label": "Guiltiest Pleasure to Proudest Like",
+    "low": "Proud of liking",
+    "high": "Secret obsession"
+  },
+  {
+    "id": "most-chaotic",
+    "label": "Most Chaotic to Calmest",
+    "low": "Calm",
+    "high": "Pure chaos"
+  },
+  {
+    "id": "most-photogenic",
+    "label": "Most Photogenic to Least",
+    "low": "Unphotogenic",
+    "high": "Instagram gold"
+  },
+  {
+    "id": "most-stressful",
+    "label": "Most Stressful to Chillest",
+    "low": "Chill",
+    "high": "Heart attack"
+  },
+  {
+    "id": "most-divisive",
+    "label": "Most Divisive to Unanimous",
+    "low": "Everyone agrees",
+    "high": "Starts fights"
+  },
+  {
+    "id": "easiest-to-learn",
+    "label": "Easiest to Learn to Hardest",
+    "low": "Takes years",
+    "high": "Pick up instantly"
+  },
+  {
+    "id": "most-rewarding",
+    "label": "Most Rewarding to Least",
+    "low": "Waste of time",
+    "high": "Life-changing"
+  },
+  {
+    "id": "most-romantic",
+    "label": "Most Romantic to Least",
+    "low": "Unromantic",
+    "high": "Swoon-worthy"
+  },
+  {
+    "id": "most-rewatchable",
+    "label": "Most Rewatchable to Least",
+    "low": "Once is enough",
+    "high": "Watch forever"
+  },
+  {
+    "id": "most-satisfying",
+    "label": "Most Satisfying to Least",
+    "low": "Meh",
+    "high": "So satisfying"
+  },
+  {
+    "id": "loudest",
+    "label": "Loudest to Quietest",
+    "low": "Silent",
+    "high": "Deafening"
+  },
+  {
+    "id": "most-cringe",
+    "label": "Most Cringe to Coolest",
+    "low": "Cool",
+    "high": "Maximum cringe"
+  },
+  {
+    "id": "funniest",
+    "label": "Funniest to Least Funny",
+    "low": "Not funny",
+    "high": "Hilarious"
+  },
+  {
+    "id": "classiest",
+    "label": "Classiest to Trashiest",
+    "low": "Trashy",
+    "high": "Pure class"
   }
 ]
