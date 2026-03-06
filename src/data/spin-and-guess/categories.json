@@ -3,108 +3,180 @@
     "id": "basketball-players",
     "label": "Basketball Players",
     "emoji": "🏀",
-    "scales": ["best-to-worst", "most-famous"]
+    "scales": ["best-to-worst", "most-famous", "most-iconic", "most-influential", "most-overrated", "most-controversial"]
   },
   {
     "id": "fast-food-chains",
     "label": "Fast Food Chains",
     "emoji": "🍔",
-    "scales": ["best-to-worst", "most-popular", "healthiest"]
+    "scales": ["best-to-worst", "most-popular", "healthiest", "most-overpriced", "most-addictive", "most-guilty-pleasure", "most-iconic"]
   },
   {
     "id": "movies",
     "label": "Movies",
     "emoji": "🎬",
-    "scales": ["best-to-worst", "scariest", "most-famous"]
+    "scales": ["best-to-worst", "scariest", "most-famous", "most-quotable", "most-rewatchable", "most-iconic", "most-underrated"]
   },
   {
     "id": "animals",
     "label": "Animals",
     "emoji": "🐾",
-    "scales": ["scariest", "cutest", "biggest-to-smallest"]
+    "scales": ["scariest", "cutest", "biggest-to-smallest", "most-dangerous", "most-annoying", "most-photogenic", "most-chaotic"]
   },
   {
     "id": "music-artists",
     "label": "Music Artists",
     "emoji": "🎤",
-    "scales": ["best-to-worst", "most-famous", "most-controversial"]
+    "scales": ["best-to-worst", "most-famous", "most-controversial", "most-influential", "most-iconic", "most-underrated", "most-guilty-pleasure"]
   },
   {
     "id": "countries",
     "label": "Countries",
     "emoji": "🌍",
-    "scales": ["best-to-visit", "biggest-to-smallest", "most-famous"]
+    "scales": ["best-to-visit", "biggest-to-smallest", "most-famous", "most-dangerous", "most-photogenic", "most-expensive"]
   },
   {
     "id": "tv-shows",
     "label": "TV Shows",
     "emoji": "📺",
-    "scales": ["best-to-worst", "most-bingeable", "most-famous"]
+    "scales": ["best-to-worst", "most-bingeable", "most-famous", "most-quotable", "most-rewatchable", "most-underrated", "most-overrated"]
   },
   {
     "id": "sports",
     "label": "Sports",
     "emoji": "⚽",
-    "scales": ["most-exciting", "hardest-to-easiest", "most-popular"]
+    "scales": ["most-exciting", "hardest-to-easiest", "most-popular", "most-dangerous", "most-stressful", "most-boring", "most-chaotic"]
   },
   {
     "id": "snacks",
     "label": "Snacks",
     "emoji": "🍿",
-    "scales": ["best-to-worst", "healthiest", "most-addictive"]
+    "scales": ["best-to-worst", "healthiest", "most-addictive", "most-guilty-pleasure", "most-nostalgic", "most-satisfying"]
   },
   {
     "id": "superheroes",
     "label": "Superheroes",
     "emoji": "🦸",
-    "scales": ["strongest-to-weakest", "most-famous", "best-to-worst"]
+    "scales": ["strongest-to-weakest", "most-famous", "best-to-worst", "most-iconic", "most-underrated", "most-quotable"]
   },
   {
     "id": "video-games",
     "label": "Video Games",
     "emoji": "🎮",
-    "scales": ["best-to-worst", "most-addictive", "most-famous"]
+    "scales": ["best-to-worst", "most-addictive", "most-famous", "most-nostalgic", "most-stressful", "most-innovative", "most-rewarding"]
   },
   {
     "id": "social-media",
     "label": "Social Media Apps",
     "emoji": "📱",
-    "scales": ["most-addictive", "best-to-worst", "most-popular"]
+    "scales": ["most-addictive", "best-to-worst", "most-popular", "most-annoying", "most-innovative", "most-influential", "most-cringe"]
   },
   {
     "id": "school-subjects",
     "label": "School Subjects",
     "emoji": "📚",
-    "scales": ["hardest-to-easiest", "most-boring", "most-useful"]
+    "scales": ["hardest-to-easiest", "most-boring", "most-useful", "most-stressful", "most-underrated", "most-rewarding"]
   },
   {
     "id": "cars",
     "label": "Car Brands",
     "emoji": "🚗",
-    "scales": ["best-to-worst", "most-expensive", "most-reliable"]
+    "scales": ["best-to-worst", "most-expensive", "most-reliable", "most-aesthetic", "most-iconic", "most-overpriced"]
   },
   {
     "id": "desserts",
     "label": "Desserts",
     "emoji": "🍰",
-    "scales": ["best-to-worst", "most-indulgent", "most-popular"]
+    "scales": ["best-to-worst", "most-indulgent", "most-popular", "most-guilty-pleasure", "most-aesthetic", "most-nostalgic"]
   },
   {
     "id": "holidays",
     "label": "Holidays",
     "emoji": "🎉",
-    "scales": ["best-to-worst", "most-exciting", "most-overrated"]
+    "scales": ["best-to-worst", "most-exciting", "most-overrated", "most-stressful", "most-nostalgic", "most-romantic"]
   },
   {
     "id": "celebrities",
     "label": "Celebrities",
     "emoji": "⭐",
-    "scales": ["most-famous", "most-controversial", "most-talented"]
+    "scales": ["most-famous", "most-controversial", "most-talented", "most-influential", "most-annoying", "most-iconic"]
   },
   {
     "id": "pizza-toppings",
     "label": "Pizza Toppings",
     "emoji": "🍕",
-    "scales": ["best-to-worst", "most-popular", "most-controversial"]
+    "scales": ["best-to-worst", "most-popular", "most-controversial", "most-divisive", "most-underrated", "most-guilty-pleasure"]
+  },
+  {
+    "id": "beverages",
+    "label": "Beverages",
+    "emoji": "🥤",
+    "scales": ["best-to-worst", "healthiest", "most-addictive", "most-overpriced", "most-popular", "most-underrated", "classiest"]
+  },
+  {
+    "id": "board-games",
+    "label": "Board Games",
+    "emoji": "🎲",
+    "scales": ["best-to-worst", "most-stressful", "most-chaotic", "easiest-to-learn", "most-boring", "most-famous"]
+  },
+  {
+    "id": "dog-breeds",
+    "label": "Dog Breeds",
+    "emoji": "🐕",
+    "scales": ["cutest", "scariest", "biggest-to-smallest", "most-popular", "most-chaotic", "most-photogenic"]
+  },
+  {
+    "id": "cities",
+    "label": "Cities",
+    "emoji": "🏙️",
+    "scales": ["best-to-visit", "most-expensive", "most-dangerous", "most-photogenic", "most-popular", "most-overrated"]
+  },
+  {
+    "id": "jobs",
+    "label": "Jobs & Careers",
+    "emoji": "💼",
+    "scales": ["most-stressful", "most-rewarding", "most-useful", "most-boring", "most-famous", "most-underrated"]
+  },
+  {
+    "id": "streaming-services",
+    "label": "Streaming Services",
+    "emoji": "📡",
+    "scales": ["best-to-worst", "most-popular", "most-addictive", "most-overpriced", "most-innovative"]
+  },
+  {
+    "id": "candy",
+    "label": "Candy",
+    "emoji": "🍬",
+    "scales": ["best-to-worst", "most-addictive", "healthiest", "most-nostalgic", "most-popular", "most-guilty-pleasure"]
+  },
+  {
+    "id": "disney-movies",
+    "label": "Disney Movies",
+    "emoji": "🏰",
+    "scales": ["best-to-worst", "scariest", "most-quotable", "most-nostalgic", "most-rewatchable", "most-kid-friendly", "most-iconic"]
+  },
+  {
+    "id": "musical-instruments",
+    "label": "Musical Instruments",
+    "emoji": "🎸",
+    "scales": ["hardest-to-easiest", "loudest", "most-popular", "most-iconic", "most-annoying", "most-aesthetic"]
+  },
+  {
+    "id": "workout-types",
+    "label": "Workout Types",
+    "emoji": "💪",
+    "scales": ["hardest-to-easiest", "most-boring", "most-popular", "most-rewarding", "most-satisfying", "most-stressful"]
+  },
+  {
+    "id": "fashion-brands",
+    "label": "Fashion Brands",
+    "emoji": "👗",
+    "scales": ["most-expensive", "most-overpriced", "most-aesthetic", "most-iconic", "most-popular", "most-innovative", "classiest"]
+  },
+  {
+    "id": "theme-parks",
+    "label": "Theme Parks",
+    "emoji": "🎢",
+    "scales": ["best-to-worst", "most-exciting", "most-overpriced", "most-kid-friendly", "most-famous", "most-stressful"]
   }
 ]
