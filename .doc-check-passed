@@ -1,2 +1,7 @@
-src/data/spin-and-guess/categories.json
-src/data/spin-and-guess/scales.json
+next.config.ts
+package-lock.json
+package.json
+src/app/api/generate-words/route.ts
+src/app/error.tsx
+src/components/game/PlayerSetup.tsx
+src/lib/supabase.ts
