@@ -77,7 +77,6 @@ export default function OddOneOutPlay() {
     return (
       <YellingPhase
         normalQuestion={oddOneOutState.currentNormalQuestion}
-        oddQuestion={oddOneOutState.currentOddQuestion}
         currentRound={oddOneOutState.currentRound}
         totalRounds={oddOneOutState.totalRounds}
         onComplete={() => {
@@ -323,13 +322,11 @@ function AssigningPhase({
 
 function YellingPhase({
   normalQuestion,
-  oddQuestion,
   currentRound,
   totalRounds,
   onComplete,
 }: {
   normalQuestion: string;
-  oddQuestion: string;
   currentRound: number;
   totalRounds: number;
   onComplete: () => void;
@@ -414,46 +411,29 @@ function YellingPhase({
             Round {currentRound} of {totalRounds}
           </p>
           <h2 className="text-2xl font-bold" style={{ color: ACCENT }}>
-            The Questions Were...
+            The Question Was...
           </h2>
         </motion.div>
 
-        <div className="w-full space-y-3">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-surface border border-border rounded-[var(--radius-card)] p-4"
-          >
-            <p className="text-text-muted text-xs mb-1 uppercase tracking-wider">
-              Most Players
-            </p>
-            <p className="text-lg font-semibold text-text-primary">
-              {normalQuestion}
-            </p>
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-surface border border-border rounded-[var(--radius-card)] p-5 w-full"
+        >
+          <p className="text-xl font-semibold text-text-primary">
+            {normalQuestion}
+          </p>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-            className="border rounded-[var(--radius-card)] p-4"
-            style={{
-              backgroundColor: `${ACCENT}10`,
-              borderColor: ACCENT,
-            }}
-          >
-            <p
-              className="text-xs mb-1 uppercase tracking-wider"
-              style={{ color: ACCENT }}
-            >
-              Odd One Out
-            </p>
-            <p className="text-lg font-semibold text-text-primary">
-              {oddQuestion}
-            </p>
-          </motion.div>
-        </div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="text-text-muted text-sm"
+        >
+          Someone had a different question — who was it?
+        </motion.p>
 
         <Button
           accentColor={ACCENT}
