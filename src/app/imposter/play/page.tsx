@@ -16,7 +16,7 @@ import { ResultsScreen } from "@/components/game/ResultsScreen";
 import { vibratePattern, vibrateSuccess, vibrateDanger } from "@/lib/haptics";
 import { fireConfetti, fireWinConfetti } from "@/lib/confetti";
 import { AnimatedNumber } from "@/components/game/AnimatedNumber";
-import { tallyVotes, checkImposterWin } from "@/lib/gameEngine";
+import { tallyVotes, checkImposterWin, pickStartingPlayer } from "@/lib/gameEngine";
 import { categories } from "@/data/imposter";
 import { assignImposterRoles, pickWord, rollChaosRound } from "@/lib/gameEngine";
 
@@ -72,19 +72,40 @@ export default function ImposterPlay() {
         showHintToImposter={showHintToImposter}
         onAdvance={(nextIndex) => {
           if (nextIndex >= players.length) {
-            // All players have seen their roles — move to next phase
-            const nextPhase = imposterState.enableTimer
-              ? "discussion"
-              : imposterState.enableVoting
-                ? "voting"
-                : "reveal";
+            // All players have seen their roles — pick starting player
+            const starter = pickStartingPlayer(
+              players.length,
+              imposterState.imposterIndices
+            );
             updateImposterState({
-              phase: nextPhase,
+              phase: "starting",
+              startingPlayerIndex: starter,
               currentPlayerIndex: 0,
             });
           } else {
             updateImposterState({ currentPlayerIndex: nextIndex });
           }
+        }}
+      />
+    );
+  }
+
+  // Starting player phase
+  if (phase === "starting") {
+    return (
+      <StartingPlayerPhase
+        playerName={
+          imposterState.startingPlayerIndex !== null
+            ? players[imposterState.startingPlayerIndex]?.name ?? "?"
+            : "?"
+        }
+        onContinue={() => {
+          const nextPhase = imposterState.enableTimer
+            ? "discussion"
+            : imposterState.enableVoting
+              ? "voting"
+              : "reveal";
+          updateImposterState({ phase: nextPhase, currentPlayerIndex: 0 });
         }}
       />
     );
@@ -344,6 +365,62 @@ function AssigningPhase({
 function useSubPhase() {
   const [subPhase, setSubPhase] = useState<PlayPhase>("pass");
   return { subPhase, setSubPhase };
+}
+
+function StartingPlayerPhase({
+  playerName,
+  onContinue,
+}: {
+  playerName: string;
+  onContinue: () => void;
+}) {
+  return (
+    <GameShell title="Imposter" accentColor={ACCENT}>
+      <div className="flex flex-col items-center justify-center text-center gap-6 min-h-[60dvh]">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <p className="text-text-muted text-sm mb-2">First to give a word...</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ scale: 0.3, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", duration: 0.6, delay: 0.2 }}
+        >
+          <p className="text-5xl font-black" style={{ color: ACCENT }}>
+            {playerName}
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-6xl"
+        >
+          👆
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="w-full max-w-sm"
+        >
+          <Button
+            accentColor={ACCENT}
+            fullWidth
+            size="lg"
+            onClick={onContinue}
+          >
+            Continue
+          </Button>
+        </motion.div>
+      </div>
+    </GameShell>
+  );
 }
 
 function DiscussionPhase({

@@ -15,7 +15,7 @@ export interface ImposterState {
   secretHint: string;
   imposterIndices: number[];
   currentPlayerIndex: number;
-  phase: "setup" | "assigning" | "discussion" | "voting" | "reveal" | "results";
+  phase: "setup" | "assigning" | "starting" | "discussion" | "voting" | "reveal" | "results";
   votes: Record<number, number>;
   timerDuration: number | null;
   difficulty: "easy" | "medium" | "hard" | "mixed";
@@ -25,6 +25,7 @@ export interface ImposterState {
   showCategoryToImposter: boolean;
   showHintToImposter: boolean;
   isChaosRound: boolean;
+  startingPlayerIndex: number | null;
 }
 
 export interface OddOneOutState {
@@ -126,6 +127,7 @@ const defaultImposterState: ImposterState = {
   showCategoryToImposter: true,
   showHintToImposter: false,
   isChaosRound: false,
+  startingPlayerIndex: null,
 };
 
 const defaultOddOneOutState: OddOneOutState = {

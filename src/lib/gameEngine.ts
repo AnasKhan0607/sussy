@@ -71,6 +71,23 @@ export function pickOddOneOut(playerCount: number): number {
   return Math.floor(Math.random() * playerCount);
 }
 
+export function pickStartingPlayer(
+  playerCount: number,
+  imposterIndices: number[]
+): number {
+  // Weight non-imposters 4x more likely than imposters
+  const weights = Array.from({ length: playerCount }, (_, i) =>
+    imposterIndices.includes(i) ? 1 : 4
+  );
+  const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+  let roll = Math.random() * totalWeight;
+  for (let i = 0; i < playerCount; i++) {
+    roll -= weights[i];
+    if (roll <= 0) return i;
+  }
+  return 0;
+}
+
 export function checkImposterWin(
   votedOutId: number,
   imposterIndices: number[],
