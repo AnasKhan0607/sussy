@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4o",
       temperature: 0.8,
       max_tokens: 1024,
       messages: [
@@ -66,7 +66,19 @@ Given a topic, produce exactly 15 words related to that topic:
 - 5 medium (moderately known)
 - 5 hard (obscure or niche)
 
-Each word must have a short hint (a vague clue that helps the imposter blend in without giving the word away).
+Each word must have a short hint — a loose ASSOCIATION, not a definition or description. The hint should evoke a related concept, setting, or vibe so the imposter can bluff in the right direction without knowing the actual word.
+
+GOOD hints (associations):
+- Word "Guitar" → hint "campfire"
+- Word "Sushi" → hint "Tokyo"
+- Word "Telescope" → hint "stargazing"
+
+BAD hints (too descriptive — NEVER do this):
+- Word "Guitar" → hint "stringed instrument"
+- Word "Sushi" → hint "raw fish and rice"
+- Word "Telescope" → hint "magnifies distant objects"
+
+Hints must be 1-2 words max. Never use synonyms, definitions, or "used for..." descriptions.
 
 Respond with ONLY valid JSON, no markdown fences. Use this exact shape:
 {

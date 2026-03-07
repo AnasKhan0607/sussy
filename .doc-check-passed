@@ -1,3 +1,5 @@
+src/app/api/generate-words/route.ts
+src/app/imposter/page.tsx
 src/app/imposter/play/page.tsx
-src/lib/gameEngine.ts
+src/hooks/useMediaQuery.ts
 src/lib/store.ts

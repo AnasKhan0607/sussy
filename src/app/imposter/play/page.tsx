@@ -168,7 +168,7 @@ export default function ImposterPlay() {
         playerCount={players.length}
         isChaosRound={imposterState.isChaosRound}
         onPlayAgain={() => {
-          const categoryData = categories.find((c) => c.category === category);
+          const categoryData = categories.find((c) => c.category === category) ?? imposterState.customCategoryData;
           if (!categoryData) return;
           const { word: newWord, hint: newHint } = pickWord(categoryData, imposterState.difficulty);
           let newIndices = assignImposterRoles(
@@ -212,7 +212,7 @@ export default function ImposterPlay() {
         category={category}
         isChaosRound={imposterState.isChaosRound}
         onPlayAgain={() => {
-          const categoryData = categories.find((c) => c.category === category);
+          const categoryData = categories.find((c) => c.category === category) ?? imposterState.customCategoryData;
           if (!categoryData) return;
           const { word: newWord, hint: newHint } = pickWord(categoryData, imposterState.difficulty);
           let newIndices = assignImposterRoles(
