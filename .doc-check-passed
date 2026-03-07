@@ -1,8 +1,2 @@
-src/app/imposter/play/page.tsx
-src/app/layout.tsx
-src/app/not-found.tsx
-src/app/spin-and-guess/page.tsx
-src/app/spin-and-guess/play/page.tsx
-src/components/game/ArchSpinner.tsx
-src/hooks/useMediaQuery.ts
-src/hooks/useTimer.ts
+src/app/odd-one-out/play/page.tsx
+src/lib/store.ts
