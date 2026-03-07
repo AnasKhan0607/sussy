@@ -62,12 +62,26 @@ export default function OddOneOutPlay() {
         onAdvance={(nextIndex) => {
           if (nextIndex >= players.length) {
             updateOddOneOutState({
-              phase: "discussion",
+              phase: "yelling",
               currentPlayerIndex: 0,
             });
           } else {
             updateOddOneOutState({ currentPlayerIndex: nextIndex });
           }
+        }}
+      />
+    );
+  }
+
+  if (phase === "yelling") {
+    return (
+      <YellingPhase
+        normalQuestion={oddOneOutState.currentNormalQuestion}
+        oddQuestion={oddOneOutState.currentOddQuestion}
+        currentRound={oddOneOutState.currentRound}
+        totalRounds={oddOneOutState.totalRounds}
+        onComplete={() => {
+          updateOddOneOutState({ phase: "discussion" });
         }}
       />
     );
@@ -302,6 +316,156 @@ function AssigningPhase({
         />
       )}
     </AnimatePresence>
+  );
+}
+
+// ─── Yelling Phase ───────────────────────────────────────────────────────────
+
+function YellingPhase({
+  normalQuestion,
+  oddQuestion,
+  currentRound,
+  totalRounds,
+  onComplete,
+}: {
+  normalQuestion: string;
+  oddQuestion: string;
+  currentRound: number;
+  totalRounds: number;
+  onComplete: () => void;
+}) {
+  const [subPhase, setSubPhase] = useState<"countdown" | "reveal">("countdown");
+  const [count, setCount] = useState(3);
+  const [showYell, setShowYell] = useState(false);
+
+  useEffect(() => {
+    if (subPhase !== "countdown") return;
+
+    if (count > 0) {
+      const timer = setTimeout(() => setCount((c) => c - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+
+    // count === 0: show "YELL!"
+    vibratePattern();
+    setShowYell(true);
+    const yellTimer = setTimeout(() => setSubPhase("reveal"), 2000);
+    return () => clearTimeout(yellTimer);
+  }, [count, subPhase]);
+
+  if (subPhase === "countdown") {
+    return (
+      <GameShell title="Odd One Out" accentColor={ACCENT}>
+        <div className="flex flex-col items-center justify-center text-center min-h-[60dvh]">
+          <AnimatePresence mode="wait">
+            {!showYell ? (
+              <motion.div
+                key={count}
+                initial={{ scale: 0.3, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 2, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <span
+                  className="text-[8rem] font-black leading-none"
+                  style={{ color: ACCENT }}
+                >
+                  {count}
+                </span>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="yell"
+                initial={{ scale: 0.3, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", duration: 0.5 }}
+                className="space-y-2"
+              >
+                <p
+                  className="text-4xl font-black"
+                  style={{ color: ACCENT }}
+                >
+                  YELL YOUR
+                </p>
+                <p
+                  className="text-4xl font-black"
+                  style={{ color: ACCENT }}
+                >
+                  ANSWER!
+                </p>
+                <p className="text-6xl mt-2">📣</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </GameShell>
+    );
+  }
+
+  // Reveal sub-phase
+  return (
+    <GameShell title="Odd One Out" accentColor={ACCENT}>
+      <div className="flex flex-col items-center text-center gap-6 pt-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <p className="text-text-muted text-sm mb-1">
+            Round {currentRound} of {totalRounds}
+          </p>
+          <h2 className="text-2xl font-bold" style={{ color: ACCENT }}>
+            The Questions Were...
+          </h2>
+        </motion.div>
+
+        <div className="w-full space-y-3">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-surface border border-border rounded-[var(--radius-card)] p-4"
+          >
+            <p className="text-text-muted text-xs mb-1 uppercase tracking-wider">
+              Most Players
+            </p>
+            <p className="text-lg font-semibold text-text-primary">
+              {normalQuestion}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+            className="border rounded-[var(--radius-card)] p-4"
+            style={{
+              backgroundColor: `${ACCENT}10`,
+              borderColor: ACCENT,
+            }}
+          >
+            <p
+              className="text-xs mb-1 uppercase tracking-wider"
+              style={{ color: ACCENT }}
+            >
+              Odd One Out
+            </p>
+            <p className="text-lg font-semibold text-text-primary">
+              {oddQuestion}
+            </p>
+          </motion.div>
+        </div>
+
+        <Button
+          accentColor={ACCENT}
+          fullWidth
+          size="lg"
+          onClick={onComplete}
+          className="max-w-sm"
+        >
+          Start Discussion
+        </Button>
+      </div>
+    </GameShell>
   );
 }
 

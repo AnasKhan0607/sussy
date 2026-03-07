@@ -35,7 +35,7 @@ export interface OddOneOutState {
   currentNormalQuestion: string;
   currentOddQuestion: string;
   currentPlayerIndex: number;
-  phase: "setup" | "assigning" | "discussion" | "voting" | "reveal" | "end";
+  phase: "setup" | "assigning" | "yelling" | "discussion" | "voting" | "reveal" | "end";
   votes: Record<number, number>;
   enableTimer: boolean;
   enableVoting: boolean;
