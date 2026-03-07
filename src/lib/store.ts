@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { CategoryData } from "@/lib/gameEngine";
 
 export interface Player {
   id: number;
@@ -26,6 +27,7 @@ export interface ImposterState {
   showHintToImposter: boolean;
   isChaosRound: boolean;
   startingPlayerIndex: number | null;
+  customCategoryData: CategoryData | null;
 }
 
 export interface OddOneOutState {
@@ -128,6 +130,7 @@ const defaultImposterState: ImposterState = {
   showHintToImposter: false,
   isChaosRound: false,
   startingPlayerIndex: null,
+  customCategoryData: null,
 };
 
 const defaultOddOneOutState: OddOneOutState = {

@@ -179,6 +179,7 @@ export default function ImposterSetup() {
       showCategoryToImposter,
       showHintToImposter,
       isChaosRound,
+      customCategoryData: isCustom ? categoryData : null,
       currentPlayerIndex: 0,
       phase: "assigning",
       votes: {},
